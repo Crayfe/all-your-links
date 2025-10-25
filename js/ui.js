@@ -24,7 +24,6 @@ export function showToast(message, type = 'info') {
 
 // --- 2. Navegación entre Vistas ---
 const enlacesSection = document.getElementById('enlacesSection');
-const noticiasSection = document.getElementById('noticiasSection');
 const profileSection = document.getElementById('profileSection');
 
 /**
@@ -33,7 +32,6 @@ const profileSection = document.getElementById('profileSection');
  */
 export function showSection(sec) {
   enlacesSection.classList.add('hidden');
-  noticiasSection.classList.add('hidden');
   profileSection.classList.add('hidden');
   sec.classList.remove('hidden');
 }

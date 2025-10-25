@@ -3,51 +3,17 @@ import { showSection } from './ui.js';
 
 // --- Navegación entre vistas ---
 const enlacesBtn = document.getElementById('enlacesBtn');
-const noticiasBtn = document.getElementById('noticiasBtn');
 const perfilBtn = document.getElementById('perfilBtn');
 
 const enlacesSection = document.getElementById('enlacesSection');
-const noticiasSection = document.getElementById('noticiasSection');
 const profileSection = document.getElementById('profileSection');
 
 document.addEventListener('DOMContentLoaded', () => {
   // Event listeners para el menú lateral y el orb
   enlacesBtn.addEventListener('click', () => showSection(enlacesSection));
-  noticiasBtn.addEventListener('click', () => showSection(noticiasSection));
   perfilBtn.addEventListener('click', () => showSection(profileSection));
   document.getElementById('profileOrb').addEventListener('click', () => showSection(profileSection));
 });
-
-
-// --- Noticias con RSS (Xataka) ---
-//const newsList = document.getElementById('newsList');
-
-async function fetchNews() {
-  newsList.innerHTML = '<p class="text-center text-gray-500">Cargando noticias...</p>';
-  try {
-    const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://xataka.com/feeds/rss2.0/');
-    const data = await res.json();
-    
-    // VERIFICACIÓN CLAVE: Asegurarse de que 'data.items' exista y que 'data.status' sea 'ok'
-    if (data.status !== 'ok' || !data.items) {
-      newsList.innerHTML = '<p class="text-center text-red-500">Error al cargar noticias: La fuente RSS falló o está vacía.</p>'; 
-      console.error('Error en la API de RSS:', data);
-      return; // Detener la ejecución si hay un problema
-    }
-
-    newsList.innerHTML = ''; // Limpiar el mensaje de carga
-
-    data.items.forEach(item => {
-      // ... (El resto del código de renderizado sigue igual)
-      // ...
-      newsList.appendChild(card);
-    });
-  } catch (err) { 
-    // Esto captura errores de red o JSON inválido
-    newsList.innerHTML = '<p class="text-center text-red-500">Error de conexión o de formato al cargar noticias.</p>'; 
-    console.error(err);
-  }
-}
 
 // --- Background personalizado ---
 import { showToast } from './ui.js';
@@ -80,8 +46,6 @@ function applyBackground(imgData) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Cargar noticias y background al inicio
-  //fetchNews();
 
   const savedBg = localStorage.getItem('customBackground');
   if (savedBg) applyBackground(savedBg);
@@ -103,4 +67,36 @@ document.addEventListener('DOMContentLoaded', () => {
     applyBackground(null);
     showToast('Background eliminado', 'success');
   });
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('sidebar');
+    const menuTitle = document.getElementById('menuTitle');
+    const linkTexts = document.querySelectorAll('.sidebar-link-text');
+    const actionButtons = document.querySelectorAll('#sidebar nav button');
+    
+    function toggleSidebar() {
+        const isExpanded = sidebar.classList.toggle('is-expanded');
+
+        if (isExpanded) {
+            menuTitle.classList.remove('hidden');
+        } else {
+            menuTitle.classList.add('hidden');
+        }
+
+        linkTexts.forEach(span => {
+            if (isExpanded) {
+                span.classList.remove('hidden');
+            } else {
+                setTimeout(() => {
+                    span.classList.add('hidden');
+                }, 300);
+            }
+        });
+    }
+
+    sidebar.addEventListener('click', (event) => {
+        if (event.target.closest('button[data-action]') === null) {
+            toggleSidebar();
+        }
+    });
 });

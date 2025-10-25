@@ -1,0 +1,24 @@
+/* --- Estilos para la barra lateral controlada por JavaScript --- */
+
+/* Regla para el estado expandido: ancho total y fuerza a los elementos a estirarse */
+#sidebar.is-expanded {
+    width: 14rem; /* w-56 */
+    align-items: stretch; /* ESTO ES CRUCIAL para que los botones llenen el ancho */
+}
+
+/* Estado contraído (por defecto, ya tiene items-center en el HTML) */
+#sidebar:not(.is-expanded) {
+    /* Mantiene los elementos centrados horizontalmente */
+    align-items: center; 
+}
+
+/* Oculta los textos de los enlaces por defecto */
+.sidebar-link-text {
+    opacity: 0; 
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Muestra los textos cuando la barra está expandida */
+#sidebar.is-expanded .sidebar-link-text {
+    opacity: 1; 
+}

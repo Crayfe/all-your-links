@@ -11,10 +11,15 @@ const newLinkMenu = document.getElementById('newLinkMenu');
 // --- Utilidades ---
 function getFavicon(url) {
   try {
-    const domain = new URL(url).hostname; 
-    return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-  } catch {
-    return 'https://www.google.com/s2/favicons?domain=example.com&sz=64';
+    const parsedUrl = new URL(url);
+    const hostname = parsedUrl.hostname;
+    const googleFaviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`;
+    if (hostname.endsWith('.google.com') || hostname === 'google.com') {
+        return googleFaviconUrl;
+    }
+    return `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
+  } catch (e) {
+    return 'https://icons.duckduckgo.com/ip3/example.com.ico';
   }
 }
 
@@ -56,7 +61,7 @@ export function renderLinks() {
       
       // Elemento de Enlace
       const linkItem = document.createElement('div');
-      linkItem.className = 'flex items-center justify-between p-2 bg-black/70 text-white rounded mb-2 hover:bg-black/60 transition';
+      linkItem.className = 'flex items-center justify-between p-2 bg-white/10 text-white rounded mb-2 hover:bg-black/60 transition';
       
       linkItem.innerHTML = `
         <a href="${link.url}" target="${openNewTabCheckbox.checked ? '_blank' : '_self'}" class="flex items-center gap-3 flex-1">
