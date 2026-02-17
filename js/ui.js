@@ -39,23 +39,33 @@ export function showSection(sec) {
 
 // --- 3. Menú Flotante de Opciones ---
 /**
- * Alterna la visibilidad del menú de opciones de un enlace.
- * @param {number} index - El índice del enlace.
+ * Alterna la visibilidad del menú de opciones.
+ * @param {string} id - El ID del elemento (puede ser boxId o itemId).
+ * @param {string} type - Tipo de menú: 'box' o 'item' (opcional, se autodetecta).
  */
-export function toggleMenu(index) {
-  // Ocultar todos los menús primero (para evitar que se solapen)
+
+export function toggleMenu(id, type = null) {
+  // Ocultar todos los menús primero
   document.querySelectorAll('.menu-options').forEach(el => el.classList.add('hidden'));
   
-  // Mostrar el menú deseado
-  const menu = document.getElementById(`menu-${index}`);
+  // Intentar encontrar el menú (puede ser box-menu-ID o menu-ID)
+  let menu = document.getElementById(`box-menu-${id}`);
+  if (!menu) {
+    menu = document.getElementById(`menu-${id}`);
+  }
+  
   if (menu) {
     menu.classList.toggle('hidden');
+  } else {
+    console.warn(`No se encontró menú para ID: ${id}`);
   }
 }
 
 // Ocultar menús al hacer clic fuera
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.menu-container')) {
+  if (!e.target.closest('.menu-container') && 
+      !e.target.closest('.box-menu-btn') && 
+      !e.target.closest('.item-menu-btn')) {
     document.querySelectorAll('.menu-options').forEach(el => el.classList.add('hidden'));
   }
 });

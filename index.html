@@ -6,54 +6,66 @@
   <title>📋 All your links</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 transition-colors duration-300 relative flex flex-col min-h-screen">
 
   <!-- Cabecera -->
-  <header class="flex justify-between items-center py-1 px-4 bg-gray-900 text-white shadow">
+  <header class="flex justify-between items-center py-2 px-4 bg-gray-900 text-white shadow">
   <h1 class="text-xl font-semibold w-56"><a href="#" id="linksHomeBtn" class="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-600 to-teal-400 hover:from-fuchsia-400 hover:to-teal-200 transition-colors">📋 All your links</a></h1>
   <div class="relative flex-1 max-w-md mx-auto flex"> 
     <input type="text" id="googleSearch" placeholder="Buscar en Google..." 
-      class="flex-1 border h-7 p-0 rounded-l shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 text-sm" /> 
-    <button id="googleBtn" class="bg-blue-600 px-3 h-7 rounded-r hover:bg-blue-700 flex items-center">Buscar</button>
+  class="flex-1 border h-9 p-2 rounded-l shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 text-sm" /> 
+<button id="googleBtn" class="bg-blue-600 px-3 h-9 rounded-r hover:bg-blue-700 flex items-center">Buscar</button>
     <ul id="suggestions" class="absolute top-full left-0 right-0 bg-white border rounded shadow mt-1 z-50 hidden"></ul>
   </div>
-    <div class="flex gap-4 items-center">
-      <button id="newLinkBtn" class="bg-blue-600 px-3 py-1 rounded hover:bg-blue-500 transition">Nuevo enlace</button>
-      <div id="profileOrb" class="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center cursor-pointer text-xl font-bold text-white">👤</div>
-    </div>
+  <div class="flex gap-2 items-center">
+  <button id="toggleDragBtn" class="bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-500 transition flex items-center gap-1.5 text-sm text-white" title="Activar/Desactivar modo edición">
+  <svg id="dragIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+  </svg>
+  <span id="dragText">Editar</span>
+</button>
+  <button id="newBoxBtn" class="bg-green-600 px-3 py-1 rounded-full hover:bg-green-500 transition text-sm">+ Caja</button>
+  </div>
   </header>
 
   <div class="flex flex-1 overflow-hidden">
     <!-- Panel lateral -->
-    <aside id="sidebar" 
-    class="w-16 p-4 border-r transition-all duration-300 ease-in-out 
-          bg-gray-800 border-gray-700 flex flex-col items-center z-20 shrink-0">
-
-    <h2 id="menuTitle" class="text-xl font-bold mb-6 text-center p-1 hidden">Menú</h2>
+    <aside id="sidebar" class="sidebar-collapsed">
     
-    <nav class="flex flex-col gap-2 flex-1 w-full"> 
+    <button id="toggleSidebarBtn" class="sidebar-toggle-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+
+    <nav class="sidebar-nav">
         
-        <button id="enlacesBtn" class="px-3 rounded text-gray-200 hover:bg-gray-700 flex items-center h-10" data-action="show-links">
-            <span class="sidebar-icon w-8 h-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <button id="enlacesBtn" class="sidebar-btn" data-action="show-links">
+            <span class="sidebar-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.881a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                 </svg>
             </span>
-            <span class="ml-4 whitespace-nowrap sidebar-link-text hidden self-center">Enlaces</span>
+            <span class="sidebar-text">Enlaces</span>
         </button>
 
-        <button id="perfilBtn" class="px-3 rounded text-gray-200 hover:bg-gray-700 flex items-center h-10" data-action="show-profile">
-            <span class="sidebar-icon w-8 h-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <button id="perfilBtn" class="sidebar-btn" data-action="show-profile">
+            <span class="sidebar-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.568.35.952.884 1.065 2.572z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </span>
-            <span class="ml-4 whitespace-nowrap sidebar-link-text hidden self-center">Perfil</span>
+            <span class="sidebar-text">Perfil</span>
         </button>
-        
     </nav>
+    <div id="profileOrb" class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center cursor-pointer text-lg font-bold text-white hover:bg-gray-500 transition mt-auto" title="Perfil">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+      </svg>
+    </div>
 </aside>
 
     <!-- Contenido principal -->
@@ -119,19 +131,41 @@
     </main>
   </div>
 
-  <!-- Menú flotante Nuevo Enlace -->
-  <div id="newLinkMenu" class="hidden fixed top-24 right-10 bg-white p-4 rounded shadow-lg w-72 z-50">
+<!-- Modal Nuevo Enlace -->
+<div id="newLinkModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 id="linkModalTitle" class="text-xl font-bold mb-4">Nuevo enlace</h3>
     <label class="block mb-1 font-semibold">Título</label>
-    <input type="text" id="newLinkTitle" placeholder="Título del enlace" class="border p-2 rounded w-full mb-2" />
+    <input type="text" id="newLinkTitle" placeholder="Título del enlace" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
     <label class="block mb-1 font-semibold">URL</label>
-    <input type="url" id="newLinkUrl" placeholder="https://..." class="border p-2 rounded w-full mb-2" />
-    <label class="block mb-1 font-semibold">Categoría</label>
-    <input type="text" id="newLinkCategory" placeholder="Categoría" class="border p-2 rounded w-full mb-2" />
+    <input type="url" id="newLinkUrl" placeholder="https://..." class="border p-2 rounded w-full mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
     <div class="flex justify-end gap-2">
-      <button id="cancelNewLink" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">Cancelar</button>
-      <button id="saveNewLink" class="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700">Guardar</button>
+      <button id="cancelNewLink" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500">Cancelar</button>
+      <button id="saveNewLink" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Guardar</button>
     </div>
   </div>
+</div>
+<!-- Modal Nueva Caja -->
+<div id="newBoxModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 id="boxModalTitle" class="text-xl font-bold mb-4">Nueva caja</h3>
+    
+    <label class="block mb-1 font-semibold">Nombre de la caja</label>
+    <input type="text" id="newBoxTitle" placeholder="Ej: Favoritos, Herramientas..." class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    
+    <label class="block mb-1 font-semibold">Diseño de enlaces</label>
+    <select id="newBoxLayout" class="border p-2 rounded w-full mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+      <option value="grid">Tarjetas (Grid)</option>
+      <option value="list">Lista</option>
+      <option value="orbs">Orbes de iconos</option>
+    </select>
+    
+    <div class="flex justify-end gap-2">
+      <button id="cancelNewBox" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500">Cancelar</button>
+      <button id="saveNewBox" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Guardar</button>
+    </div>
+  </div>
+</div>
 
   <!-- Toast de notificación -->
   <div id="toast" class="hidden fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500 opacity-0"></div>
