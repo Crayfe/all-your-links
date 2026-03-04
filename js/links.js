@@ -28,32 +28,33 @@ let sortableBoxes = null;
 let sortableItems = [];
 let isDragEnabled = false;
 
+// ========== VARIABLES GLOBALES DRAG & DROP ==========
+const GOOGLE_ICONS = {
+  'mail.google.com': 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico',
+  'drive.google.com': 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png',
+  'calendar.google.com': 'https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_11.ico',
+  'docs.google.com': 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico',
+  'sheets.google.com': 'https://ssl.gstatic.com/docs/spreadsheets/favicon3.ico',
+  'slides.google.com': 'https://ssl.gstatic.com/docs/presentations/images/favicon5.ico',
+  'photos.google.com': 'https://www.gstatic.com/images/branding/product/1x/photos_48dp.png',
+  'keep.google.com': 'https://ssl.gstatic.com/keep/icon_2020q4v2_128.png',
+  'meet.google.com': 'https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png',
+  'maps.google.com': 'https://www.google.com/images/branding/product/ico/maps_32dp.ico',
+  'translate.google.com': 'https://ssl.gstatic.com/images/branding/product/1x/translate_24dp.png'
+};
+
 // --- Utilidades ---
+/**
+ * Extrae el icono de la pagina a la que apunta un link para renderizarlo en la pagina
+ */
 function getFavicon(url) {
   try {
     const parsedUrl = new URL(url);
     const hostname = parsedUrl.hostname;
-    
-    // Iconos hardcodeados para servicios de Google (mejor calidad)
-    const googleIcons = {
-      'mail.google.com': 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico',
-      'drive.google.com': 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png',
-      'calendar.google.com': 'https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_11.ico',
-      'docs.google.com': 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico',
-      'sheets.google.com': 'https://ssl.gstatic.com/docs/spreadsheets/favicon3.ico',
-      'slides.google.com': 'https://ssl.gstatic.com/docs/presentations/images/favicon5.ico',
-      'photos.google.com': 'https://www.gstatic.com/images/branding/product/1x/photos_48dp.png',
-      'keep.google.com': 'https://ssl.gstatic.com/keep/icon_2020q4v2_128.png',
-      'meet.google.com': 'https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png',
-      'maps.google.com': 'https://www.google.com/images/branding/product/ico/maps_32dp.ico',
-      'translate.google.com': 'https://ssl.gstatic.com/images/branding/product/1x/translate_24dp.png'
-    };
-    
     // Si es un servicio de Google conocido, usar icono hardcodeado
-    if (googleIcons[hostname]) {
+    if (GOOGLE_ICONS[hostname]) {
       return googleIcons[hostname];
     }
-    
     // Fallback a Google Favicons con alta resolución
     return `https://www.google.com/s2/favicons?sz=128&domain=${hostname}`;
   } catch (e) {
@@ -66,22 +67,18 @@ function getFavicon(url) {
  */
 function normalizeUrl(url) {
   url = url.trim();
-  
   // Si ya tiene protocolo, devolverla tal cual
   if (/^https?:\/\//i.test(url)) {
     return url;
   }
-  
   // Si empieza con www., añadir https://
   if (url.startsWith('www.')) {
     return `https://${url}`;
   }
-  
   // Si parece un dominio válido (tiene punto), añadir https://
   if (url.includes('.') && !url.includes(' ')) {
     return `https://${url}`;
   }
-  
   // Si no, añadir https:// de todas formas
   return `https://${url}`;
 }
