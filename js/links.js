@@ -228,6 +228,26 @@ function initializeDragAndDrop() {
   });
 }
 /**
+ * Actualiza botón de drag and drop
+ */
+function updateDragButton(enabled) {
+  const icon = document.getElementById('dragIcon');
+  const text = document.getElementById('dragText');
+  const btn  = document.getElementById('toggleDragBtn');
+
+  if (enabled) {
+    icon.innerHTML = '<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />';
+    text.textContent = 'Finalizar edición';
+    btn.classList.remove('bg-purple-600', 'hover:bg-purple-500');
+    btn.classList.add('bg-orange-600', 'hover:bg-orange-500');
+  } else {
+    icon.innerHTML = '<path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />';
+    text.textContent = 'Editar';
+    btn.classList.remove('bg-orange-600', 'hover:bg-orange-500');
+    btn.classList.add('bg-purple-600', 'hover:bg-purple-500');
+  }
+}
+/**
  * Activa o desactiva el drag & drop
  */
 function toggleDragAndDrop() {
@@ -240,24 +260,9 @@ function toggleDragAndDrop() {
   const icon = document.getElementById('dragIcon');
   const text = document.getElementById('dragText');
   const btn = document.getElementById('toggleDragBtn');
-  
-  if (isDragEnabled) {
-    // Modo EDICIÓN activado - icono de candado abierto
-    icon.innerHTML = '<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />';
-    text.textContent = 'Finalizar edición';
-    btn.classList.remove('bg-purple-600', 'hover:bg-purple-500');
-    btn.classList.add('bg-orange-600', 'hover:bg-orange-500');
-    document.body.classList.add('drag-enabled');
-    showToast('Modo edición activado', 'success');
-  } else {
-    // Modo BLOQUEADO - icono de candado cerrado
-    icon.innerHTML = '<path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />';
-    text.textContent = 'Editar';
-    btn.classList.remove('bg-orange-600', 'hover:bg-orange-500');
-    btn.classList.add('bg-purple-600', 'hover:bg-purple-500');
-    document.body.classList.remove('drag-enabled');
-    showToast('Modo edición desactivado', 'info');
-  }
+  updateDragButton(isDragEnabled);
+  document.body.classList.toggle('drag-enabled', isDragEnabled);
+  showToast(isDragEnabled ? 'Modo edición activado' : 'Modo edición desactivado', isDragEnabled ? 'success' : 'info');
   
   // Re-inicializar drag & drop (seguro)
   setTimeout(() => {
@@ -558,19 +563,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicializar datos
   initializeData();
   const savedDragState = localStorage.getItem('dragEnabled');
-if (savedDragState === 'true') {
-  isDragEnabled = true;
-  document.body.classList.add('drag-enabled');
-  
-  const icon = document.getElementById('dragIcon');
-  const text = document.getElementById('dragText');
-  const btn = document.getElementById('toggleDragBtn');
-  
-  // Candado abierto
-  icon.innerHTML = '<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />';
-  text.textContent = 'Finalizar edición';
-  btn.classList.remove('bg-purple-600', 'hover:bg-purple-500');
-  btn.classList.add('bg-orange-600', 'hover:bg-orange-500');
+  if (savedDragState === 'true') {
+    isDragEnabled = true;
+    document.body.classList.add('drag-enabled');
+    updateDragButton(true);
   }
   renderLinks();
   
