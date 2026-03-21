@@ -24,6 +24,10 @@ export const BoxSchema = {
   workspaceId: '',  // ID del workspace al que pertenece
   title: '',        // Título de la caja
   layout: 'grid',   // 'grid' | 'list' | 'orbs'
+  colSpan: 1,          // 1 | 2 | 3 — columnas que ocupa en el grid
+  titleAlign: 'left',  // 'left' | 'center' | 'right'
+  titleColor: '#f3f4f6', // color hex del título
+  linkColor: '#ffffff',  // color hex del texto de los enlaces
   order: 0,         // Posición dentro del workspace
   createdAt: '',    // ISO timestamp
   updatedAt: ''     // ISO timestamp
@@ -92,6 +96,10 @@ export function createBox(workspaceId, title) {
     workspaceId,
     title,
     layout: 'grid',
+    colSpan: 1,
+    titleAlign: 'left',
+    titleColor: '#f3f4f6',
+    linkColor: '#ffffff',
     order: 0,
     createdAt: now,
     updatedAt: now

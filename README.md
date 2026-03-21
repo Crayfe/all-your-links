@@ -16,7 +16,10 @@ all-your-links/
 │   ├── main.js            # Punto de entrada
 │   ├── data-model.js      # Esquemas y factories
 │   ├── data-manager.js    # CRUD y persistencia
-│   ├── links.js           # Renderizado y lógica de enlaces
+│   ├── links.js           # Lógica de enlaces
+│   ├── renderer.js        # Renderizado
+│   ├── search.js          # manejador de sugerencias de busqueda
+│   ├── utils.js           # Utilidaes varias
 │   └── ui.js              # Utilidades de UI (toasts, menús)
 ├── assets/
 │   └── fondo.jpg          # Imagen de fondo

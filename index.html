@@ -149,10 +149,30 @@
 <div id="newBoxModal" class="modal-overlay">
   <div class="modal-content">
     <h3 id="boxModalTitle" class="text-xl font-bold mb-4">Nueva caja</h3>
-    
     <label class="block mb-1 font-semibold">Nombre de la caja</label>
     <input type="text" id="newBoxTitle" placeholder="Ej: Favoritos, Herramientas..." class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-    
+<label class="block mb-1 font-semibold">Alineamiento del título</label>
+<select id="newBoxTitleAlign" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+  <option value="left">Izquierda</option>
+  <option value="center">Centro</option>
+  <option value="right">Derecha</option>
+</select>
+<label class="block mb-1 font-semibold">Color del título</label>
+<div class="flex gap-2 mb-3">
+  <input type="color" id="newBoxTitleColor" value="#f3f4f6" class="h-10 w-12 rounded cursor-pointer border dark:border-gray-600">
+  <input type="text" id="newBoxTitleColorText" value="#f3f4f6" placeholder="#f3f4f6" class="border p-2 rounded flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm">
+</div>
+<label class="block mb-1 font-semibold">Color de los enlaces</label>
+<div class="flex gap-2 mb-4">
+  <input type="color" id="newBoxLinkColor" value="#ffffff" class="h-10 w-12 rounded cursor-pointer border dark:border-gray-600">
+  <input type="text" id="newBoxLinkColorText" value="#ffffff" placeholder="#ffffff" class="border p-2 rounded flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm">
+</div>
+    <label class="block mb-1 font-semibold">Ancho de la caja</label>
+    <select id="newBoxColSpan" class="border p-2 rounded w-full mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+      <option value="1">Normal (1 columna)</option>
+      <option value="2">Ancha (2 columnas)</option>
+      <option value="3">Completa (3 columnas)</option>
+    </select>
     <label class="block mb-1 font-semibold">Diseño de enlaces</label>
     <select id="newBoxLayout" class="border p-2 rounded w-full mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
       <option value="grid">Tarjetas (Grid)</option>

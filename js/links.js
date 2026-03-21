@@ -18,6 +18,7 @@ import {
 } from './data-manager.js';
 import { createBox, createLinkItem } from './data-model.js';
 import { createBoxCard } from './renderer.js';
+import { normalizeUrl } from './utils.js';
 
 // ========== ELEMENTOS DEL DOM ==========
 const list = document.getElementById('linksList');
@@ -28,40 +29,6 @@ const newLinkModal = document.getElementById('newLinkModal');
 let sortableBoxes = null;
 let sortableItems = [];
 let isDragEnabled = false;
-
-// ========== CONSTANTES ==========
-export const GOOGLE_ICONS = {
-  'mail.google.com': 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico',
-  'drive.google.com': 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png',
-  'calendar.google.com': 'https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_11.ico',
-  'docs.google.com': 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico',
-  'sheets.google.com': 'https://ssl.gstatic.com/docs/spreadsheets/favicon3.ico',
-  'slides.google.com': 'https://ssl.gstatic.com/docs/presentations/images/favicon5.ico',
-  'photos.google.com': 'https://www.gstatic.com/images/branding/product/1x/photos_48dp.png',
-  'keep.google.com': 'https://ssl.gstatic.com/keep/icon_2020q4v2_128.png',
-  'meet.google.com': 'https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png',
-  'maps.google.com': 'https://www.google.com/images/branding/product/ico/maps_32dp.ico',
-  'translate.google.com': 'https://ssl.gstatic.com/images/branding/product/1x/translate_24dp.png'
-};
-
-// ========== UTILIDADES ==========
-
-export function getFavicon(url) {
-  try {
-    const { hostname } = new URL(url);
-    if (GOOGLE_ICONS[hostname]) return GOOGLE_ICONS[hostname];
-    return `https://www.google.com/s2/favicons?sz=128&domain=${hostname}`;
-  } catch (e) {
-    return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23888"><circle cx="12" cy="12" r="10"/></svg>';
-  }
-}
-
-function normalizeUrl(url) {
-  url = url.trim();
-  if (/^https?:\/\//i.test(url)) return url;
-  if (url.startsWith('www.') || (url.includes('.') && !url.includes(' '))) return `https://${url}`;
-  return `https://${url}`;
-}
 
 // ========== RENDERIZADO ==========
 
@@ -215,6 +182,12 @@ function editBox(boxId) {
   document.getElementById('boxModalTitle').textContent = 'Editar caja';
   document.getElementById('newBoxTitle').value = box.title;
   document.getElementById('newBoxLayout').value = box.layout || 'grid';
+  document.getElementById('newBoxColSpan').value = box.colSpan || 1;
+  document.getElementById('newBoxTitleAlign').value = box.titleAlign || 'left';
+  document.getElementById('newBoxTitleColor').value = box.titleColor || '#f3f4f6';
+  document.getElementById('newBoxTitleColorText').value = box.titleColor || '#f3f4f6';
+  document.getElementById('newBoxLinkColor').value = box.linkColor || '#ffffff';
+  document.getElementById('newBoxLinkColorText').value = box.linkColor || '#ffffff';
   newBoxModal.dataset.editingBoxId = boxId;
   newBoxModal.classList.add('active');
 }
@@ -275,6 +248,12 @@ function initBoxModal() {
       document.getElementById('boxModalTitle').textContent = 'Nueva caja';
       document.getElementById('newBoxTitle').value = '';
       document.getElementById('newBoxLayout').value = 'grid';
+      document.getElementById('newBoxColSpan').value = '1';
+      document.getElementById('newBoxTitleAlign').value = 'left';
+      document.getElementById('newBoxTitleColor').value = '#f3f4f6';
+      document.getElementById('newBoxTitleColorText').value = '#f3f4f6';
+      document.getElementById('newBoxLinkColor').value = '#ffffff';
+      document.getElementById('newBoxLinkColorText').value = '#ffffff';
       delete newBoxModal.dataset.editingBoxId;
       newBoxModal.classList.add('active');
     });
@@ -287,17 +266,25 @@ function initBoxModal() {
   document.getElementById('saveNewBox').addEventListener('click', () => {
     const title = document.getElementById('newBoxTitle').value.trim();
     const layout = document.getElementById('newBoxLayout').value;
+    const colSpan = parseInt(document.getElementById('newBoxColSpan').value) || 1;
+    const titleAlign = document.getElementById('newBoxTitleAlign').value;
+    const titleColor = document.getElementById('newBoxTitleColor').value;
+    const linkColor = document.getElementById('newBoxLinkColor').value;
     if (!title) { showToast('El nombre de la caja es obligatorio', 'error'); return; }
     const workspace = getActiveWorkspace();
     if (!workspace) { showToast('No hay workspace activo', 'error'); return; }
 
     if (newBoxModal.dataset.editingBoxId) {
       const box = getBox(newBoxModal.dataset.editingBoxId);
-      if (box) { box.title = title; box.layout = layout; saveBox(box); showToast('Caja actualizada', 'success'); }
+      if (box) { box.title = title; box.layout = layout; box.colSpan = colSpan; box.titleAlign = titleAlign; box.titleColor = titleColor; box.linkColor = linkColor; saveBox(box); showToast('Caja actualizada', 'success'); }
       delete newBoxModal.dataset.editingBoxId;
     } else {
       const newBox = createBox(workspace.id, title);
       newBox.layout = layout;
+      newBox.colSpan = colSpan;
+      newBox.titleAlign = titleAlign;
+      newBox.titleColor = titleColor;
+      newBox.linkColor = linkColor;
       newBox.order = getBoxesByWorkspace(workspace.id).length;
       saveBox(newBox);
       showToast('Caja creada', 'success');
@@ -307,10 +294,43 @@ function initBoxModal() {
     newBoxModal.classList.remove('active');
     document.getElementById('newBoxTitle').value = '';
     document.getElementById('newBoxLayout').value = 'grid';
+    document.getElementById('newBoxTitleAlign').value = 'left';
+    document.getElementById('newBoxTitleColor').value = '#f3f4f6';
+    document.getElementById('newBoxTitleColorText').value = '#f3f4f6';
+    document.getElementById('newBoxLinkColor').value = '#ffffff';
+    document.getElementById('newBoxLinkColorText').value = '#ffffff';
+    document.getElementById('newBoxColSpan').value = '1';
+    document.getElementById('newBoxTitleAlign').value = 'left';
+    document.getElementById('newBoxTitleColor').value = '#f3f4f6';
+    document.getElementById('newBoxTitleColorText').value = '#f3f4f6';
+    document.getElementById('newBoxLinkColor').value = '#ffffff';
+    document.getElementById('newBoxLinkColorText').value = '#ffffff';
   });
 
   newBoxModal.addEventListener('click', (e) => {
     if (e.target === newBoxModal) newBoxModal.classList.remove('active');
+  });
+
+  // Sincronizar selector de color ↔ campo de texto (título)
+  document.getElementById('newBoxTitleColor').addEventListener('input', (e) => {
+    document.getElementById('newBoxTitleColorText').value = e.target.value;
+  });
+  document.getElementById('newBoxTitleColorText').addEventListener('input', (e) => {
+    const val = e.target.value;
+    if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+      document.getElementById('newBoxTitleColor').value = val;
+    }
+  });
+
+  // Sincronizar selector de color ↔ campo de texto (enlaces)
+  document.getElementById('newBoxLinkColor').addEventListener('input', (e) => {
+    document.getElementById('newBoxLinkColorText').value = e.target.value;
+  });
+  document.getElementById('newBoxLinkColorText').addEventListener('input', (e) => {
+    const val = e.target.value;
+    if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+      document.getElementById('newBoxLinkColor').value = val;
+    }
   });
 }
 
