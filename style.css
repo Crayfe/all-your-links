@@ -133,6 +133,10 @@
 #sidebar.sidebar-expanded .sidebar-btn {
     justify-content: flex-start;
 }
+
+#linksList {
+    --col-width: calc((100% - 2rem) / 3);
+}
 /* ============================================
    MODAL OVERLAY (fondo difuminado)
    ============================================ */
@@ -391,6 +395,7 @@ body:not(.drag-enabled) .orb-link {
    ============================================ */
 
 .layout-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--col-width, 100%), 1fr));
+    gap: 0.5rem;
 }
