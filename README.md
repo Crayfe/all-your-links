@@ -22,7 +22,7 @@ No necesitas instalar nada. Solo necesitas Python (viene preinstalado en macOS y
 
 **1. Clona o descarga el repositorio:**
 ```bash
-git clone https://github.com/tu-usuario/all-your-links.git
+git clone https://github.com/crayfe/all-your-links.git
 cd all-your-links
 ```
 
