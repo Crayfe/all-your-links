@@ -1,0 +1,505 @@
+{
+  "version": "2.0",
+  "workspaces": [
+    {
+      "id": "ws_links",
+      "name": "Enlaces",
+      "type": "links",
+      "active": true,
+      "order": 0,
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    }
+  ],
+  "boxes": [
+    {
+      "id": "box_entertainment_001",
+      "workspaceId": "ws_links",
+      "title": "Entretenimiento",
+      "layout": "grid",
+      "order": 0,
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    },
+    {
+      "id": "box_productivity_001",
+      "workspaceId": "ws_links",
+      "title": "Productividad",
+      "layout": "grid",
+      "order": 1,
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    },
+    {
+      "id": "box_ai_001",
+      "workspaceId": "ws_links",
+      "title": "Inteligencia Artificial",
+      "layout": "grid",
+      "order": 2,
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    },
+    {
+      "id": "box_news_001",
+      "workspaceId": "ws_links",
+      "title": "Noticias & Información",
+      "layout": "grid",
+      "order": 3,
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    },
+    {
+      "id": "box_dev_001",
+      "workspaceId": "ws_links",
+      "title": "Desarrollo & Tech",
+      "layout": "grid",
+      "order": 4,
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    },
+    {
+      "id": "box_social_001",
+      "workspaceId": "ws_links",
+      "title": "Social Media",
+      "layout": "grid",
+      "order": 5,
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    }
+  ],
+  "items": [
+    {
+      "id": "item_ent_001",
+      "boxId": "box_entertainment_001",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "YouTube",
+        "url": "https://www.youtube.com"
+      },
+      "metadata": {
+        "clickCount": 42,
+        "lastAccessed": "2025-02-14T18:30:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["video", "streaming"]
+      }
+    },
+    {
+      "id": "item_ent_002",
+      "boxId": "box_entertainment_001",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Netflix",
+        "url": "https://www.netflix.com"
+      },
+      "metadata": {
+        "clickCount": 28,
+        "lastAccessed": "2025-02-14T20:15:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["streaming", "series"]
+      }
+    },
+    {
+      "id": "item_ent_003",
+      "boxId": "box_entertainment_001",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Spotify",
+        "url": "https://www.spotify.com"
+      },
+      "metadata": {
+        "clickCount": 35,
+        "lastAccessed": "2025-02-15T09:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["music", "streaming"]
+      }
+    },
+    {
+      "id": "item_ent_004",
+      "boxId": "box_entertainment_001",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Twitch",
+        "url": "https://www.twitch.tv"
+      },
+      "metadata": {
+        "clickCount": 15,
+        "lastAccessed": "2025-02-13T22:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["streaming", "gaming"]
+      }
+    },
+    {
+      "id": "item_prod_001",
+      "boxId": "box_productivity_001",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Gmail",
+        "url": "https://mail.google.com"
+      },
+      "metadata": {
+        "clickCount": 89,
+        "lastAccessed": "2025-02-15T10:30:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["email", "google"]
+      }
+    },
+    {
+      "id": "item_prod_002",
+      "boxId": "box_productivity_001",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Google Drive",
+        "url": "https://drive.google.com"
+      },
+      "metadata": {
+        "clickCount": 67,
+        "lastAccessed": "2025-02-15T09:45:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["storage", "google", "docs"]
+      }
+    },
+    {
+      "id": "item_prod_003",
+      "boxId": "box_productivity_001",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Notion",
+        "url": "https://www.notion.so"
+      },
+      "metadata": {
+        "clickCount": 45,
+        "lastAccessed": "2025-02-14T16:20:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["notes", "productivity"]
+      }
+    },
+    {
+      "id": "item_prod_004",
+      "boxId": "box_productivity_001",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Trello",
+        "url": "https://trello.com"
+      },
+      "metadata": {
+        "clickCount": 23,
+        "lastAccessed": "2025-02-14T14:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["project-management", "kanban"]
+      }
+    },
+    {
+      "id": "item_prod_005",
+      "boxId": "box_productivity_001",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Google Calendar",
+        "url": "https://calendar.google.com"
+      },
+      "metadata": {
+        "clickCount": 52,
+        "lastAccessed": "2025-02-15T08:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["calendar", "schedule"]
+      }
+    },
+    {
+      "id": "item_ai_001",
+      "boxId": "box_ai_001",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "ChatGPT",
+        "url": "https://chat.openai.com"
+      },
+      "metadata": {
+        "clickCount": 127,
+        "lastAccessed": "2025-02-15T10:45:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["ai", "chatbot", "openai"]
+      }
+    },
+    {
+      "id": "item_ai_002",
+      "boxId": "box_ai_001",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Claude",
+        "url": "https://claude.ai"
+      },
+      "metadata": {
+        "clickCount": 98,
+        "lastAccessed": "2025-02-15T10:50:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["ai", "chatbot", "anthropic"]
+      }
+    },
+    {
+      "id": "item_ai_003",
+      "boxId": "box_ai_001",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Midjourney",
+        "url": "https://www.midjourney.com"
+      },
+      "metadata": {
+        "clickCount": 34,
+        "lastAccessed": "2025-02-14T17:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["ai", "image-generation", "art"]
+      }
+    },
+    {
+      "id": "item_ai_004",
+      "boxId": "box_ai_001",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Perplexity",
+        "url": "https://www.perplexity.ai"
+      },
+      "metadata": {
+        "clickCount": 41,
+        "lastAccessed": "2025-02-15T09:30:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["ai", "search", "research"]
+      }
+    },
+    {
+      "id": "item_ai_005",
+      "boxId": "box_ai_001",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Hugging Face",
+        "url": "https://huggingface.co"
+      },
+      "metadata": {
+        "clickCount": 18,
+        "lastAccessed": "2025-02-13T11:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["ai", "ml", "models"]
+      }
+    },
+    {
+      "id": "item_news_001",
+      "boxId": "box_news_001",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "El País",
+        "url": "https://elpais.com"
+      },
+      "metadata": {
+        "clickCount": 56,
+        "lastAccessed": "2025-02-15T08:30:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["news", "spain"]
+      }
+    },
+    {
+      "id": "item_news_002",
+      "boxId": "box_news_001",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "BBC News",
+        "url": "https://www.bbc.com/news"
+      },
+      "metadata": {
+        "clickCount": 38,
+        "lastAccessed": "2025-02-14T19:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["news", "international"]
+      }
+    },
+    {
+      "id": "item_news_003",
+      "boxId": "box_news_001",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Xataka",
+        "url": "https://www.xataka.com"
+      },
+      "metadata": {
+        "clickCount": 72,
+        "lastAccessed": "2025-02-15T10:15:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["tech", "news", "gadgets"]
+      }
+    },
+    {
+      "id": "item_news_004",
+      "boxId": "box_news_001",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Hacker News",
+        "url": "https://news.ycombinator.com"
+      },
+      "metadata": {
+        "clickCount": 63,
+        "lastAccessed": "2025-02-15T09:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["tech", "startups", "programming"]
+      }
+    },
+    {
+      "id": "item_dev_001",
+      "boxId": "box_dev_001",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "GitHub",
+        "url": "https://github.com"
+      },
+      "metadata": {
+        "clickCount": 145,
+        "lastAccessed": "2025-02-15T10:20:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["dev", "git", "code"]
+      }
+    },
+    {
+      "id": "item_dev_002",
+      "boxId": "box_dev_001",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Stack Overflow",
+        "url": "https://stackoverflow.com"
+      },
+      "metadata": {
+        "clickCount": 87,
+        "lastAccessed": "2025-02-15T09:30:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["dev", "qa", "programming"]
+      }
+    },
+    {
+      "id": "item_dev_003",
+      "boxId": "box_dev_001",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "MDN Web Docs",
+        "url": "https://developer.mozilla.org"
+      },
+      "metadata": {
+        "clickCount": 54,
+        "lastAccessed": "2025-02-14T15:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["docs", "web", "javascript"]
+      }
+    },
+    {
+      "id": "item_dev_004",
+      "boxId": "box_dev_001",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "CodePen",
+        "url": "https://codepen.io"
+      },
+      "metadata": {
+        "clickCount": 29,
+        "lastAccessed": "2025-02-13T16:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["dev", "demo", "frontend"]
+      }
+    },
+    {
+      "id": "item_dev_005",
+      "boxId": "box_dev_001",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Dev.to",
+        "url": "https://dev.to"
+      },
+      "metadata": {
+        "clickCount": 47,
+        "lastAccessed": "2025-02-14T12:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["dev", "blog", "community"]
+      }
+    },
+    {
+      "id": "item_social_001",
+      "boxId": "box_social_001",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Twitter / X",
+        "url": "https://twitter.com"
+      },
+      "metadata": {
+        "clickCount": 91,
+        "lastAccessed": "2025-02-15T10:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["social", "news"]
+      }
+    },
+    {
+      "id": "item_social_002",
+      "boxId": "box_social_001",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Reddit",
+        "url": "https://www.reddit.com"
+      },
+      "metadata": {
+        "clickCount": 68,
+        "lastAccessed": "2025-02-14T21:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["social", "forum"]
+      }
+    },
+    {
+      "id": "item_social_003",
+      "boxId": "box_social_001",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "LinkedIn",
+        "url": "https://www.linkedin.com"
+      },
+      "metadata": {
+        "clickCount": 43,
+        "lastAccessed": "2025-02-14T10:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["social", "professional"]
+      }
+    },
+    {
+      "id": "item_social_004",
+      "boxId": "box_social_001",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Discord",
+        "url": "https://discord.com"
+      },
+      "metadata": {
+        "clickCount": 36,
+        "lastAccessed": "2025-02-15T08:00:00.000Z",
+        "createdAt": "2025-02-15T10:00:00.000Z",
+        "tags": ["social", "chat", "community"]
+      }
+    }
+  ],
+  "exportedAt": "2025-02-15T11:00:00.000Z"
+}

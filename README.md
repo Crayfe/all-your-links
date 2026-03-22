@@ -1,5 +1,49 @@
 # AllYourLinks - Dashboard personal de enlaces
 
+## 📸 **Vista previa**
+
+<div align="center">
+  <img src="docs/images/example1.png" alt="Vista general del dashboard" width="100%">
+</div>
+
+<br>
+
+<div align="center">
+  <img src="docs/images/example2.png" alt="Layout de orbes con iconos" width="48%">
+  &nbsp;
+  <img src="docs/images/example3.png" alt="Modal de edición de caja" width="48%">
+</div>
+
+---
+
+## 🚀 **Cómo probarlo**
+
+No necesitas instalar nada. Solo necesitas Python (viene preinstalado en macOS y Linux) y un navegador.
+
+**1. Clona o descarga el repositorio:**
+```bash
+git clone https://github.com/tu-usuario/all-your-links.git
+cd all-your-links
+```
+
+**2. Arranca el servidor local:**
+```bash
+python3 -m http.server 8000
+```
+
+**3. Abre el navegador y accede a:**
+```
+http://0.0.0.0:8000
+```
+
+> ℹ️ El servidor de Python es necesario porque el proyecto usa módulos ES (`type="module"`), que los navegadores bloquean si se abre el HTML directamente como archivo local por restricciones CORS.
+
+**4. (Opcional) Carga datos de ejemplo:**
+
+En el panel lateral ve a ⚙️ **Perfil → Importar** y selecciona el archivo `dashboard_ejemplo.json` incluido en el repositorio para ver el dashboard con contenido de muestra.
+
+---
+
 ## **Descripción y motivación**
 
 Este proyecto nació de una necesidad personal: mejorar mi experiencia en internet, disponiendo de un espacio que sea como punto de partida para acceder a todos mis enlaces de interés, todo ello sin depender de extensiones del navegador, servicios de terceros o montones de marcadores desorganizados.
@@ -10,20 +54,26 @@ Con este proyecto busco empezar con una arquitectura simple (solo frontend), per
 
 ```
 all-your-links/
-├── index.html              # Página principal
-├── style.css               # Estilos globales
+├── index.html                    # Página principal
+├── style.css                     # Estilos globales
+├── dashboard_ejemplo.json        # Datos de ejemplo para importar
 ├── js/
-│   ├── main.js            # Punto de entrada
-│   ├── data-model.js      # Esquemas y factories
-│   ├── data-manager.js    # CRUD y persistencia
-│   ├── links.js           # Lógica de enlaces
-│   ├── renderer.js        # Renderizado
-│   ├── search.js          # manejador de sugerencias de busqueda
-│   ├── utils.js           # Utilidaes varias
-│   └── ui.js              # Utilidades de UI (toasts, menús)
+│   ├── main.js                  # Punto de entrada
+│   ├── data-model.js            # Esquemas y factories
+│   ├── data-manager.js          # CRUD y persistencia
+│   ├── links.js                 # Lógica de enlaces
+│   ├── renderer.js              # Renderizado
+│   ├── search.js                # Manejador de sugerencias de búsqueda
+│   ├── utils.js                 # Utilidades varias
+│   └── ui.js                    # Utilidades de UI (toasts, menús)
 ├── assets/
-│   └── fondo.jpg          # Imagen de fondo
-└── README.md              # Este archivo
+│   └── fondo.jpg                # Imagen de fondo
+├── docs/
+│   └── images/
+│       ├── example1.png         
+│       ├── example2.png      
+│       └── example3.png       
+└── README.md                    # Este archivo
 ```
 ## 📝 **Notas Técnicas**
 
