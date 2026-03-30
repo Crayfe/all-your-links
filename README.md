@@ -1,4 +1,9 @@
 # AllYourLinks - Dashboard personal de enlaces
+## **Descripción y motivación**
+
+Este proyecto nació de una necesidad personal: mejorar mi experiencia en internet, disponiendo de un espacio que sea como punto de partida para acceder a todos mis enlaces de interés, todo ello sin depender de extensiones del navegador, servicios de terceros o montones de marcadores desorganizados.
+
+Con este proyecto busco empezar con una arquitectura simple (solo frontend), pero ir creciendo gradualmente a medida que aprendo nuevas cosas que quiero integrar con el fin de tener un dashboard hecho a medida, ya que habiendo otras opciones igual de válidas, o bien tienen características que se quedan cortas para mi gusto y si quieres algo un poco mejor ya te piden pasar por caja. Pues para eso creo mi propio sistema, aprendo y me divierto en el proceso :)
 
 ## 📸 **Vista previa**
 
@@ -43,12 +48,6 @@ http://0.0.0.0:8000
 En el panel lateral ve a ⚙️ **Perfil → Importar** y selecciona el archivo `dashboard_ejemplo.json` incluido en el repositorio para ver el dashboard con contenido de muestra.
 
 ---
-
-## **Descripción y motivación**
-
-Este proyecto nació de una necesidad personal: mejorar mi experiencia en internet, disponiendo de un espacio que sea como punto de partida para acceder a todos mis enlaces de interés, todo ello sin depender de extensiones del navegador, servicios de terceros o montones de marcadores desorganizados.
-
-Con este proyecto busco empezar con una arquitectura simple (solo frontend), pero ir creciendo gradualmente a medida que aprendo nuevas cosas que quiero integrar con el fin de tener un dashboard hecho a medida, ya que habiendo otras opciones igual de válidas, o bien tienen características que se quedan cortas para mi gusto y si quieres algo un poco mejor ya te piden pasar por caja. Pues para eso creo mi propio sistema, aprendo y me divierto en el proceso :)
 
 ### **Estructura del Proyecto**
 
