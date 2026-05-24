@@ -1,11 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
-chcp 65001 >nul
 
 :: =============================================================
-::  install-lite.bat — AllYourLinks Lite Installer (Windows)
+::  install-lite.bat -- AllYourLinks Lite Installer (Windows)
 ::  Installs the frontend-only version (no backend required)
-::  Usage: double-click or run from command prompt
 :: =============================================================
 
 set "DEFAULT_INSTALL_DIR=%USERPROFILE%\projects\allyourlinks"
@@ -13,14 +11,13 @@ set "TASK_NAME=AllYourLinks"
 set "PORT=8000"
 
 echo.
-echo ╔══════════════════════════════════════╗
-echo ║   AllYourLinks — Lite Installer      ║
-echo ╚══════════════════════════════════════╝
+echo ==========================================
+echo    AllYourLinks -- Lite Installer
+echo ==========================================
 echo.
 
-:: ── 1. Detect project root ───────────────────────────────────
+:: -- 1. Detect project root -----------------------------------
 set "SCRIPT_DIR=%~dp0"
-:: Go up two levels from scripts\windows\ to project root
 for %%i in ("%SCRIPT_DIR%..\..\") do set "PROJECT_ROOT=%%~fi"
 
 if not exist "%PROJECT_ROOT%index.html" (
@@ -34,25 +31,22 @@ set "SOURCE_DIR=%PROJECT_ROOT%"
 echo [INFO] Project detected at: %SOURCE_DIR%
 echo.
 
-:: ── 2. Choose install path ────────────────────────────────────
+:: -- 2. Choose install path -----------------------------------
 echo   Default install directory: %DEFAULT_INSTALL_DIR%
-set /p "use_default=  Use this path? (Y/n): "
+set /p "USE_DEFAULT=  Use this path? (Y/n): "
 
-if /i "%use_default%"=="n" (
-  set /p "INSTALL_DIR=  Enter full install path (e.g. C:\Users\you\apps\allyourlinks): "
+if /i "!USE_DEFAULT!"=="n" (
+  set /p "INSTALL_DIR=  Enter full install path: "
   if "!INSTALL_DIR!"=="" set "INSTALL_DIR=%DEFAULT_INSTALL_DIR%"
 ) else (
   set "INSTALL_DIR=%DEFAULT_INSTALL_DIR%"
 )
 
-:: Normalize: remove trailing backslash
-if "%INSTALL_DIR:~-1%"=="\" set "INSTALL_DIR=%INSTALL_DIR:~0,-1%"
-
 echo [INFO] Source:      %SOURCE_DIR%
-echo [INFO] Destination: %INSTALL_DIR%
+echo [INFO] Destination: !INSTALL_DIR!
 echo.
 
-:: ── 3. Check dependencies ─────────────────────────────────────
+:: -- 3. Check Python ------------------------------------------
 echo [INFO] Checking dependencies...
 
 python --version >nul 2>&1
@@ -64,69 +58,66 @@ if errorlevel 1 (
   exit /b 1
 )
 
-for /f "tokens=*" %%i in ('python --version 2^>^&1') do set PYTHON_VER=%%i
+for /f "tokens=*" %%i in ('python --version 2^>^&1') do set "PYTHON_VER=%%i"
 echo [OK]   Python found: %PYTHON_VER%
 
-:: ── 4. Guard: source != destination ──────────────────────────
-if /i "%SOURCE_DIR%"=="%INSTALL_DIR%\" (
+:: -- 4. Guard: source != destination -------------------------
+if /i "%SOURCE_DIR%"=="!INSTALL_DIR!\" (
   echo [ERROR] Source and destination are the same directory.
   echo         Please choose a different destination path.
   pause
   exit /b 1
 )
 
-:: ── 5. Prepare install directory ─────────────────────────────
+:: -- 5. Prepare install directory ----------------------------
 echo [INFO] Preparing install directory...
 
-if exist "%INSTALL_DIR%" (
-  echo [WARN] Directory '%INSTALL_DIR%' already exists.
-  set /p "confirm=Overwrite? (y/N): "
-  if /i not "!confirm!"=="y" (
+if exist "!INSTALL_DIR!" (
+  echo [WARN] Directory already exists.
+  set /p "CONFIRM=Overwrite? (y/N): "
+  if /i not "!CONFIRM!"=="y" (
     echo Installation cancelled.
     pause
     exit /b 0
   )
-  rmdir /s /q "%INSTALL_DIR%"
+  rmdir /s /q "!INSTALL_DIR!"
 )
 
-xcopy "%SOURCE_DIR%" "%INSTALL_DIR%\" /e /i /h /y >nul
-echo [OK]   Files copied to %INSTALL_DIR%
+xcopy "%SOURCE_DIR%" "!INSTALL_DIR!\" /e /i /h /y >nul
+echo [OK]   Files copied to !INSTALL_DIR!
 
-:: ── 6. Create startup script ─────────────────────────────────
-echo [INFO] Creating startup script...
+:: -- 6. Create silent launcher (VBScript) --------------------
+echo [INFO] Creating silent launcher...
 
-set "START_SCRIPT=%INSTALL_DIR%\start_server.bat"
+set "LAUNCHER=!INSTALL_DIR!\scripts\windows\start_server.vbs"
+
 (
-  echo @echo off
-  echo cd /d "%INSTALL_DIR%"
-  echo python -m http.server %PORT%
-) > "%START_SCRIPT%"
+  echo Set oShell = CreateObject^("WScript.Shell"^)
+  echo oShell.CurrentDirectory = "!INSTALL_DIR!"
+  echo oShell.Run "python -m http.server %PORT%", 0, False
+) > "!LAUNCHER!"
 
-echo [OK]   Startup script created at %START_SCRIPT%
+echo [OK]   Silent launcher created
 
-:: ── 7. Create scheduled task ──────────────────────────────────
-echo [INFO] Configuring scheduled task...
+:: -- 7. Add to startup registry (more reliable than schtasks) -
+echo [INFO] Configuring autostart...
 
-schtasks /delete /tn "%TASK_NAME%" /f >nul 2>&1
-
-schtasks /create ^
-  /tn "%TASK_NAME%" ^
-  /tr "cmd /c start /min \"\" \"%START_SCRIPT%\"" ^
-  /sc onlogon ^
-  /rl limited ^
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" ^
+  /v "%TASK_NAME%" ^
+  /t REG_SZ ^
+  /d "wscript.exe \"!LAUNCHER!\"" ^
   /f >nul
 
 if errorlevel 1 (
-  echo [WARN] Could not create scheduled task automatically.
-  echo        You can start the server manually by running:
-  echo        %START_SCRIPT%
+  echo [WARN] Could not add autostart entry to registry.
+  echo        Start the server manually: wscript.exe "!LAUNCHER!"
 ) else (
-  echo [OK]   Scheduled task created: server will start on login
+  echo [OK]   Autostart entry added to registry
 )
 
-:: ── 8. Start server now ───────────────────────────────────────
+:: -- 8. Start server now (silently) --------------------------
 echo [INFO] Starting server...
-start /min "" "%START_SCRIPT%"
+start "" wscript.exe "!LAUNCHER!"
 timeout /t 2 /nobreak >nul
 
 netstat -an | findstr ":%PORT% " | findstr "LISTENING" >nul
@@ -137,18 +128,18 @@ if errorlevel 1 (
   echo [OK]   Server listening on port %PORT%
 )
 
-:: ── 9. Summary ────────────────────────────────────────────────
+:: -- 9. Summary ----------------------------------------------
 echo.
-echo ╔══════════════════════════════════════╗
-echo ║       Installation complete          ║
-echo ╚══════════════════════════════════════╝
+echo ==========================================
+echo    Installation complete
+echo ==========================================
 echo.
 echo   Dashboard:    http://localhost:%PORT%
-echo   Installed at: %INSTALL_DIR%
+echo   Installed at: !INSTALL_DIR!
 echo.
-echo   The server will start automatically on login.
-echo   To start manually: %START_SCRIPT%
+echo   Server will start automatically on login (no console window).
+echo   To start manually: wscript.exe "!LAUNCHER!"
 echo.
-echo   To uninstall: %INSTALL_DIR%\scripts\windows\uninstall-lite.bat
+echo   To uninstall: !INSTALL_DIR!\scripts\windows\uninstall-lite.bat
 echo.
 pause
