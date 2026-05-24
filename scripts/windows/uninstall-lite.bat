@@ -1,10 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
-chcp 65001 >nul
 
 :: =============================================================
-::  uninstall-lite.bat — AllYourLinks Lite Uninstaller (Windows)
-::  Usage: double-click or run from command prompt
+::  uninstall-lite.bat -- AllYourLinks Lite Uninstaller (Windows)
 :: =============================================================
 
 set "TASK_NAME=AllYourLinks"
@@ -12,78 +10,82 @@ set "DEFAULT_INSTALL_DIR=%USERPROFILE%\projects\allyourlinks"
 set "PORT=8000"
 
 echo.
-echo ╔══════════════════════════════════════╗
-echo ║   AllYourLinks — Lite Uninstaller    ║
-echo ╚══════════════════════════════════════╝
+echo ==========================================
+echo    AllYourLinks -- Lite Uninstaller
+echo ==========================================
 echo.
 
-:: ── Detect install directory from scheduled task ─────────────
+:: -- Detect install directory from registry ------------------
 set "INSTALL_DIR="
-for /f "tokens=*" %%i in ('schtasks /query /tn "%TASK_NAME%" /fo list 2^>nul ^| findstr /i "Task To Run"') do (
-  set "TASK_LINE=%%i"
+
+for /f "tokens=3*" %%i in ('reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "%TASK_NAME%" 2^>nul') do (
+  set "REG_VAL=%%i %%j"
 )
 
-:: Extract path from task line if found
-if defined TASK_LINE (
-  :: Try to find the install dir from the start_server.bat path in the task
-  for /f "tokens=*" %%j in ('schtasks /query /tn "%TASK_NAME%" /fo list 2^>nul ^| findstr /i "start_server"') do (
-    set "TASK_CMD=%%j"
+if defined REG_VAL (
+  :: Extract path from: wscript.exe "C:\...\start_server.vbs"
+  for /f "tokens=2 delims=^"" %%i in ("!REG_VAL!") do (
+    set "LAUNCHER_PATH=%%i"
+  )
+  if defined LAUNCHER_PATH (
+    :: Go up two levels from scripts\windows\start_server.vbs
+    for %%i in ("!LAUNCHER_PATH!\..\..\..") do set "INSTALL_DIR=%%~fi"
+    echo   Installation detected at: !INSTALL_DIR!
   )
 )
 
-:: If we couldn't auto-detect, ask the user
 if not defined INSTALL_DIR (
-  echo   No active installation detected via scheduled task.
+  echo   No active installation detected in registry.
   echo   Default directory: %DEFAULT_INSTALL_DIR%
-  set /p "use_default=  Use this path? (Y/n): "
-  if /i "!use_default!"=="n" (
+  set /p "USE_DEFAULT=  Use this path? (Y/n): "
+  if /i "!USE_DEFAULT!"=="n" (
     set /p "INSTALL_DIR=  Enter the full path where the project was installed: "
     if "!INSTALL_DIR!"=="" set "INSTALL_DIR=%DEFAULT_INSTALL_DIR%"
   ) else (
     set "INSTALL_DIR=%DEFAULT_INSTALL_DIR%"
   )
-) else (
-  echo   Installation detected at: %INSTALL_DIR%
 )
 
 echo.
 echo This will remove:
-echo   - Scheduled task: %TASK_NAME%
-echo   - Project files:  %INSTALL_DIR%
+echo   - Autostart registry entry: %TASK_NAME%
+echo   - Project files:  !INSTALL_DIR!
 echo.
-set /p "confirm=Continue? (y/N): "
-if /i not "%confirm%"=="y" (
+set /p "CONFIRM=Continue? (y/N): "
+if /i not "!CONFIRM!"=="y" (
   echo Uninstall cancelled.
   pause
   exit /b 0
 )
 
-:: ── Stop server if running ────────────────────────────────────
+:: -- Stop server (kill python process on PORT) ---------------
 echo [INFO] Stopping server...
 for /f "tokens=5" %%a in ('netstat -ano 2^>nul ^| findstr ":%PORT% " ^| findstr "LISTENING"') do (
   taskkill /pid %%a /f >nul 2>&1
 )
+:: Also kill any lingering wscript launcher
+taskkill /f /im wscript.exe >nul 2>&1
 echo [OK]   Server stopped
 
-:: ── Remove scheduled task ────────────────────────────────────
-schtasks /delete /tn "%TASK_NAME%" /f >nul 2>&1
+:: -- Remove registry autostart entry ------------------------
+reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "%TASK_NAME%" /f >nul 2>&1
 if errorlevel 1 (
-  echo [WARN] Scheduled task not found or already removed
+  echo [WARN] Autostart entry not found or already removed
 ) else (
-  echo [OK]   Scheduled task removed
+  echo [OK]   Autostart entry removed
 )
 
-:: ── Remove project files ─────────────────────────────────────
-if exist "%INSTALL_DIR%" (
-  set /p "confirm2=Also delete project files at %INSTALL_DIR%? (y/N): "
-  if /i "!confirm2!"=="y" (
-    rmdir /s /q "%INSTALL_DIR%"
+:: -- Remove project files ------------------------------------
+if exist "!INSTALL_DIR!" (
+  set /p "CONFIRM2=Also delete project files at !INSTALL_DIR!? (y/N): "
+  if /i "!CONFIRM2!"=="y" (
+    rmdir /s /q "!INSTALL_DIR!"
     echo [OK]   Project files removed
   ) else (
-    echo [WARN] Project files kept at %INSTALL_DIR%
+    echo [WARN] Project files kept at !INSTALL_DIR!
   )
 ) else (
-  echo [WARN] Directory %INSTALL_DIR% not found, skipping
+  echo [WARN] Directory !INSTALL_DIR! not found, skipping
 )
 
 echo.
