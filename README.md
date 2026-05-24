@@ -1,9 +1,12 @@
 # AllYourLinks - Dashboard personal de enlaces
+
 ## **Descripción y motivación**
 
 Este proyecto nació de una necesidad personal: mejorar mi experiencia en internet, disponiendo de un espacio que sea como punto de partida para acceder a todos mis enlaces de interés, todo ello sin depender de extensiones del navegador, servicios de terceros o montones de marcadores desorganizados.
 
 Con este proyecto busco empezar con una arquitectura simple (solo frontend), pero ir creciendo gradualmente a medida que aprendo nuevas cosas que quiero integrar con el fin de tener un dashboard hecho a medida, ya que habiendo otras opciones igual de válidas, o bien tienen características que se quedan cortas para mi gusto y si quieres algo un poco mejor ya te piden pasar por caja. Pues para eso creo mi propio sistema, aprendo y me divierto en el proceso :)
+
+---
 
 ## 📸 **Vista previa**
 
@@ -38,7 +41,7 @@ python3 -m http.server 8000
 
 **3. Abre el navegador y accede a:**
 ```
-http://0.0.0.0:8000
+http://localhost:8000
 ```
 
 > ℹ️ El servidor de Python es necesario porque el proyecto usa módulos ES (`type="module"`), que los navegadores bloquean si se abre el HTML directamente como archivo local por restricciones CORS.
@@ -49,13 +52,80 @@ En el panel lateral ve a ⚙️ **Perfil → Importar** y selecciona el archivo 
 
 ---
 
-### **Estructura del Proyecto**
+## ⚙️ **Instalación**
+
+Si quieres que el dashboard arranque automáticamente cada vez que inicias sesión, usa los scripts de instalación incluidos en el repositorio. Estos copian el proyecto a una carpeta permanente y configuran el servidor para que se ejecute en segundo plano sin que tengas que hacer nada.
+
+### Linux
+
+```bash
+bash scripts/linux/install-lite.sh
+```
+
+El instalador:
+- Copia el proyecto a `~/projects/allyourlinks` (o la ruta que elijas)
+- Crea un servicio systemd que arranca automáticamente con la sesión
+- El dashboard queda disponible en `http://localhost:8000`
+
+Comandos útiles tras la instalación:
+```bash
+systemctl --user start   allyourlinks
+systemctl --user stop    allyourlinks
+systemctl --user restart allyourlinks
+systemctl --user status  allyourlinks
+```
+
+Para desinstalar:
+```bash
+bash scripts/linux/uninstall-lite.sh
+```
+
+### Windows
+
+**Requisito:** Python 3 con la opción "Add Python to PATH" marcada durante la instalación ([descargar](https://www.python.org/downloads/))
+
+Ejecuta `scripts\windows\install-lite.bat` (doble clic).
+
+El instalador:
+- Copia el proyecto a `%USERPROFILE%\projects\allyourlinks` (o la ruta que elijas)
+- Crea una tarea programada que arranca el servidor al iniciar sesión
+- El dashboard queda disponible en `http://localhost:8000`
+
+Para desinstalar: ejecuta `scripts\windows\uninstall-lite.bat`.
+
+---
+
+## 🧩 **Extensión de Chrome**
+
+La extensión integra AllYourLinks directamente en Chrome sin depender de herramientas de terceros.
+
+**Funcionalidades:**
+- **Nueva pestaña** — cada nueva pestaña abre el dashboard automáticamente. Si el servidor no está disponible muestra el comando a ejecutar
+- **Guardar enlace** — botón en la barra del navegador para guardar la página actual en cualquiera de tus cajas con un clic
+
+**Instalación:**
+1. En Chrome ve a `chrome://extensions`
+2. Activa el **Modo desarrollador** (esquina superior derecha)
+3. Pulsa **Cargar descomprimida** y selecciona la carpeta `extension/` del proyecto
+
+> ⚠️ Usa siempre `http://localhost:8000` (no `0.0.0.0:8000`) para que la extensión y el dashboard compartan el mismo localStorage.
+
+---
+
+## 📁 **Estructura del proyecto**
 
 ```
 all-your-links/
 ├── index.html                    # Página principal
 ├── style.css                     # Estilos globales
 ├── dashboard_ejemplo.json        # Datos de ejemplo para importar
+├── scripts/
+│   ├── linux/
+│   │   ├── install-lite.sh      # Instalador Linux (versión lite)
+│   │   └── uninstall-lite.sh    # Desinstalador Linux (versión lite)
+│   └── windows/
+│       ├── install-lite.bat     # Instalador Windows (versión lite)
+│       └── uninstall-lite.bat   # Desinstalador Windows (versión lite)
 ├── js/
 │   ├── main.js                  # Punto de entrada
 │   ├── data-model.js            # Esquemas y factories
@@ -65,18 +135,23 @@ all-your-links/
 │   ├── search.js                # Manejador de sugerencias de búsqueda
 │   ├── utils.js                 # Utilidades varias
 │   └── ui.js                    # Utilidades de UI (toasts, menús)
+├── extension/                    # Extensión de Chrome
+│   ├── manifest.json
+│   ├── newtab.html / newtab.css / newtab.js
+│   ├── popup.html / popup.css / popup.js
+│   └── icons/
 ├── assets/
 │   └── fondo.jpg                # Imagen de fondo
 ├── docs/
-│   └── images/
-│       ├── example1.png         
-│       ├── example2.png      
-│       └── example3.png       
-└── README.md                    # Este archivo
+│   └── images/                  # Capturas para el README
+└── README.md
 ```
-## 📝 **Notas Técnicas**
 
-### **LocalStorage**
+---
+
+## 📝 **Notas técnicas**
+
+### LocalStorage
 
 Los datos se guardan en `localStorage` con estas keys:
 - `workspaces_v2`: Array de workspaces
@@ -86,7 +161,7 @@ Los datos se guardan en `localStorage` con estas keys:
 - `dragEnabled`: Estado del toggle de edición
 - `abrirNuevaPestana`: Preferencia de abrir enlaces en nueva pestaña
 
-### **IDs Únicos**
+### IDs únicos
 
 Todos los IDs se generan con el formato: `{prefix}_{timestamp}_{random}`
 
@@ -94,18 +169,17 @@ Ejemplo: `item_1708123456789_a3f2`
 
 Esto garantiza unicidad incluso si se crean múltiples items en el mismo milisegundo.
 
-### **Versionado de Datos**
+### Versionado de datos
 
-El campo `data_version` permite hacer migraciones cuando cambia el modelo de datos.
+El campo `data_version` permite hacer migraciones cuando cambia el modelo de datos:
 
-Ejemplo futuro:
 ```js
 if (currentVersion === "2.0" && newVersion === "3.0") {
   migrateFromV2ToV3(data);
 }
 ```
 
-### **Favicons Resilientes**
+### Favicons resilientes
 
 Sistema de 3 niveles de fallback:
 1. **Iconos hardcodeados** (Google Suite y servicios populares)
@@ -114,13 +188,15 @@ Sistema de 3 niveles de fallback:
 
 ---
 
-## 🐛 **Problemas Conocidos**
+## 🐛 **Problemas conocidos**
 
 - **Layout LIST:** Preparado pero no implementado completamente
 - **Workspaces:** Solo uno activo, falta navegación en sidebar
 - **Mobile:** No optimizado para pantallas pequeñas
 - **Sidebar:** El orbe de perfil no es sticky al hacer scroll (diseño aceptable por ahora)
-```
+
+---
+
 ## 🗺️ **Roadmap**
 
 ### **Fase 1: Frontend Sólido** ✅ (Completada)
@@ -129,6 +205,9 @@ Sistema de 3 niveles de fallback:
 - [x] Múltiples layouts (grid, orbes, lista)
 - [x] Export/import de datos
 - [x] UI moderna y responsive (desktop)
+- [x] Personalización de cajas (ancho, colores, alineación)
+- [x] Extensión de Chrome (nueva pestaña + guardar enlace)
+- [x] Scripts de instalación para Linux y Windows
 
 ### **Fase 2: Mejoras de UX** 🔄 (En Progreso)
 - [ ] Navegación entre workspaces en sidebar
@@ -162,5 +241,4 @@ Sistema de 3 niveles de fallback:
 - [ ] Suite completa de productividad personal
 - [ ] Sistema de gestión del conocimiento
 - [ ] Integración con IA para sugerencias contextuales
-- [ ] Extensión de navegador para añadir enlaces con un click
 - [ ] App móvil (PWA o nativa)
