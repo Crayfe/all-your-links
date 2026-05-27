@@ -265,6 +265,19 @@ body:not(.drag-enabled) .cursor-move {
 body:not(.drag-enabled) .link-item {
     cursor: default !important;
 }
+
+/* ============================================
+   MODO EDICION - edit-only
+   ============================================ */
+
+body:not(.drag-enabled) .edit-only {
+    display: none !important;
+}
+
+body:not(.drag-enabled) .link-item a {
+    padding-right: 0.5rem;
+}
+
 /* Orbe de perfil en la sidebar */
 #profileOrb {
     flex-shrink: 0;
@@ -378,17 +391,15 @@ body:not(.drag-enabled) .orb-link {
 }
 
 .layout-list .link-item {
-    margin-bottom: 0.25rem;
-    padding: 0.5rem 0.75rem;
+    /* padding y margen controlados desde renderer.js según layout */
 }
 
 .layout-list .link-item img {
-    width: 1.25rem;
-    height: 1.25rem;
+    /* tamaño controlado desde renderer.js */
 }
 
 .layout-list .link-item span {
-    font-size: 0.875rem;
+    /* tamaño controlado desde renderer.js */
 }
 /* ============================================
    LAYOUT: GRID (por defecto, como está ahora)
@@ -396,6 +407,21 @@ body:not(.drag-enabled) .orb-link {
 
 .layout-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--col-width, 100%), 1fr));
+    grid-template-columns: repeat(var(--grid-cols, 2), 1fr);
     gap: 0.5rem;
+}
+
+/* ============================================
+   LAYOUT: LISTA - Densidad vertical
+   ============================================ */
+
+.layout-list[style*="--list-row-height: compact"] .link-item,
+.box-card[style*="--list-row-height: compact"] .layout-list .link-item {
+    /* ya controlado por py desde renderer */
+}
+
+/* Compact: py-0 (solo el de renderer) */
+.layout-list .link-item {
+    padding-top: var(--list-padding-y, 0.125rem);
+    padding-bottom: var(--list-padding-y, 0.125rem);
 }
