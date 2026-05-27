@@ -67,3 +67,4 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('Background eliminado', 'success');
   });
 });
+
