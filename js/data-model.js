@@ -27,7 +27,14 @@ export const BoxSchema = {
   colSpan: 1,          // 1 | 2 | 3 — columnas que ocupa en el grid
   titleAlign: 'left',  // 'left' | 'center' | 'right'
   titleColor: '#f3f4f6', // color hex del título
+  titleFont: 'Inter',    // fuente del título
   linkColor: '#ffffff',  // color hex del texto de los enlaces
+  linkFontSize: 14,      // tamaño de fuente enlaces (px)
+  bgColor: '#000000',    // color de fondo de la caja
+  bgOpacity: 0.7,        // opacidad del fondo (0-1)
+  gridCols: 2,           // columnas internas del grid (1-5)
+  orbSize: 80,           // tamaño del orbe en px
+  listRowHeight: 'normal', // 'compact' | 'normal' | 'relaxed'
   order: 0,         // Posición dentro del workspace
   createdAt: '',    // ISO timestamp
   updatedAt: ''     // ISO timestamp
@@ -99,7 +106,14 @@ export function createBox(workspaceId, title) {
     colSpan: 1,
     titleAlign: 'left',
     titleColor: '#f3f4f6',
+    titleFont: 'Inter',
     linkColor: '#ffffff',
+    linkFontSize: 14,
+    bgColor: '#000000',
+    bgOpacity: 0.7,
+    gridCols: 2,
+    orbSize: 80,
+    listRowHeight: 'normal',
     order: 0,
     createdAt: now,
     updatedAt: now
