@@ -7,7 +7,7 @@ const suggestions = document.getElementById('suggestions');
 
 // ========== FUNCIONES ==========
 function performSearch(query) {
-  if (query) window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+  if (query) window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
   suggestions.classList.add('hidden');
 }
 
@@ -29,7 +29,7 @@ export function initSearch() {
       const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
       const res = await fetch(proxyUrl);
       const data = await res.json();
-      suggestions.innerHTML = data[1].map(s => `<li class="px-3 py-2 hover:bg-blue-100 cursor-pointer text-gray-800">${s}</li>`).join('');
+      suggestions.innerHTML = data[1].map(s => `<li class="px-4 py-2 hover:bg-gray-700 cursor-pointer text-gray-200 text-sm">${s}</li>`).join('');
       suggestions.classList.remove('hidden');
       suggestions.querySelectorAll('li').forEach(li => {
         li.addEventListener('click', () => {
