@@ -1,52 +1,48 @@
 // js/links.js
+// Gestión de enlaces (items tipo 'link'): renderizado, CRUD y delegación de eventos
 
 import { showToast, toggleMenu } from './ui.js';
-import { 
+import {
   initializeData,
   getActiveWorkspace,
   getBoxesByWorkspace,
-  getBox,
   getItemsByBox,
   getItem,
-  saveBox,
   saveItem,
-  deleteBox as deleteBoxFromStorage,
   deleteItem as deleteItemFromStorage,
   trackItemClick,
   exportData,
   importData
 } from './data-manager.js';
-import { createBox, createLinkItem } from './data-model.js';
+import { createLinkItem } from './data-model.js';
 import { createBoxCard } from './renderer.js';
 import { normalizeUrl } from './utils.js';
+import { restoreDragState, initDrag, initializeDragAndDrop } from './drag.js';
+import { editBox, deleteBox, initBoxModal } from './boxes.js';
 
 // ========== ELEMENTOS DEL DOM ==========
-const list = document.getElementById('linksList');
-const openNewTabCheckbox = document.getElementById('openNewTab');
-const newLinkModal = document.getElementById('newLinkModal');
 
-// ========== VARIABLES GLOBALES DRAG & DROP ==========
-let sortableBoxes = null;
-let sortableItems = [];
-let isDragEnabled = false;
+const list               = document.getElementById('linksList');
+const openNewTabCheckbox = document.getElementById('openNewTab');
+const newLinkModal       = document.getElementById('newLinkModal');
 
 // ========== RENDERIZADO ==========
 
 export function renderLinks() {
   const workspace = getActiveWorkspace();
   if (!workspace) {
-    list.innerHTML = '<p class="text-gray-400 text-center p-8">No hay workspaces disponibles</p>';
+    list.innerHTML = '<p class="text-gray-400 text-center p-8">No hay dashboards disponibles</p>';
     return;
   }
-  
+
   const boxes = getBoxesByWorkspace(workspace.id);
   list.innerHTML = '';
-  
+
   if (boxes.length === 0) {
-    list.innerHTML = '<p class="text-gray-400 text-center p-8">No hay cajas. Crea una para empezar a añadir enlaces.</p>';
+    list.innerHTML = '<p class="text-gray-400 text-center p-8">No hay cajas. Activa el modo edición y crea una para empezar.</p>';
     return;
   }
-  
+
   boxes.forEach(box => {
     const items = getItemsByBox(box.id);
     list.appendChild(createBoxCard(box, items));
@@ -55,110 +51,13 @@ export function renderLinks() {
   initializeDragAndDrop();
 }
 
-// ========== DRAG & DROP ==========
-
-function updateDragButton(enabled) {
-  const icon = document.getElementById('dragIcon');
-  const text = document.getElementById('dragText');
-  const btn  = document.getElementById('toggleDragBtn');
-
-  if (enabled) {
-    icon.innerHTML = '<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />';
-    text.textContent = 'Finalizar edición';
-    btn.classList.remove('bg-purple-600', 'hover:bg-purple-500');
-    btn.classList.add('bg-orange-600', 'hover:bg-orange-500');
-  } else {
-    icon.innerHTML = '<path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />';
-    text.textContent = 'Editar';
-    btn.classList.remove('bg-orange-600', 'hover:bg-orange-500');
-    btn.classList.add('bg-purple-600', 'hover:bg-purple-500');
-  }
-}
-
-function initializeDragAndDrop() {
-  if (sortableBoxes) {
-    try { sortableBoxes.destroy(); } catch (e) { console.warn('Error al destruir sortableBoxes:', e); }
-    sortableBoxes = null;
-  }
-  sortableItems.forEach(s => { try { s.destroy(); } catch (e) { console.warn('Error al destruir sortable item:', e); } });
-  sortableItems = [];
-
-  if (!isDragEnabled) return;
-
-  const boxesContainer = document.getElementById('linksList');
-  if (boxesContainer) {
-    sortableBoxes = Sortable.create(boxesContainer, {
-      animation: 150,
-      handle: '.drag-handle',
-      draggable: '.box-card',
-      ghostClass: 'sortable-ghost',
-      chosenClass: 'sortable-chosen',
-      dragClass: 'sortable-drag',
-      onEnd(evt) {
-        const workspace = getActiveWorkspace();
-        const boxes = getBoxesByWorkspace(workspace.id);
-        boxesContainer.querySelectorAll('.box-card').forEach((element, index) => {
-          const box = boxes.find(b => b.id === element.dataset.boxId);
-          if (box) { box.order = index; saveBox(box); }
-        });
-        showToast('Orden de cajas actualizado', 'success');
-      }
-    });
-  }
-
-  document.querySelectorAll('.items-container').forEach(container => {
-    const sortableInstance = Sortable.create(container, {
-      animation: 150,
-      handle: '.link-item',
-      draggable: '.link-item',
-      group: 'links',
-      ghostClass: 'sortable-ghost',
-      chosenClass: 'sortable-chosen',
-      dragClass: 'sortable-drag',
-      onMove(evt) { evt.to.classList.add('sortable-drag-over'); },
-      onEnd(evt) {
-        document.querySelectorAll('.items-container').forEach(c => c.classList.remove('sortable-drag-over'));
-        const itemId = evt.item.dataset.itemId;
-        const newBoxId = evt.to.dataset.boxId;
-        const oldBoxId = evt.from.dataset.boxId;
-        const item = getItem(itemId);
-        if (!item) return;
-        if (oldBoxId !== newBoxId) { item.boxId = newBoxId; showToast('Enlace movido a otra caja', 'success'); }
-        evt.to.querySelectorAll('.link-item').forEach((element, index) => {
-          const i = getItem(element.dataset.itemId);
-          if (i) { i.order = index; i.boxId = newBoxId; saveItem(i); }
-        });
-        if (oldBoxId !== newBoxId) renderLinks();
-      }
-    });
-    sortableItems.push(sortableInstance);
-  });
-}
-
-function toggleDragAndDrop() {
-  isDragEnabled = !isDragEnabled;
-  localStorage.setItem('dragEnabled', isDragEnabled);
-  updateDragButton(isDragEnabled);
-  document.body.classList.toggle('drag-enabled', isDragEnabled);
-  showToast(isDragEnabled ? 'Modo edición activado' : 'Modo edición desactivado', isDragEnabled ? 'success' : 'info');
-  setTimeout(() => initializeDragAndDrop(), 100);
-}
-
-function restoreDragState() {
-  if (localStorage.getItem('dragEnabled') === 'true') {
-    isDragEnabled = true;
-    document.body.classList.add('drag-enabled');
-    updateDragButton(true);
-  }
-}
-
 // ========== CRUD ITEMS ==========
 
 function editItem(itemId) {
   const item = getItem(itemId);
   if (!item || item.type !== 'link') return;
   document.getElementById('newLinkTitle').value = item.data.title;
-  document.getElementById('newLinkUrl').value = item.data.url;
+  document.getElementById('newLinkUrl').value   = item.data.url;
   document.getElementById('linkModalTitle').textContent = 'Editar enlace';
   newLinkModal.dataset.editingId = itemId;
   newLinkModal.classList.add('active');
@@ -170,39 +69,6 @@ function deleteItem(itemId) {
     deleteItemFromStorage(itemId);
     renderLinks();
     showToast('Enlace eliminado', 'success');
-  }
-}
-
-// ========== CRUD BOXES ==========
-
-function editBox(boxId) {
-  const box = getBox(boxId);
-  if (!box) return;
-  const newBoxModal = document.getElementById('newBoxModal');
-  document.getElementById('boxModalTitle').textContent = 'Editar caja';
-  document.getElementById('newBoxTitle').value = box.title;
-  document.getElementById('newBoxLayout').value = box.layout || 'grid';
-  document.getElementById('newBoxColSpan').value = box.colSpan || 1;
-  document.getElementById('newBoxTitleAlign').value = box.titleAlign || 'left';
-  document.getElementById('newBoxTitleColor').value = box.titleColor || '#f3f4f6';
-  document.getElementById('newBoxTitleColorText').value = box.titleColor || '#f3f4f6';
-  document.getElementById('newBoxLinkColor').value = box.linkColor || '#ffffff';
-  document.getElementById('newBoxLinkColorText').value = box.linkColor || '#ffffff';
-  newBoxModal.dataset.editingBoxId = boxId;
-  newBoxModal.classList.add('active');
-}
-
-function deleteBox(boxId) {
-  const box = getBox(boxId);
-  if (!box) return;
-  const items = getItemsByBox(boxId);
-  const confirmMsg = items.length > 0
-    ? `¿Eliminar la caja "${box.title}" y sus ${items.length} enlaces?`
-    : `¿Eliminar la caja "${box.title}"?`;
-  if (confirm(confirmMsg)) {
-    deleteBoxFromStorage(boxId);
-    renderLinks();
-    showToast('Caja eliminada', 'success');
   }
 }
 
@@ -237,102 +103,7 @@ function importFromFile(file) {
   reader.readAsText(file);
 }
 
-// ========== INICIALIZACIÓN ==========
-
-function initBoxModal() {
-  const newBoxModal = document.getElementById('newBoxModal');
-  const newBoxBtn = document.getElementById('newBoxBtn');
-
-  if (newBoxBtn) {
-    newBoxBtn.addEventListener('click', () => {
-      document.getElementById('boxModalTitle').textContent = 'Nueva caja';
-      document.getElementById('newBoxTitle').value = '';
-      document.getElementById('newBoxLayout').value = 'grid';
-      document.getElementById('newBoxColSpan').value = '1';
-      document.getElementById('newBoxTitleAlign').value = 'left';
-      document.getElementById('newBoxTitleColor').value = '#f3f4f6';
-      document.getElementById('newBoxTitleColorText').value = '#f3f4f6';
-      document.getElementById('newBoxLinkColor').value = '#ffffff';
-      document.getElementById('newBoxLinkColorText').value = '#ffffff';
-      delete newBoxModal.dataset.editingBoxId;
-      newBoxModal.classList.add('active');
-    });
-  }
-
-  document.getElementById('cancelNewBox').addEventListener('click', () => {
-    newBoxModal.classList.remove('active');
-  });
-
-  document.getElementById('saveNewBox').addEventListener('click', () => {
-    const title = document.getElementById('newBoxTitle').value.trim();
-    const layout = document.getElementById('newBoxLayout').value;
-    const colSpan = parseInt(document.getElementById('newBoxColSpan').value) || 1;
-    const titleAlign = document.getElementById('newBoxTitleAlign').value;
-    const titleColor = document.getElementById('newBoxTitleColor').value;
-    const linkColor = document.getElementById('newBoxLinkColor').value;
-    if (!title) { showToast('El nombre de la caja es obligatorio', 'error'); return; }
-    const workspace = getActiveWorkspace();
-    if (!workspace) { showToast('No hay workspace activo', 'error'); return; }
-
-    if (newBoxModal.dataset.editingBoxId) {
-      const box = getBox(newBoxModal.dataset.editingBoxId);
-      if (box) { box.title = title; box.layout = layout; box.colSpan = colSpan; box.titleAlign = titleAlign; box.titleColor = titleColor; box.linkColor = linkColor; saveBox(box); showToast('Caja actualizada', 'success'); }
-      delete newBoxModal.dataset.editingBoxId;
-    } else {
-      const newBox = createBox(workspace.id, title);
-      newBox.layout = layout;
-      newBox.colSpan = colSpan;
-      newBox.titleAlign = titleAlign;
-      newBox.titleColor = titleColor;
-      newBox.linkColor = linkColor;
-      newBox.order = getBoxesByWorkspace(workspace.id).length;
-      saveBox(newBox);
-      showToast('Caja creada', 'success');
-    }
-
-    renderLinks();
-    newBoxModal.classList.remove('active');
-    document.getElementById('newBoxTitle').value = '';
-    document.getElementById('newBoxLayout').value = 'grid';
-    document.getElementById('newBoxTitleAlign').value = 'left';
-    document.getElementById('newBoxTitleColor').value = '#f3f4f6';
-    document.getElementById('newBoxTitleColorText').value = '#f3f4f6';
-    document.getElementById('newBoxLinkColor').value = '#ffffff';
-    document.getElementById('newBoxLinkColorText').value = '#ffffff';
-    document.getElementById('newBoxColSpan').value = '1';
-    document.getElementById('newBoxTitleAlign').value = 'left';
-    document.getElementById('newBoxTitleColor').value = '#f3f4f6';
-    document.getElementById('newBoxTitleColorText').value = '#f3f4f6';
-    document.getElementById('newBoxLinkColor').value = '#ffffff';
-    document.getElementById('newBoxLinkColorText').value = '#ffffff';
-  });
-
-  newBoxModal.addEventListener('click', (e) => {
-    if (e.target === newBoxModal) newBoxModal.classList.remove('active');
-  });
-
-  // Sincronizar selector de color ↔ campo de texto (título)
-  document.getElementById('newBoxTitleColor').addEventListener('input', (e) => {
-    document.getElementById('newBoxTitleColorText').value = e.target.value;
-  });
-  document.getElementById('newBoxTitleColorText').addEventListener('input', (e) => {
-    const val = e.target.value;
-    if (/^#[0-9a-fA-F]{6}$/.test(val)) {
-      document.getElementById('newBoxTitleColor').value = val;
-    }
-  });
-
-  // Sincronizar selector de color ↔ campo de texto (enlaces)
-  document.getElementById('newBoxLinkColor').addEventListener('input', (e) => {
-    document.getElementById('newBoxLinkColorText').value = e.target.value;
-  });
-  document.getElementById('newBoxLinkColorText').addEventListener('input', (e) => {
-    const val = e.target.value;
-    if (/^#[0-9a-fA-F]{6}$/.test(val)) {
-      document.getElementById('newBoxLinkColor').value = val;
-    }
-  });
-}
+// ========== MODALES ==========
 
 function initLinkModal() {
   document.getElementById('cancelNewLink').addEventListener('click', () => {
@@ -343,9 +114,9 @@ function initLinkModal() {
 
   document.getElementById('saveNewLink').addEventListener('click', () => {
     const title = document.getElementById('newLinkTitle').value.trim();
-    let url = document.getElementById('newLinkUrl').value.trim();
+    let   url   = document.getElementById('newLinkUrl').value.trim();
     if (!title) { showToast('El título es obligatorio', 'error'); return; }
-    if (!url) { showToast('La URL es obligatoria', 'error'); return; }
+    if (!url)   { showToast('La URL es obligatoria', 'error'); return; }
     url = normalizeUrl(url);
     try { new URL(url); } catch (e) { showToast('URL no válida', 'error'); return; }
 
@@ -353,7 +124,7 @@ function initLinkModal() {
       const item = getItem(newLinkModal.dataset.editingId);
       if (item && item.type === 'link') {
         item.data.title = title;
-        item.data.url = url;
+        item.data.url   = url;
         saveItem(item);
         showToast('Enlace actualizado', 'success');
       }
@@ -371,7 +142,7 @@ function initLinkModal() {
     renderLinks();
     newLinkModal.classList.remove('active');
     document.getElementById('newLinkTitle').value = '';
-    document.getElementById('newLinkUrl').value = '';
+    document.getElementById('newLinkUrl').value   = '';
   });
 
   newLinkModal.addEventListener('click', (e) => {
@@ -383,32 +154,34 @@ function initLinkModal() {
   });
 }
 
+// ========== DELEGACIÓN DE EVENTOS ==========
+
 function initEventDelegation() {
   list.addEventListener('click', (e) => {
     const target = e.target;
-    const boxId = target.dataset.boxId;
+    const boxId  = target.dataset.boxId;
 
     if (boxId) {
-      if (target.classList.contains('box-menu-btn')) toggleMenu(boxId);
-      if (target.classList.contains('box-edit-btn')) editBox(boxId);
-      if (target.classList.contains('box-delete-btn')) deleteBox(boxId);
+      if (target.classList.contains('box-menu-btn'))    toggleMenu(boxId);
+      if (target.classList.contains('box-edit-btn'))    editBox(boxId);
+      if (target.classList.contains('box-delete-btn'))  deleteBox(boxId);
       if (target.classList.contains('add-link-btn')) {
         delete newLinkModal.dataset.editingId;
         document.getElementById('newLinkTitle').value = '';
-        document.getElementById('newLinkUrl').value = '';
+        document.getElementById('newLinkUrl').value   = '';
         newLinkModal.dataset.targetBoxId = boxId;
         newLinkModal.classList.add('active');
       }
     }
 
-    let itemId = target.dataset.itemId || target.closest('[data-item-id]')?.dataset.itemId;
+    const itemId = target.dataset.itemId || target.closest('[data-item-id]')?.dataset.itemId;
     if (itemId) {
-      const isMenuBtn = target.classList.contains('item-menu-btn') || target.closest('.item-menu-btn');
-      const isEditBtn = target.classList.contains('item-edit-btn');
+      const isMenuBtn   = target.classList.contains('item-menu-btn') || target.closest('.item-menu-btn');
+      const isEditBtn   = target.classList.contains('item-edit-btn');
       const isDeleteBtn = target.classList.contains('item-delete-btn');
       if (isMenuBtn || isEditBtn || isDeleteBtn) { e.preventDefault(); e.stopPropagation(); }
-      if (isMenuBtn) toggleMenu(itemId);
-      if (isEditBtn) editItem(itemId);
+      if (isMenuBtn)   toggleMenu(itemId);
+      if (isEditBtn)   editItem(itemId);
       if (isDeleteBtn) deleteItem(itemId);
     }
   });
@@ -417,13 +190,11 @@ function initEventDelegation() {
     const link = e.target.closest('a[data-item-id]');
     if (link) trackItemClick(link.dataset.itemId);
   });
-
-  document.getElementById('toggleDragBtn')?.addEventListener('click', toggleDragAndDrop);
 }
 
 function initImportExport() {
-  const exportBtn = document.getElementById('exportDataBtn');
-  const importBtn = document.getElementById('importDataBtn');
+  const exportBtn   = document.getElementById('exportDataBtn');
+  const importBtn   = document.getElementById('importDataBtn');
   const importInput = document.getElementById('importFileInput');
   exportBtn?.addEventListener('click', exportAllData);
   if (importBtn && importInput) {
@@ -433,6 +204,8 @@ function initImportExport() {
     });
   }
 }
+
+// ========== INICIALIZACIÓN ==========
 
 export function initLinks() {
   initializeData();
@@ -448,4 +221,5 @@ export function initLinks() {
   initLinkModal();
   initEventDelegation();
   initImportExport();
+  initDrag();
 }
