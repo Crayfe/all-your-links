@@ -3,6 +3,7 @@
 import { showSection, showToast } from './ui.js';
 import { initLinks } from './links.js';
 import { initSearch } from './search.js';
+import { initDashboard } from './dashboard.js';
 
 // ========== FONDO PERSONALIZADO ==========
 
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----- Módulos -----
   initLinks();
   initSearch();
+  initDashboard();
 
   // ----- Sidebar -----
   const sidebar = document.getElementById('sidebar');
@@ -67,4 +69,3 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('Background eliminado', 'success');
   });
 });
-

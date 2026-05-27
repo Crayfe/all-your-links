@@ -6,10 +6,11 @@
  * Representa una vista/página completa (Enlaces, Notas, Feed, etc.)
  */
 export const WorkspaceSchema = {
-  id: '',          // Único, formato: "ws_TYPE" (ej: "ws_links")
+  id: '',          // Único, formato: "db_TIMESTAMP_RANDOM"
   name: '',        // Nombre mostrado en UI
   type: '',        // 'links' | 'notes' | 'feed' | 'calendar' (extensible)
   active: false,   // Solo uno puede estar activo
+  pinned: false,   // Dashboard que carga por defecto al arrancar
   order: 0,        // Orden en la navegación
   createdAt: '',   // ISO timestamp
   updatedAt: ''    // ISO timestamp
@@ -87,6 +88,25 @@ export function createWorkspace(name, type) {
     name,
     type,
     active: false,
+    pinned: false,
+    order: 0,
+    createdAt: now,
+    updatedAt: now
+  };
+}
+
+/**
+ * Crea un dashboard con valores por defecto
+ * Usar esta factory para nuevos dashboards (ID único por timestamp)
+ */
+export function createDashboard(name) {
+  const now = new Date().toISOString();
+  return {
+    id: generateId('db'),
+    name,
+    type: 'links',
+    active: false,
+    pinned: false,
     order: 0,
     createdAt: now,
     updatedAt: now

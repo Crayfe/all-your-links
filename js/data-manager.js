@@ -1,7 +1,7 @@
 // data-manager.js
 // Gestión centralizada de datos (localStorage) - 3 niveles
 
-import { createWorkspace, createBox, createLinkItem } from './data-model.js';
+import { createWorkspace, createDashboard, createBox, createLinkItem } from './data-model.js';
 
 const STORAGE_KEYS = {
   WORKSPACES: 'workspaces_v2',
@@ -23,15 +23,29 @@ export function initializeData() {
   
   const workspaces = getWorkspaces();
   
-  // Si no hay workspaces, crear el de "Enlaces" por defecto
+  // Si no hay dashboards, crear el de "Inicio" por defecto
   if (workspaces.length === 0) {
-    const linksWorkspace = createWorkspace('Enlaces', 'links');
-    linksWorkspace.active = true;
-    saveWorkspace(linksWorkspace);
-    
-    // Crear una box por defecto dentro del workspace
-    const defaultBox = createBox(linksWorkspace.id, 'Favoritos');
+    const defaultDashboard = createWorkspace('Inicio', 'links');
+    defaultDashboard.active = true;
+    defaultDashboard.pinned = true;
+    saveWorkspace(defaultDashboard);
+
+    // Crear una box por defecto dentro del dashboard
+    const defaultBox = createBox(defaultDashboard.id, 'Favoritos');
     saveBox(defaultBox);
+  } else {
+    // Migración: añadir campo pinned a dashboards existentes que no lo tengan
+    const wsList = getWorkspaces();
+    let changed = false;
+    wsList.forEach((ws, i) => {
+      if (ws.pinned === undefined) {
+        ws.pinned = (i === 0); // El primero se fija como pinned por defecto
+        changed = true;
+      }
+    });
+    if (changed) {
+      localStorage.setItem(STORAGE_KEYS.WORKSPACES, JSON.stringify(wsList));
+    }
   }
 }
 
@@ -87,6 +101,45 @@ export function setActiveWorkspace(id) {
     ws.active = (ws.id === id);
   });
   localStorage.setItem(STORAGE_KEYS.WORKSPACES, JSON.stringify(workspaces));
+}
+
+// ========== DASHBOARDS (aliases limpios sobre workspaces) ==========
+
+export const getDashboards      = getWorkspaces;
+export const getDashboard       = getWorkspace;
+export const getActiveDashboard = getActiveWorkspace;
+export const saveDashboard      = saveWorkspace;
+
+export function deleteDashboard(id) {
+  const dashboards = getDashboards();
+  if (dashboards.length <= 1) return false; // No eliminar el último
+  const wasActive = getDashboard(id)?.active;
+  const wasPinned = getDashboard(id)?.pinned;
+  deleteWorkspace(id);
+  // Si era el activo o el pinned, activar y pinear el primero que quede
+  if (wasActive || wasPinned) {
+    const remaining = getDashboards();
+    if (remaining.length > 0) {
+      if (wasActive) setActiveWorkspace(remaining[0].id);
+      if (wasPinned) setPinnedDashboard(remaining[0].id);
+    }
+  }
+  return true;
+}
+
+export function setActiveDashboard(id) {
+  setActiveWorkspace(id);
+}
+
+export function setPinnedDashboard(id) {
+  const dashboards = getDashboards();
+  dashboards.forEach(db => { db.pinned = (db.id === id); });
+  localStorage.setItem(STORAGE_KEYS.WORKSPACES, JSON.stringify(dashboards));
+}
+
+export function getPinnedDashboard() {
+  const dashboards = getDashboards();
+  return dashboards.find(db => db.pinned) || dashboards[0];
 }
 
 // ========== BOXES ==========
