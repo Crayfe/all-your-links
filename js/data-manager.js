@@ -63,7 +63,10 @@ export function getWorkspace(id) {
 
 export function getActiveWorkspace() {
   const workspaces = getWorkspaces();
-  return workspaces.find(ws => ws.active) || workspaces[0];
+  // Prioridad: pinned > active > primero
+  return workspaces.find(ws => ws.pinned) 
+      || workspaces.find(ws => ws.active) 
+      || workspaces[0];
 }
 
 export function saveWorkspace(workspace) {

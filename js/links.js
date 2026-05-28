@@ -2,6 +2,7 @@
 // Gestión de enlaces (items tipo 'link'): renderizado, CRUD y delegación de eventos
 
 import { showToast, toggleMenu } from './ui.js';
+import { getCurrentDashboardId } from './dashboard.js';
 import {
   initializeData,
   getActiveWorkspace,
@@ -28,14 +29,14 @@ const newLinkModal       = document.getElementById('newLinkModal');
 
 // ========== RENDERIZADO ==========
 
-export function renderLinks() {
-  const workspace = getActiveWorkspace();
-  if (!workspace) {
+export function renderLinks(workspaceId = null) {
+  const wsId = workspaceId || getActiveWorkspace()?.id;
+  if (!wsId) {
     list.innerHTML = '<p class="text-gray-400 text-center p-8">No hay dashboards disponibles</p>';
     return;
   }
 
-  const boxes = getBoxesByWorkspace(workspace.id);
+  const boxes = getBoxesByWorkspace(wsId);
   list.innerHTML = '';
 
   if (boxes.length === 0) {
@@ -67,7 +68,7 @@ function editItem(itemId) {
 function deleteItem(itemId) {
   if (confirm('¿Eliminar este enlace?')) {
     deleteItemFromStorage(itemId);
-    renderLinks();
+    renderLinks(getCurrentDashboardId());
     showToast('Enlace eliminado', 'success');
   }
 }
@@ -139,7 +140,7 @@ function initLinkModal() {
       delete newLinkModal.dataset.targetBoxId;
     }
 
-    renderLinks();
+    renderLinks(getCurrentDashboardId());
     newLinkModal.classList.remove('active');
     document.getElementById('newLinkTitle').value = '';
     document.getElementById('newLinkUrl').value   = '';

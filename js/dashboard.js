@@ -1,7 +1,7 @@
 // js/dashboard.js
 // Gestión de dashboards: navegación, CRUD y renderizado en sidebar
 
-import { showToast, toggleMenu } from './ui.js';
+import { showToast, toggleMenu, showSection } from './ui.js';
 import {
   getDashboards,
   getDashboard,
@@ -14,6 +14,9 @@ import {
 } from './data-manager.js';
 import { createDashboard } from './data-model.js';
 
+// Estado de sesión — no depende de localStorage para la sesión actual
+let _activeDashboardId = null;
+
 // ========== RENDERIZADO SIDEBAR ==========
 
 export function renderDashboardList() {
@@ -21,7 +24,7 @@ export function renderDashboardList() {
   if (!container) return;
 
   const dashboards = getDashboards().sort((a, b) => a.order - b.order);
-  const active     = getActiveDashboard();
+  const active     = _activeDashboardId ? { id: _activeDashboardId } : getActiveDashboard();
   const pinned     = getPinnedDashboard();
   const isEditMode = document.body.classList.contains('drag-enabled');
 
@@ -39,9 +42,17 @@ export function renderDashboardList() {
     btn.dataset.tooltip = db.name;
 
     btn.innerHTML = `
-      <!-- Botón principal: icono + nombre -->
-      <button class="dashboard-switch-btn flex items-center gap-2 flex-1 min-w-0 px-2 py-2"
+      <!-- Botón principal: mini orbe (colapsado) + icono+nombre (expandido) -->
+      <button class="dashboard-switch-btn flex items-center gap-2 flex-1 min-w-0 px-2 py-1.5"
               data-dashboard-id="${db.id}" title="${db.name}">
+        <!-- Mini orbe: visible solo en sidebar colapsada -->
+        <span class="dashboard-mini-orb ${isActive ? 'is-active' : ''}" title="${db.name}">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mb-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.881a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+          </svg>
+          <span class="dashboard-mini-label">${db.name}</span>
+        </span>
+        <!-- Icono SVG: visible solo en sidebar expandida -->
         <span class="dashboard-icon flex-shrink-0 w-6 h-6 flex items-center justify-center relative">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.881a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
@@ -81,11 +92,17 @@ export function renderDashboardList() {
 // ========== CAMBIO DE DASHBOARD ==========
 
 export function switchDashboard(id) {
-  const current = getActiveDashboard();
-  if (current?.id === id) return;
+  if (_activeDashboardId === id) return;
+  _activeDashboardId = id;
   setActiveDashboard(id);
+  updateBreadcrumb();
   renderDashboardList();
-  import('./links.js').then(m => m.renderLinks());
+
+  // Vaciar el contenedor síncronamente evita el parpadeo del contenido anterior
+  const linksContainer = document.getElementById('linksList');
+  if (linksContainer) linksContainer.innerHTML = ''; 
+  
+  import('./links.js').then(m => m.renderLinks(id));
 }
 
 // ========== PIN ==========
@@ -94,7 +111,10 @@ function pinDashboard(id) {
   const db = getDashboard(id);
   if (!db) return;
   const isPinned = getPinnedDashboard()?.id === id;
-  if (isPinned) return; // Ya está fijado, no hacer nada
+  if (isPinned) {
+    showToast(`"${db.name}" ya es el dashboard de inicio`, 'info');
+    return;
+  }
   setPinnedDashboard(id);
   renderDashboardList();
   showToast(`"${db.name}" fijado como dashboard de inicio`, 'success');
@@ -177,6 +197,7 @@ function initDashboardModal() {
 
     modal.classList.remove('active');
     resetDashboardModal();
+    updateBreadcrumb();
     renderDashboardList();
   });
 }
@@ -191,6 +212,7 @@ function initEventDelegation() {
     // Cambiar dashboard
     const switchBtn = e.target.closest('.dashboard-switch-btn');
     if (switchBtn) {
+      showSection(document.getElementById('enlacesSection'));
       switchDashboard(switchBtn.dataset.dashboardId);
       return;
     }
@@ -232,15 +254,29 @@ function initEventDelegation() {
 
 // ========== INICIALIZACIÓN ==========
 
+export function updateBreadcrumb() {
+  const db = _activeDashboardId ? getDashboard(_activeDashboardId) : getActiveDashboard();
+  const el = document.getElementById('activeDashboardName');
+  if (el) el.textContent = db?.name || '';
+}
+
 export function initDashboard() {
-  // Cargar dashboard pinned al arrancar
+  // Al arrancar, cargar siempre el dashboard pinned
   const pinned = getPinnedDashboard();
-  const active = getActiveDashboard();
-  if (pinned && pinned.id !== active?.id) {
-    setActiveDashboard(pinned.id);
+  const startId = pinned?.id || getActiveDashboard()?.id;
+  if (startId) {
+    _activeDashboardId = startId;
+    setActiveDashboard(startId);
   }
 
+  updateBreadcrumb();
   renderDashboardList();
   initDashboardModal();
   initEventDelegation();
+}
+// ========== Otros ==========
+
+// Añade esta función para exponer el estado interno
+export function getCurrentDashboardId() {
+  return _activeDashboardId;
 }

@@ -15,14 +15,18 @@
 
   <!-- Cabecera -->
   <header class="flex justify-between items-center py-2 px-4 bg-gray-900 text-white shadow">
-  <h1 class="text-xl font-semibold w-56"><a href="#" id="linksHomeBtn" class="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-600 to-teal-400 hover:from-fuchsia-400 hover:to-teal-200 transition-colors">📋 All your links</a></h1>
+  <div class="flex items-center gap-2 flex-shrink-0 w-64">
+    <h1 class="text-xl font-semibold whitespace-nowrap"><a href="#" id="linksHomeBtn" class="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-600 to-teal-400 hover:from-fuchsia-400 hover:to-teal-200 transition-colors">📋 All your links</a></h1>
+    <span class="text-gray-600 text-sm">›</span>
+    <span id="activeDashboardName" class="text-gray-300 text-sm truncate"></span>
+  </div>
   <div id="searchWrapper" class="relative flex-1 max-w-md mx-auto flex rounded-full bg-gray-800 ring-1 ring-gray-600 focus-within:ring-2 focus-within:ring-gray-400 transition-shadow">
     <input type="text" id="googleSearch" placeholder="Buscar en Google..." autofocus
   class="flex-1 border-0 h-9 px-4 rounded-l-full bg-transparent text-gray-100 placeholder-gray-500 text-sm focus:outline-none" />
 <button id="googleBtn" class="px-4 h-9 rounded-r-full flex items-center text-sm font-medium transition-colors bg-purple-700 hover:bg-cyan-700 text-white">Buscar</button>
     <ul id="suggestions" class="absolute top-full left-0 right-0 rounded-xl shadow-lg mt-1 z-50 hidden overflow-hidden" style="background:#1f2937; border:1px solid #374151; color:#f3f4f6"></ul>
   </div>
-  <div class="flex gap-2 items-center">
+  <div class="flex gap-2 items-center h-full">
   <button id="toggleDragBtn" class="bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-500 transition flex items-center gap-1.5 text-sm text-white" title="Activar/Desactivar modo edición">
   <svg id="dragIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
@@ -30,6 +34,11 @@
   <span id="dragText">Editar</span>
 </button>
   <button id="newBoxBtn" class="edit-only bg-green-600 px-3 py-1 rounded-full hover:bg-green-500 transition text-sm">+ Caja</button>
+  <button id="profileOrb" class="w-7 h-7 rounded-full bg-gray-700 hover:bg-gray-500 border border-gray-500 flex items-center justify-center transition flex-shrink-0" title="Configuración">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-200" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+    </svg>
+  </button>
   </div>
   </header>
 
@@ -43,29 +52,7 @@
         </svg>
     </button>
 
-    <nav class="sidebar-nav">
-        
-        <button id="enlacesBtn" class="sidebar-btn" data-action="show-links">
-            <span class="sidebar-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.881a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                </svg>
-            </span>
-            <span class="sidebar-text">Enlaces</span>
-        </button>
 
-        <button id="perfilBtn" class="sidebar-btn" data-action="show-profile">
-            <span class="sidebar-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.568.35.952.884 1.065 2.572z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-            </span>
-            <span class="sidebar-text">Perfil</span>
-        </button>
-    </nav>
-    <!-- Separador -->
-    <div class="w-full border-t border-gray-700 my-2"></div>
 
     <!-- Zona de dashboards -->
     <div class="flex flex-col flex-1 min-h-0 overflow-hidden px-2">
@@ -84,11 +71,7 @@
       <div id="dashboardList" class="flex flex-col gap-0.5 overflow-y-auto flex-1"></div>
     </div>
 
-    <div id="profileOrb" class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center cursor-pointer text-lg font-bold text-white hover:bg-gray-500 transition mt-2 mb-2 flex-shrink-0" title="Perfil">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-      </svg>
-    </div>
+
 </aside>
 
     <!-- Contenido principal -->

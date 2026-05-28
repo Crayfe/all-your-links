@@ -59,13 +59,6 @@
     overflow-x: hidden;
 }
 
-/* Orbe de perfil pegado al bottom */
-#profileOrb {
-    flex-shrink: 0;
-    margin-top: auto; /* Esto lo empuja al final */
-    margin-bottom: 1rem; /* Pequeño margen del borde */
-}
-
 /* Centrar el orbe horizontalmente siempre */
 #sidebar #profileOrb {
     align-self: center;
@@ -278,13 +271,6 @@ body:not(.drag-enabled) .link-item a {
     padding-right: 0.5rem;
 }
 
-/* Orbe de perfil en la sidebar */
-#profileOrb {
-    flex-shrink: 0;
-    margin-top: auto;
-    margin-bottom: 1rem; /* Separación del borde inferior */
-}
-
 /* Cuando la sidebar está colapsada, centrar el orbe */
 #sidebar:not(.sidebar-expanded) #profileOrb {
     align-self: center;
@@ -439,20 +425,76 @@ body:not(.drag-enabled) .orb-link {
     min-height: 2.25rem;
 }
 
-/* Icono siempre centrado cuando sidebar colapsada */
+/* Mini orbe en sidebar colapsada */
 #sidebar:not(.sidebar-expanded) .dashboard-item {
     justify-content: center;
 }
 
 #sidebar:not(.sidebar-expanded) .dashboard-switch-btn {
     justify-content: center;
-    padding: 0.4rem;
-    width: 2.25rem;
+    padding: 0.2rem;
+    width: 3rem;
+    flex: none;
+}
+
+/* Ocultar icono SVG y mostrar mini orbe en colapsado */
+#sidebar:not(.sidebar-expanded) .dashboard-icon {
+    display: none;
+}
+
+#sidebar:not(.sidebar-expanded) .dashboard-mini-orb {
+    display: flex;
+}
+
+/* Ocultar mini orbe en expandido */
+#sidebar.sidebar-expanded .dashboard-mini-orb {
+    display: none;
 }
 
 #sidebar:not(.sidebar-expanded) .dashboard-pin-btn,
 #sidebar:not(.sidebar-expanded) .dashboard-menu-wrap {
     display: none;
+}
+
+.dashboard-mini-orb {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    min-height: 3rem;
+    border-radius: 0.5rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #9ca3af;
+    padding: 0.35rem 0.2rem 0.25rem;
+    gap: 0.15rem;
+    transition: background 0.2s, color 0.2s;
+    overflow: hidden;
+}
+
+.dashboard-mini-label {
+    font-size: 0.55rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+    max-width: 2.5rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+.dashboard-item:hover .dashboard-mini-orb {
+    background: rgba(255,255,255,0.12);
+    color: #e5e7eb;
+}
+
+.dashboard-mini-orb.is-active {
+    background: #374151;
+    border-color: rgba(255,255,255,0.2);
+    color: #f3f4f6;
 }
 
 /* Tooltip en sidebar colapsada */

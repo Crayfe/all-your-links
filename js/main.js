@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----- Sidebar -----
   const sidebar = document.getElementById('sidebar');
   const toggleBtn = document.getElementById('toggleSidebarBtn');
-  const enlacesSection = document.getElementById('enlacesSection');
   const profileSection = document.getElementById('profileSection');
 
   toggleBtn.addEventListener('click', () => {
@@ -43,8 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.toggle('sidebar-collapsed');
   });
 
-  document.getElementById('enlacesBtn').addEventListener('click', () => showSection(enlacesSection));
-  document.getElementById('perfilBtn').addEventListener('click', () => showSection(profileSection));
   document.getElementById('profileOrb').addEventListener('click', () => showSection(profileSection));
 
   // ----- Fondo personalizado -----

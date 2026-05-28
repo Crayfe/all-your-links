@@ -3,6 +3,7 @@
 
 import { showToast } from './ui.js';
 import { getActiveWorkspace, getBoxesByWorkspace, getBox, getItem, saveBox, saveItem } from './data-manager.js';
+import { getCurrentDashboardId } from './dashboard.js';
 
 let sortableBoxes = null;
 let sortableItems  = [];
@@ -56,8 +57,9 @@ export function initializeDragAndDrop() {
       chosenClass: 'sortable-chosen',
       dragClass: 'sortable-drag',
       onEnd(evt) {
-        const workspace = getActiveWorkspace();
-        const boxes = getBoxesByWorkspace(workspace.id);
+        const currentId = getCurrentDashboardId() || getActiveWorkspace()?.id;
+        const boxes = getBoxesByWorkspace(currentId);
+        
         boxesContainer.querySelectorAll('.box-card').forEach((element, index) => {
           const box = boxes.find(b => b.id === element.dataset.boxId);
           if (box) { box.order = index; saveBox(box); }
@@ -91,7 +93,8 @@ export function initializeDragAndDrop() {
         });
         // Importación dinámica para evitar dependencia circular
         if (oldBoxId !== newBoxId) {
-          import('./links.js').then(m => m.renderLinks());
+          const currentId = getCurrentDashboardId();
+          import('./links.js').then(m => m.renderLinks(currentId));
         }
       }
     });
@@ -105,6 +108,8 @@ export function toggleDragAndDrop() {
   updateDragButton(isDragEnabled);
   document.body.classList.toggle('drag-enabled', isDragEnabled);
   showToast(isDragEnabled ? 'Modo edición activado' : 'Modo edición desactivado', isDragEnabled ? 'success' : 'info');
+  // Rerenderizar lista de dashboards para mostrar/ocultar menú contextual
+  import('./dashboard.js').then(m => m.renderDashboardList());
   setTimeout(() => initializeDragAndDrop(), 100);
 }
 

@@ -11,6 +11,7 @@ import {
   deleteBox as deleteBoxFromStorage
 } from './data-manager.js';
 import { createBox } from './data-model.js';
+import { getCurrentDashboardId } from './dashboard.js';
 
 // ========== HELPERS MODAL ==========
 
@@ -90,7 +91,8 @@ export function deleteBox(boxId) {
     : `¿Eliminar la caja "${box.title}"?`;
   if (confirm(confirmMsg)) {
     deleteBoxFromStorage(boxId);
-    import('./links.js').then(m => m.renderLinks());
+    const boxElement = document.querySelector(`.box-card[data-box-id="${boxId}"]`);
+    if (boxElement) boxElement.remove();
     showToast('Caja eliminada', 'success');
   }
 }
@@ -132,7 +134,15 @@ export function initBoxModal() {
     const listRowHeight = document.getElementById('newBoxListRowHeight').value;
 
     if (!title) { showToast('El nombre de la caja es obligatorio', 'error'); return; }
-    const workspace = getActiveWorkspace();
+    const currentId = getCurrentDashboardId();
+    let workspace = null;
+    
+    if (currentId) {
+      workspace = { id: currentId }; 
+    } else {
+      workspace = getActiveWorkspace();
+    }
+    
     if (!workspace) { showToast('No hay dashboard activo', 'error'); return; }
 
     if (newBoxModal.dataset.editingBoxId) {
@@ -153,7 +163,7 @@ export function initBoxModal() {
       showToast('Caja creada', 'success');
     }
 
-    import('./links.js').then(m => m.renderLinks());
+    import('./links.js').then(m => m.renderLinks(currentId));
     newBoxModal.classList.remove('active');
     resetBoxModal();
   });

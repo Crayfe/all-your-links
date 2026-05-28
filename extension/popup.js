@@ -2,6 +2,7 @@
 
 const STORAGE_KEY_BOXES = 'boxes_v2';
 const STORAGE_KEY_ITEMS = 'items_v2';
+const STORAGE_KEY_DASHBOARDS = 'dashboards_v2';
 const DASHBOARD_URL    = 'http://localhost:8000';
 
 // ========== UTILIDADES ==========
@@ -56,12 +57,42 @@ function getItemsByBox(boxId) {
 
 // ========== RENDER DEL FORMULARIO ==========
 
-function renderForm(tab, boxes) {
-  const sortedBoxes = [...boxes].sort((a, b) => a.order - b.order);
+function renderForm(tab, data) {
+  const { boxes, dashboards } = data;
+  let optionsHTML = '';
 
-  const optionsHTML = sortedBoxes.length > 0
-    ? sortedBoxes.map(b => `<option value="${b.id}">${b.title}</option>`).join('')
-    : '<option value="" disabled>No hay cajas disponibles</option>';
+  // 1. Intentar agrupar por dashboards si existen
+  if (dashboards && dashboards.length > 0) {
+    const sortedDashboards = [...dashboards].sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    sortedDashboards.forEach(db => {
+      // Comprobar tanto workspaceId como dashboardId por seguridad
+      const dbBoxes = boxes
+        .filter(b => b.workspaceId === db.id || b.dashboardId === db.id)
+        .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+      if (dbBoxes.length > 0) {
+        optionsHTML += `<optgroup label="${escapeHtml(db.name || db.title || 'Dashboard')}">`;
+        dbBoxes.forEach(b => {
+          optionsHTML += `<option value="${b.id}">${escapeHtml(b.title)}</option>`;
+        });
+        optionsHTML += `</optgroup>`;
+      }
+    });
+  }
+
+  // 2. Fallback: Si no se logró agrupar (por diferencias de nomenclatura) 
+  // pero hay cajas, mostramos una lista plana para que siga funcionando.
+  if (!optionsHTML && boxes && boxes.length > 0) {
+    const sortedBoxes = [...boxes].sort((a, b) => (a.order || 0) - (b.order || 0));
+    sortedBoxes.forEach(b => {
+      optionsHTML += `<option value="${b.id}">${escapeHtml(b.title)}</option>`;
+    });
+  }
+
+  if (!optionsHTML) {
+    optionsHTML = '<option value="" disabled>No hay cajas disponibles</option>';
+  }
 
   document.getElementById('content').innerHTML = `
     <div class="form-section">
@@ -84,7 +115,7 @@ function renderForm(tab, boxes) {
 
       <div class="btn-row">
         <button class="btn btn-secondary" id="btnCancel">Cancelar</button>
-        <button class="btn btn-primary" id="btnSave" ${sortedBoxes.length === 0 ? 'disabled' : ''}>
+        <button class="btn btn-primary" id="btnSave" ${!optionsHTML.includes('value="') ? 'disabled' : ''}>
           Guardar enlace
         </button>
       </div>
@@ -144,7 +175,6 @@ function saveLink() {
 // ========== INICIALIZACIÓN ==========
 
 async function init() {
-  // Comprobar que el servidor está disponible y leer localStorage
   try {
     const response = await fetch(DASHBOARD_URL, { method: 'HEAD', signal: AbortSignal.timeout(2000) });
     if (!response.ok) throw new Error();
@@ -153,51 +183,46 @@ async function init() {
     return;
   }
 
-  // Leer la pestaña activa
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  // Leer boxes del localStorage del dashboard mediante content script
-  // Como no podemos acceder al localStorage de otro origen directamente,
-  // usamos chrome.scripting para leerlo desde la pestaña del dashboard si está abierta,
-  // o abrimos una pestaña oculta para obtenerlo.
-  // Solución práctica: fetch al dashboard y parsear las keys directamente.
-
-  let boxes = [];
+  let fetchedData = { boxes: [], dashboards: [] };
 
   try {
-    // Intentar leer desde una pestaña del dashboard ya abierta
     const dashboardTabs = await chrome.tabs.query({ url: `${DASHBOARD_URL}/*` });
+    const fetchFunc = () => {
+      const rawBoxes = localStorage.getItem('boxes_v2') || '[]';
+      // Buscar la clave de dashboards independientemente de si los llamaste dashboards o workspaces
+      const rawDashboards = localStorage.getItem('dashboards_v2') || 
+                            localStorage.getItem('workspaces_v2') || 
+                            localStorage.getItem('dashboards') || 
+                            localStorage.getItem('workspaces') || '[]';
+      return {
+        boxes: JSON.parse(rawBoxes),
+        dashboards: JSON.parse(rawDashboards)
+      };
+    };
 
     if (dashboardTabs.length > 0) {
-      // Hay una pestaña del dashboard abierta — leer su localStorage
       const results = await chrome.scripting.executeScript({
         target: { tabId: dashboardTabs[0].id },
-        func: () => {
-          const raw = localStorage.getItem('boxes_v2');
-          return raw || '[]';
-        }
+        func: fetchFunc
       });
-      boxes = JSON.parse(results[0].result);
+      fetchedData = results[0].result;
     } else {
-      // No hay pestaña abierta — abrir una en segundo plano temporalmente
       const tempTab = await chrome.tabs.create({ url: DASHBOARD_URL, active: false });
       await new Promise(resolve => setTimeout(resolve, 800));
       const results = await chrome.scripting.executeScript({
         target: { tabId: tempTab.id },
-        func: () => {
-          const raw = localStorage.getItem('boxes_v2');
-          return raw || '[]';
-        }
+        func: fetchFunc
       });
-      boxes = JSON.parse(results[0].result);
+      fetchedData = results[0].result;
       await chrome.tabs.remove(tempTab.id);
     }
   } catch (e) {
     console.warn('No se pudo leer localStorage del dashboard:', e);
-    boxes = [];
   }
 
-  renderForm(tab, boxes);
+  renderForm(tab, fetchedData);
 }
 
 // ========== GUARDAR USANDO SCRIPTING EN EL DASHBOARD ==========
