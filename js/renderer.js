@@ -16,8 +16,9 @@ function getLinkTarget() {
  * Crea una card completa para una box con sus items
  */
 export function createBoxCard(box, items) {
-  const layoutClass = box.layout === 'orbs' ? 'layout-orbs'
-                    : box.layout === 'list' ? 'layout-list'
+  const layoutClass = box.layout === 'orbs'      ? 'layout-orbs'
+                    : box.layout === 'list'      ? 'layout-list'
+                    : box.layout === 'reference' ? 'layout-reference'
                     : 'layout-grid';
 
   const colSpanClass = box.colSpan === 3 ? 'md:col-span-3'
@@ -90,6 +91,8 @@ export function createBoxCard(box, items) {
       .forEach(item => {
         const el = box.layout === 'orbs'
           ? createOrbElement(item, linkColor)
+          : box.layout === 'reference'
+          ? createReferenceElement(item, linkColor)
           : createLinkElement(item, linkColor, box.layout);
         itemsContainer.appendChild(el);
       });
@@ -175,3 +178,31 @@ export function createOrbElement(item, linkColor = '#ffffff') {
   return el;
 }
 
+/**
+ * Crea el nodo DOM para un enlace en formato referencia bibliográfica
+ */
+export function createReferenceElement(item, linkColor = '#ffffff') {
+  const { title, url } = item.data;
+  const target = getLinkTarget();
+
+  const el = document.createElement('div');
+  el.className = 'ref-item link-item';
+  el.dataset.itemId = item.id;
+  el.dataset.itemOrder = item.order;
+
+  el.innerHTML = `
+    <a href="${sanitize(url)}" target="${target}" class="ref-link flex-1 min-w-0" data-item-id="${item.id}">
+      <span class="ref-title" style="color: ${linkColor}; font-size: var(--link-font-size, 14px)">${sanitize(title)}</span>
+      <span class="ref-url">${sanitize(url)}</span>
+    </a>
+    <div class="menu-container relative flex-shrink-0">
+      <button data-item-id="${item.id}" class="edit-only text-gray-400 hover:text-white px-2 py-1 item-menu-btn opacity-0 ref-menu-trigger">⋯</button>
+      <div id="menu-${item.id}" class="menu-options hidden absolute right-0 top-8 bg-white border rounded shadow-md z-10 dark:bg-gray-700 dark:border-gray-600">
+        <button data-item-id="${item.id}" class="block w-full text-left px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-700 item-edit-btn">Editar</button>
+        <button data-item-id="${item.id}" class="block w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900 text-gray-700 item-delete-btn">Eliminar</button>
+      </div>
+    </div>
+  `;
+
+  return el;
+}

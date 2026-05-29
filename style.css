@@ -1,5 +1,5 @@
 /* ============================================
-   SIDEBAR - Layout robusto sin Flexbox
+   SIDEBAR
    ============================================ */
 
 #sidebar {
@@ -11,15 +11,13 @@
     padding: 1rem 0;
     z-index: 20;
     flex-shrink: 0;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Estado expandido */
 #sidebar.sidebar-expanded {
-    width: 14rem; /* 224px - expandido */
+    width: 14rem;
 }
 
 /* ============================================
@@ -27,14 +25,13 @@
    ============================================ */
 
 .sidebar-toggle-btn {
-    display: block;
     width: 2.5rem;
     height: 2.5rem;
-    margin: 0 auto 2rem auto; /* Centrado horizontalmente, margin inferior */
+    margin: 0 auto 2rem auto;
     background: transparent;
     border: none;
     border-radius: 0.375rem;
-    color: #e5e7eb; /* gray-200 */
+    color: #e5e7eb;
     cursor: pointer;
     transition: background-color 0.2s;
     display: flex;
@@ -43,7 +40,7 @@
 }
 
 .sidebar-toggle-btn:hover {
-    background-color: #374151; /* gray-700 */
+    background-color: #374151;
 }
 
 /* ============================================
@@ -55,24 +52,15 @@
     flex-direction: column;
     gap: 0.5rem;
     padding: 0 0.75rem;
-    overflow-y: auto; /* ← Scroll solo en el nav si es necesario */
+    overflow-y: auto;
     overflow-x: hidden;
 }
-
-/* Centrar el orbe horizontalmente siempre */
-#sidebar #profileOrb {
-    align-self: center;
-}
-
-/* ============================================
-   BOTONES DE NAVEGACIÓN
-   ============================================ */
 
 .sidebar-btn {
     position: relative;
     display: flex;
     align-items: center;
-    height: 2.5rem; /* ALTURA FIJA - clave para no saltar */
+    height: 2.5rem;
     padding: 0 0.75rem;
     background: transparent;
     border: none;
@@ -87,18 +75,24 @@
     background-color: #374151;
 }
 
-/* Icono: siempre visible, siempre en la misma posición */
+#sidebar:not(.sidebar-expanded) .sidebar-btn {
+    justify-content: center;
+}
+
+#sidebar.sidebar-expanded .sidebar-btn {
+    justify-content: flex-start;
+}
+
 .sidebar-icon {
-    width: 2rem; /* ANCHO FIJO */
+    width: 2rem;
     height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* No se comprime nunca */
+    flex-shrink: 0;
     color: #e5e7eb;
 }
 
-/* Texto: oculto por defecto */
 .sidebar-text {
     display: none;
     margin-left: 1rem;
@@ -108,308 +102,10 @@
     transition: opacity 0.3s ease, max-width 0.3s ease;
 }
 
-/* Texto visible cuando está expandido */
 #sidebar.sidebar-expanded .sidebar-text {
     opacity: 1;
     max-width: 150px;
     display: block;
-}
-
-/* ============================================
-   CENTRADO cuando está colapsado
-   ============================================ */
-
-#sidebar:not(.sidebar-expanded) .sidebar-btn {
-    justify-content: center;
-}
-
-#sidebar.sidebar-expanded .sidebar-btn {
-    justify-content: flex-start;
-}
-
-#linksList {
-    --col-width: calc((100% - 2rem) / 3);
-}
-/* ============================================
-   MODAL OVERLAY (fondo difuminado)
-   ============================================ */
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.modal-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-/* Modal content */
-.modal-content {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 400px;
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-}
-
-.modal-overlay.active .modal-content {
-    transform: scale(1);
-}
-
-/* Dark mode para modal */
-@media (prefers-color-scheme: dark) {
-    .modal-content {
-        background: #1f2937;
-        color: #e5e7eb;
-    }
-}
-/* ============================================
-   DRAG & DROP STYLES
-   ============================================ */
-
-/* Elemento siendo arrastrado */
-.sortable-ghost {
-    opacity: 0.4;
-    background: #3b82f6 !important;
-}
-
-/* Elemento seleccionado para arrastrar */
-.sortable-chosen {
-    cursor: grabbing !important;
-}
-
-/* Elemento mientras se arrastra */
-.sortable-drag {
-    opacity: 0.8;
-    transform: rotate(2deg);
-}
-
-/* Cursor por defecto en elementos arrastrables */
-.cursor-move {
-    cursor: grab;
-}
-
-.cursor-move:active {
-    cursor: grabbing;
-}
-
-/* Transiciones suaves */
-.box-card,
-.link-item {
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-/* Handle de arrastre para cajas */
-.drag-handle {
-    cursor: grab;
-    user-select: none;
-    padding: 0 0.25rem;
-}
-
-.drag-handle:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 0.25rem;
-}
-
-.drag-handle:active {
-    cursor: grabbing;
-}
-
-/* Quitar cursor-move de la card completa */
-.box-card {
-    cursor: default !important;
-}
-/* Feedback visual al arrastrar sobre otra caja */
-.items-container {
-    min-height: 60px; /* Asegura espacio para soltar incluso si está vacía */
-    transition: background-color 0.2s ease;
-}
-
-.items-container.sortable-drag-over {
-    background-color: rgba(59, 130, 246, 0.1);
-    border: 2px dashed rgba(59, 130, 246, 0.5);
-    border-radius: 0.5rem;
-}
-/* Ocultar handles cuando drag está desactivado */
-body:not(.drag-enabled) .drag-handle {
-    display: none;
-}
-
-/* Quitar cursor de arrastre cuando está bloqueado */
-body:not(.drag-enabled) .cursor-move {
-    cursor: default !important;
-}
-
-body:not(.drag-enabled) .link-item {
-    cursor: default !important;
-}
-
-/* ============================================
-   MODO EDICION - edit-only
-   ============================================ */
-
-body:not(.drag-enabled) .edit-only {
-    display: none !important;
-}
-
-body:not(.drag-enabled) .link-item a {
-    padding-right: 0.5rem;
-}
-
-/* Cuando la sidebar está colapsada, centrar el orbe */
-#sidebar:not(.sidebar-expanded) #profileOrb {
-    align-self: center;
-}
-
-/* Cuando está expandida, también centrado */
-#sidebar.sidebar-expanded #profileOrb {
-    align-self: center;
-}
-/* ============================================
-   LAYOUT: ORBES
-   ============================================ */
-
-.layout-orbs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    padding: 0.5rem;
-    justify-content: center;
-}
-
-.orb-item {
-    position: relative;
-    cursor: grab;
-}
-
-.orb-item:active {
-    cursor: grabbing;
-}
-
-.orb-link {
-    text-decoration: none;
-}
-
-.orb-icon-container {
-    position: relative;
-    transition: all 0.2s ease;
-    overflow: hidden; 
-}
-.orb-icon-container img {
-    object-fit: contain; /* Mantiene proporciones */
-    max-width: 100%;
-    max-height: 100%;
-}
-.orb-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
-    min-height: 2.4em;
-}
-
-/* Menú contextual del orbe */
-/* Menú contextual del orbe */
-.orb-menu-btn {
-    pointer-events: auto; /* Asegura que recibe clicks */
-}
-
-.orb-menu-btn button {
-    pointer-events: auto;
-}
-
-/* Prevenir que el click en el menú abra el enlace */
-.orb-menu-btn,
-.menu-options {
-    pointer-events: auto;
-}
-
-.orb-link {
-    pointer-events: auto;
-}
-
-/* Cuando el menú está abierto, el enlace no debe activarse */
-.orb-item:has(.menu-options:not(.hidden)) .orb-link {
-    pointer-events: none;
-}
-
-/* Ajustar el cursor cuando NO está en modo edición */
-body:not(.drag-enabled) .orb-item {
-    cursor: default;
-}
-
-body:not(.drag-enabled) .orb-link {
-    cursor: pointer;
-}
-
-/* Drag & drop para orbes */
-.layout-orbs .sortable-ghost {
-    opacity: 0.3;
-}
-
-.layout-orbs .sortable-drag {
-    transform: rotate(5deg) scale(1.1);
-}
-/* ============================================
-   LAYOUT: LIST (compacto)
-   ============================================ */
-
-.layout-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.layout-list .link-item {
-    /* padding y margen controlados desde renderer.js según layout */
-}
-
-.layout-list .link-item img {
-    /* tamaño controlado desde renderer.js */
-}
-
-.layout-list .link-item span {
-    /* tamaño controlado desde renderer.js */
-}
-/* ============================================
-   LAYOUT: GRID (por defecto, como está ahora)
-   ============================================ */
-
-.layout-grid {
-    display: grid;
-    grid-template-columns: repeat(var(--grid-cols, 2), 1fr);
-    gap: 0.5rem;
-}
-
-/* ============================================
-   LAYOUT: LISTA - Densidad vertical
-   ============================================ */
-
-.layout-list[style*="--list-row-height: compact"] .link-item,
-.box-card[style*="--list-row-height: compact"] .layout-list .link-item {
-    /* ya controlado por py desde renderer */
-}
-
-/* Compact: py-0 (solo el de renderer) */
-.layout-list .link-item {
-    padding-top: var(--list-padding-y, 0.125rem);
-    padding-bottom: var(--list-padding-y, 0.125rem);
 }
 
 /* ============================================
@@ -425,8 +121,8 @@ body:not(.drag-enabled) .orb-link {
     min-height: 2.25rem;
 }
 
-/* Mini orbe en sidebar colapsada */
 #sidebar:not(.sidebar-expanded) .dashboard-item {
+    position: relative;
     justify-content: center;
 }
 
@@ -437,7 +133,6 @@ body:not(.drag-enabled) .orb-link {
     flex: none;
 }
 
-/* Ocultar icono SVG y mostrar mini orbe en colapsado */
 #sidebar:not(.sidebar-expanded) .dashboard-icon {
     display: none;
 }
@@ -446,7 +141,6 @@ body:not(.drag-enabled) .orb-link {
     display: flex;
 }
 
-/* Ocultar mini orbe en expandido */
 #sidebar.sidebar-expanded .dashboard-mini-orb {
     display: none;
 }
@@ -454,6 +148,31 @@ body:not(.drag-enabled) .orb-link {
 #sidebar:not(.sidebar-expanded) .dashboard-pin-btn,
 #sidebar:not(.sidebar-expanded) .dashboard-menu-wrap {
     display: none;
+}
+
+#sidebar:not(.sidebar-expanded) #newDashboardBtn {
+    justify-content: center;
+    width: 2.25rem;
+    padding: 0.4rem;
+    margin: 0 auto 0.25rem auto;
+}
+
+/* Tooltip sidebar colapsada */
+#sidebar:not(.sidebar-expanded) .dashboard-item:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    background: #1f2937;
+    color: #f3f4f6;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 50;
+    border: 1px solid #374151;
 }
 
 .dashboard-mini-orb {
@@ -497,42 +216,316 @@ body:not(.drag-enabled) .orb-link {
     color: #f3f4f6;
 }
 
-/* Tooltip en sidebar colapsada */
-#sidebar:not(.sidebar-expanded) .dashboard-item {
-    position: relative;
-}
-
-#sidebar:not(.sidebar-expanded) .dashboard-item:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: calc(100% + 0.5rem);
-    top: 50%;
-    transform: translateY(-50%);
-    background: #1f2937;
-    color: #f3f4f6;
-    padding: 0.25rem 0.6rem;
-    border-radius: 0.375rem;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 50;
-    border: 1px solid #374151;
-}
-
-/* Indicador de pin */
 .pin-indicator {
     display: block;
 }
 
-/* Separador sidebar */
 #sidebar .border-t {
     opacity: 0.4;
 }
 
-/* Nuevo dashboard btn - alineación colapsado */
-#sidebar:not(.sidebar-expanded) #newDashboardBtn {
+/* ============================================
+   MODAL
+   ============================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    padding: 0.4rem;
-    margin: 0 auto 0.25rem auto;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 400px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .modal-content {
+        background: #1f2937;
+        color: #e5e7eb;
+    }
+}
+
+/* ============================================
+   DRAG & DROP
+   ============================================ */
+
+.sortable-ghost {
+    opacity: 0.4;
+    background: #3b82f6 !important;
+}
+
+.sortable-chosen {
+    cursor: grabbing !important;
+}
+
+.sortable-drag {
+    opacity: 0.8;
+    transform: rotate(2deg);
+}
+
+.cursor-move {
+    cursor: grab;
+}
+
+.cursor-move:active {
+    cursor: grabbing;
+}
+
+.box-card,
+.link-item {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.drag-handle {
+    cursor: grab;
+    user-select: none;
+    padding: 0 0.25rem;
+}
+
+.drag-handle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.box-card {
+    cursor: default !important;
+}
+
+.items-container {
+    min-height: 60px;
+    transition: background-color 0.2s ease;
+}
+
+.items-container.sortable-drag-over {
+    background-color: rgba(59, 130, 246, 0.1);
+    border: 2px dashed rgba(59, 130, 246, 0.5);
+    border-radius: 0.5rem;
+}
+
+body:not(.drag-enabled) .drag-handle {
+    display: none;
+}
+
+body:not(.drag-enabled) .cursor-move,
+body:not(.drag-enabled) .link-item {
+    cursor: default !important;
+}
+
+/* ============================================
+   MODO EDICIÓN
+   ============================================ */
+
+body:not(.drag-enabled) .edit-only {
+    display: none !important;
+}
+
+body:not(.drag-enabled) .link-item a {
+    padding-right: 0.5rem;
+}
+
+/* ============================================
+   LAYOUT: ORBES
+   ============================================ */
+
+.layout-orbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 0.5rem;
+    justify-content: center;
+}
+
+.orb-item {
+    position: relative;
+    cursor: grab;
+}
+
+.orb-item:active {
+    cursor: grabbing;
+}
+
+.orb-link {
+    text-decoration: none;
+    pointer-events: auto;
+}
+
+.orb-icon-container {
+    position: relative;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.orb-icon-container img {
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.orb-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    min-height: 2.4em;
+}
+
+.orb-menu-btn,
+.orb-menu-btn button,
+.menu-options {
+    pointer-events: auto;
+}
+
+.orb-item:has(.menu-options:not(.hidden)) .orb-link {
+    pointer-events: none;
+}
+
+body:not(.drag-enabled) .orb-item {
+    cursor: default;
+}
+
+body:not(.drag-enabled) .orb-link {
+    cursor: pointer;
+}
+
+.layout-orbs .sortable-ghost {
+    opacity: 0.3;
+}
+
+.layout-orbs .sortable-drag {
+    transform: rotate(5deg) scale(1.1);
+}
+
+/* ============================================
+   LAYOUT: LISTA
+   ============================================ */
+
+.layout-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-list .link-item {
+    padding-top: var(--list-padding-y, 0.125rem);
+    padding-bottom: var(--list-padding-y, 0.125rem);
+}
+
+/* ============================================
+   LAYOUT: GRID
+   ============================================ */
+
+.layout-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols, 2), 1fr);
+    gap: 0.5rem;
+}
+
+@media (max-width: 1300px) {
+    .layout-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+    }
+}
+
+/* ============================================
+   LAYOUT: REFERENCE
+   ============================================ */
+
+.layout-reference {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(max(350px, calc(100% / var(--grid-cols, 1) - 1.5rem)), 1fr));
+    gap: 0 1.5rem;
+}
+
+.ref-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.15s;
+    min-width: 0;
+}
+
+.ref-item:last-child {
+    border-bottom: none;
+}
+
+.ref-item:hover {
+    background: rgba(255,255,255,0.04);
+    border-radius: 0.25rem;
+}
+
+.ref-item:hover .ref-menu-trigger {
+    opacity: 1 !important;
+}
+
+.ref-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-decoration: none;
+    padding: 0.1rem 0.5rem;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ref-title {
+    font-weight: 500;
+    line-height: 1.3;
+    display: block;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.ref-url {
+    font-size: 0.7rem;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: -0.02em;
+    min-width: 0;
+}
+
+.ref-item:hover .ref-url {
+    color: #9ca3af;
+}
+
+/* ============================================
+   MISCELÁNEA
+   ============================================ */
+
+#linksList {
+    --col-width: calc((100% - 2rem) / 3);
 }

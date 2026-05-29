@@ -204,6 +204,7 @@ function initImportExport() {
       if (e.target.files.length > 0) { importFromFile(e.target.files[0]); e.target.value = ''; }
     });
   }
+  renderDefaultPathSelector();
 }
 
 // ========== INICIALIZACIÓN ==========
@@ -223,4 +224,51 @@ export function initLinks() {
   initEventDelegation();
   initImportExport();
   initDrag();
+}
+
+function renderDefaultPathSelector() {
+  const workspaces = JSON.parse(localStorage.getItem('workspaces_v2') || '[]');
+  const boxes = JSON.parse(localStorage.getItem('boxes_v2') || '[]');
+  const currentDefault = localStorage.getItem('default_save_box_id') || '';
+
+  let optionsHTML = `<option value="" disabled ${!currentDefault ? 'selected' : ''}>Selecciona una caja...</option>`;
+
+  workspaces.sort((a, b) => (a.order || 0) - (b.order || 0)).forEach(ws => {
+    const wsBoxes = boxes
+      .filter(b => b.workspaceId === ws.id)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    if (wsBoxes.length > 0) {
+      optionsHTML += `<optgroup label="${ws.name}">`;
+      wsBoxes.forEach(box => {
+        const isSelected = box.id === currentDefault ? 'selected' : '';
+        optionsHTML += `<option value="${box.id}" ${isSelected}>${box.title}</option>`;
+      });
+      optionsHTML += `</optgroup>`;
+    }
+  });
+
+  const importBtn = document.getElementById('importDataBtn');
+  if (importBtn) {
+    // Evitar duplicados si se vuelve a inicializar
+    document.getElementById('defaultSaveBoxField')?.remove();
+
+    const fieldHTML = `
+      <div id="defaultSaveBoxField" style="margin-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
+        <label style="display:block; font-size:0.72rem; color:#9ca3af; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">
+          Ruta de guardado por defecto (Extensión)
+        </label>
+        <select id="defaultSaveBoxSelect" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); padding:0.5rem; color:#fff; border-radius:6px; outline:none; font-size:0.85rem; cursor:pointer;">
+          ${optionsHTML}
+        </select>
+      </div>
+    `;
+    
+    importBtn.parentElement.insertAdjacentHTML('beforeend', fieldHTML);
+
+    document.getElementById('defaultSaveBoxSelect').addEventListener('change', (e) => {
+      localStorage.setItem('default_save_box_id', e.target.value);
+      showToast('Configuración de extensión actualizada', 'success');
+    });
+  }
 }

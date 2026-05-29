@@ -8,7 +8,8 @@ import {
   getBox,
   getItemsByBox,
   saveBox,
-  deleteBox as deleteBoxFromStorage
+  deleteBox as deleteBoxFromStorage,
+  getDashboards
 } from './data-manager.js';
 import { createBox } from './data-model.js';
 import { getCurrentDashboardId } from './dashboard.js';
@@ -16,9 +17,18 @@ import { getCurrentDashboardId } from './dashboard.js';
 // ========== HELPERS MODAL ==========
 
 export function updateLayoutOptions(layout) {
-  document.getElementById('layoutOptionsGrid').classList.toggle('hidden', layout !== 'grid');
+  document.getElementById('layoutOptionsGrid').classList.toggle('hidden', layout !== 'grid' && layout !== 'reference');
   document.getElementById('layoutOptionsOrbs').classList.toggle('hidden', layout !== 'orbs');
   document.getElementById('layoutOptionsList').classList.toggle('hidden', layout !== 'list');
+}
+
+function populateDashboardSelect(currentWorkspaceId) {
+  const select = document.getElementById('newBoxDashboard');
+  if (!select) return;
+  const dashboards = getDashboards().sort((a, b) => a.order - b.order);
+  select.innerHTML = dashboards.map(db =>
+    `<option value="${db.id}" ${db.id === currentWorkspaceId ? 'selected' : ''}>${db.name}</option>`
+  ).join('');
 }
 
 export function resetBoxModal() {
@@ -78,6 +88,7 @@ export function editBox(boxId) {
   document.getElementById('orbSizeVal').textContent = orbSize;
   document.getElementById('newBoxListRowHeight').value = box.listRowHeight || 'normal';
   updateLayoutOptions(box.layout || 'grid');
+  populateDashboardSelect(box.workspaceId);
   newBoxModal.dataset.editingBoxId = boxId;
   newBoxModal.classList.add('active');
 }
@@ -106,6 +117,8 @@ export function initBoxModal() {
   newBoxBtn?.addEventListener('click', () => {
     document.getElementById('boxModalTitle').textContent = 'Nueva caja';
     resetBoxModal();
+    const currentId = getCurrentDashboardId();
+    populateDashboardSelect(currentId || getActiveWorkspace()?.id);
     delete newBoxModal.dataset.editingBoxId;
     newBoxModal.classList.add('active');
   });
@@ -145,13 +158,17 @@ export function initBoxModal() {
     
     if (!workspace) { showToast('No hay dashboard activo', 'error'); return; }
 
+    const selectedDashboardId = document.getElementById('newBoxDashboard').value;
+
     if (newBoxModal.dataset.editingBoxId) {
       const box = getBox(newBoxModal.dataset.editingBoxId);
       if (box) {
+        const moved = selectedDashboardId && selectedDashboardId !== box.workspaceId;
         Object.assign(box, { title, layout, colSpan, titleAlign, titleColor, titleFont,
-          linkColor, linkFontSize, bgColor, bgOpacity, gridCols, orbSize, listRowHeight });
+          linkColor, linkFontSize, bgColor, bgOpacity, gridCols, orbSize, listRowHeight,
+          workspaceId: selectedDashboardId || box.workspaceId });
         saveBox(box);
-        showToast('Caja actualizada', 'success');
+        showToast(moved ? 'Caja movida al nuevo dashboard' : 'Caja actualizada', 'success');
       }
       delete newBoxModal.dataset.editingBoxId;
     } else {

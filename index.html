@@ -26,7 +26,7 @@
 <button id="googleBtn" class="px-4 h-9 rounded-r-full flex items-center text-sm font-medium transition-colors bg-purple-700 hover:bg-cyan-700 text-white">Buscar</button>
     <ul id="suggestions" class="absolute top-full left-0 right-0 rounded-xl shadow-lg mt-1 z-50 hidden overflow-hidden" style="background:#1f2937; border:1px solid #374151; color:#f3f4f6"></ul>
   </div>
-  <div class="flex gap-2 items-center h-full">
+  <div class="flex gap-2 items-center">
   <button id="toggleDragBtn" class="bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-500 transition flex items-center gap-1.5 text-sm text-white" title="Activar/Desactivar modo edición">
   <svg id="dragIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
@@ -34,7 +34,7 @@
   <span id="dragText">Editar</span>
 </button>
   <button id="newBoxBtn" class="edit-only bg-green-600 px-3 py-1 rounded-full hover:bg-green-500 transition text-sm">+ Caja</button>
-  <button id="profileOrb" class="w-7 h-7 rounded-full bg-gray-700 hover:bg-gray-500 border border-gray-500 flex items-center justify-center transition flex-shrink-0" title="Configuración">
+  <button id="profileOrb" class="w-7 h-7 rounded-full bg-gray-700 hover:bg-gray-500 border border-gray-500 inline-flex items-center justify-center transition flex-shrink-0 my-auto" title="Configuración">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-200" viewBox="0 0 20 20" fill="currentColor">
       <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
     </svg>
@@ -242,6 +242,7 @@
           <option value="grid">Tarjetas (Grid)</option>
           <option value="list">Lista</option>
           <option value="orbs">Orbes</option>
+          <option value="reference">Referencia</option>
         </select>
       </div>
     </div>
@@ -263,6 +264,12 @@
         <option value="relaxed">Espaciada</option>
       </select>
     </div>
+
+    <!-- MOVER A DASHBOARD -->
+    <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mt-4 mb-2">Dashboard</p>
+    <select id="newBoxDashboard" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm mb-4">
+      <!-- Opciones generadas dinámicamente -->
+    </select>
 
     <div class="flex justify-end gap-2 mt-4 pt-3 border-t dark:border-gray-600">
       <button id="cancelNewBox" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500">Cancelar</button>
