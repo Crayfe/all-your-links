@@ -3,7 +3,7 @@
 import {
   getFavicon,
   sanitize
-} from './utils.js';
+} from '../../shared/utils.js';
 
 function getLinkTarget() {
   const checkbox = document.getElementById('openNewTab');
@@ -56,17 +56,21 @@ export function createBoxCard(box, items) {
   const listPaddingMap = { compact: '0.1rem', normal: '0.3rem', relaxed: '0.65rem' };
   card.style.setProperty('--list-padding-y', listPaddingMap[listRowHeight] || '0.3rem');
 
+  const isWidgetLayout = box.layout === 'widget-clock' || box.layout === 'widget-calendar' || box.layout === 'widget-stats' || box.layout === 'widget-rss';
+  const titleHidden = box.showTitle === false;
+
   card.innerHTML = `
-    <div class="box-header flex items-center justify-between mb-3">
+    <div class="box-header flex items-center justify-between mb-3 ${titleHidden ? 'title-hidden' : ''}">
       <div class="flex items-center gap-2 flex-1 min-w-0">
         <span class="drag-handle text-gray-500 hover:text-gray-300 transition cursor-grab text-xl flex-shrink-0" title="Arrastra para reordenar">⋮⋮</span>
-        <h3 class="text-lg font-semibold flex-1 min-w-0" style="color: ${titleColor}; text-align: ${titleAlign}; font-family: ${titleFont}, sans-serif">${sanitize(box.title)}</h3>
+        <h3 class="box-title text-lg font-semibold flex-1 min-w-0" style="color: ${titleColor}; text-align: ${titleAlign}; font-family: ${titleFont}, sans-serif">${sanitize(box.title)}</h3>
+        ${titleHidden ? '<span class="title-hidden-badge edit-only" title="Este título no se muestra en uso normal">oculto</span>' : ''}
       </div>
       <div class="flex gap-2 items-center">
         <div class="relative">
           <button data-box-id="${box.id}" class="edit-only text-gray-300 hover:text-white px-2 box-menu-btn">⋯</button>
           <div id="box-menu-${box.id}" class="menu-options hidden absolute right-0 top-8 bg-white border rounded shadow-md z-10 dark:bg-gray-700 dark:border-gray-600 min-w-[160px]">
-            <button data-box-id="${box.id}" class="block w-full text-left px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-700 dark:text-gray-200 add-link-btn">Nuevo enlace</button>
+            ${!isWidgetLayout ? `<button data-box-id="${box.id}" class="block w-full text-left px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-700 dark:text-gray-200 add-link-btn">Nuevo enlace</button>` : ''}
             <button data-box-id="${box.id}" class="block w-full text-left px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-700 dark:text-gray-200 box-edit-btn">Editar caja</button>
             <button data-box-id="${box.id}" class="block w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900 text-gray-700 dark:text-gray-200 box-delete-btn">Eliminar caja</button>
           </div>
@@ -74,6 +78,45 @@ export function createBoxCard(box, items) {
       </div>
     </div>
   `;
+
+  // Widget de hora/clima: la caja entera es el widget, sin items
+  if (box.layout === 'widget-clock') {
+    const widgetContainer = document.createElement('div');
+    widgetContainer.className = 'clock-widget-container';
+    widgetContainer.dataset.boxId = box.id;
+    card.appendChild(widgetContainer);
+    // La inicialización del contenido (reloj + clima) la gestiona clock-widget.js
+    import('../content/clock/clock-widget.js').then(m => m.mountClockWidget(widgetContainer, box));
+    return card;
+  }
+
+  // Widget de calendario: la caja entera es el widget, sin items
+  if (box.layout === 'widget-calendar') {
+    const widgetContainer = document.createElement('div');
+    widgetContainer.className = 'calendar-widget-container';
+    widgetContainer.dataset.boxId = box.id;
+    card.appendChild(widgetContainer);
+    import('../content/calendar/calendar-widget.js').then(m => m.mountCalendarWidget(widgetContainer, box));
+    return card;
+  }
+
+  // Widget de estadísticas: ranking de más usados, calculado sobre items reales
+  if (box.layout === 'widget-stats') {
+    const widgetContainer = document.createElement('div');
+    widgetContainer.dataset.boxId = box.id;
+    card.appendChild(widgetContainer);
+    import('../content/stats/stats-widget.js').then(m => m.mountStatsWidget(widgetContainer, box));
+    return card;
+  }
+
+  // Widget de RSS: la caja entera es el widget, sin items
+  if (box.layout === 'widget-rss') {
+    const widgetContainer = document.createElement('div');
+    widgetContainer.dataset.boxId = box.id;
+    card.appendChild(widgetContainer);
+    import('../content/rss/rss-widget.js').then(m => m.mountRssWidget(widgetContainer, box));
+    return card;
+  }
 
   // Contenedor de items como nodo real para Sortable
   const itemsContainer = document.createElement('div');

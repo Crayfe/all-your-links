@@ -27,6 +27,7 @@ export const BoxSchema = {
   layout: 'grid',   // 'grid' | 'list' | 'orbs'
   colSpan: 1,          // 1 | 2 | 3 — columnas que ocupa en el grid
   titleAlign: 'left',  // 'left' | 'center' | 'right'
+  showTitle: true,     // mostrar la cabecera con el título en modo estático
   titleColor: '#f3f4f6', // color hex del título
   titleFont: 'Inter',    // fuente del título
   linkColor: '#ffffff',  // color hex del texto de los enlaces
@@ -125,6 +126,7 @@ export function createBox(workspaceId, title) {
     layout: 'grid',
     colSpan: 1,
     titleAlign: 'left',
+    showTitle: true,
     titleColor: '#f3f4f6',
     titleFont: 'Inter',
     linkColor: '#ffffff',

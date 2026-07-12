@@ -109,6 +109,18 @@ Diseñado para recolectar fuentes durante una investigación. Muestra el título
 | Fondo personalizado | Sube una imagen como fondo del dashboard, guardada en base64 |
 | Versionado | Campo `data_version` para gestionar migraciones futuras del modelo de datos |
 
+### Widgets
+
+| Característica | Descripción |
+|---|---|
+| Hora, fecha y clima | Reloj en vivo, fecha localizada y clima actual (OpenWeatherMap) con geolocalización del navegador |
+| Calendario | Vista mes/semana con navegación, proporción fija 2:1 entre calendario y panel del día, altura constante entre meses de 5 y 6 semanas |
+| Eventos propios | Sistema de eventos nativo del proyecto, independiente de cualquier integración externa. Se crean, editan y eliminan desde el propio widget |
+| Sincronización con Google Calendar | Importación puntual (no en vivo) de eventos vía OAuth de un solo uso — Google Calendar es una fuente de datos más, no la fuente de verdad |
+| Estadísticas | Ranking global de enlaces más usados por número de clics, calculado sobre los items reales sin duplicarlos |
+| Lector RSS | Titulares de un feed configurable, con caché local y refresco automático (rss2json.com) |
+| Sin título opcional | Cualquier caja (widget o de contenido) puede ocultar su cabecera en modo estático manteniéndola visible y resaltada en modo edición |
+
 ---
 
 ## 🔌 Extensión para Chromium
@@ -144,17 +156,44 @@ all-your-links/
 ├── index.html                  # Página principal
 ├── style.css                   # Estilos globales
 ├── js/
-│   ├── main.js                 # Punto de entrada e inicialización
-│   ├── dashboard.js            # Gestión de dashboards: navegación, CRUD, sidebar
-│   ├── boxes.js                # Gestión de cajas: CRUD y modal de personalización
-│   ├── links.js                # Gestión de enlaces: renderizado, CRUD, delegación de eventos
-│   ├── drag.js                 # Drag & drop y modo edición
-│   ├── renderer.js             # Creación de nodos DOM (boxCard, linkElement, orbElement, referenceElement)
-│   ├── data-manager.js         # CRUD y persistencia en localStorage
-│   ├── data-model.js           # Schemas, factories y generador de IDs
-│   ├── search.js               # Buscador de Google con sugerencias
-│   ├── ui.js                   # Utilidades de UI: toasts, navegación entre secciones, menús
-│   └── utils.js                # Utilidades generales: favicons, sanitización, normalización de URLs
+│   ├── main.js                 # Punto de entrada
+│   ├── app.js                  # Orquestador: renderizado del dashboard, delegación global de eventos
+│   ├── core/                   # Núcleo agnóstico a dominios concretos
+│   │   ├── data-model.js       # Schemas, factories, generador de IDs
+│   │   ├── data-manager.js     # CRUD y persistencia en localStorage
+│   │   └── events.js           # Bus de eventos (pub/sub) para desacoplar módulos
+│   ├── domains/
+│   │   ├── dashboard/
+│   │   │   └── dashboard.js    # Navegación entre dashboards, sidebar, sistema de pin
+│   │   ├── boxes/
+│   │   │   ├── boxes.js        # CRUD de cajas, modal de personalización
+│   │   │   ├── drag.js         # Drag & drop, modo edición
+│   │   │   └── renderer.js     # Creación de nodos DOM, dispatch por tipo de contenido
+│   │   └── content/            # Cada tipo de contenido, autocontenido en su carpeta
+│   │       ├── links/
+│   │       │   └── links.js
+│   │       ├── clock/
+│   │       │   └── clock-widget.js
+│   │       ├── calendar/
+│   │       │   ├── calendar-widget.js
+│   │       │   ├── native-events.js       # Eventos propios (independientes de Google)
+│   │       │   ├── event-modal.js         # Modal compartido de crear/editar evento
+│   │       │   └── integrations/
+│   │       │       └── google-calendar.js # Importación puntual vía OAuth
+│   │       ├── stats/
+│   │       │   └── stats-widget.js
+│   │       └── rss/
+│   │           ├── rss-widget.js
+│   │           └── integrations/
+│   │               └── rss-proxy.js       # Integración con rss2json.com
+│   ├── features/                # Funcionalidades transversales, no ligadas a un dominio
+│   │   ├── data-io.js           # Export/import de backup, config. de la extensión
+│   │   └── search/
+│   │       ├── search.js        # Selector de motor + sugerencias
+│   │       └── internal-search.js
+│   └── shared/                  # Utilidades usadas por cualquier módulo
+│       ├── ui.js                # Toasts, navegación entre secciones, menús
+│       └── utils.js             # Favicons, sanitización, normalización de URLs
 ├── extension/
 │   ├── manifest.json           # Configuración de la extensión (Manifest V3)
 │   ├── background.js           # Service worker: menú contextual y guardado desde cualquier página
@@ -170,16 +209,23 @@ all-your-links/
 
 | Módulo | Responsabilidad |
 |---|---|
-| `main.js` | Inicializa todos los módulos, gestiona el fondo personalizado |
-| `dashboard.js` | CRUD de dashboards, renderizado del sidebar, navegación entre dashboards, sistema de pin |
-| `boxes.js` | CRUD de cajas, modal de personalización con opciones contextuales por layout |
-| `links.js` | Renderizado del contenido principal, CRUD de enlaces, export/import, delegación de eventos |
-| `drag.js` | Inicialización de Sortable.js, toggle del modo edición, persistencia del estado de edición |
-| `renderer.js` | Funciones puras de creación de DOM: `createBoxCard`, `createLinkElement`, `createOrbElement`, `createReferenceElement` |
-| `data-manager.js` | Todas las operaciones de lectura/escritura sobre localStorage, aliases de dashboard sobre workspaces |
-| `data-model.js` | Schemas de referencia, factories (`createDashboard`, `createBox`, `createLinkItem`), generador de IDs |
-| `search.js` | Integración con la API de sugerencias de Google vía proxy CORS |
-| `ui.js` | Toasts, alternancia de secciones, cierre de menús contextuales |
+| `main.js` | Inicializa la aplicación, gestiona el fondo personalizado |
+| `app.js` | Orquestador central: renderiza el dashboard activo, delegación global de eventos, escucha el bus para repintar |
+| `core/data-model.js` | Schemas de referencia, factories, generador de IDs |
+| `core/data-manager.js` | Todas las operaciones de lectura/escritura sobre localStorage |
+| `core/events.js` | Bus de eventos mínimo (envoltorio de `EventTarget`) — permite que los módulos se comuniquen sin importarse entre sí |
+| `domains/dashboard/dashboard.js` | CRUD de dashboards, sidebar, navegación, sistema de pin |
+| `domains/boxes/boxes.js` | CRUD de cajas, modal de personalización con opciones contextuales por tipo de contenido |
+| `domains/boxes/drag.js` | Drag & drop, toggle de modo edición |
+| `domains/boxes/renderer.js` | Creación de nodos DOM; despacha el renderizado según el `layout` de cada caja |
+| `domains/content/links/links.js` | CRUD de enlaces y su modal — el tipo de contenido original, ya no acoplado a la orquestación |
+| `domains/content/clock/clock-widget.js` | Widget de hora/fecha/clima |
+| `domains/content/calendar/*` | Widget de calendario, eventos propios, modal de evento, integración Google Calendar |
+| `domains/content/stats/stats-widget.js` | Widget de ranking de enlaces más usados |
+| `domains/content/rss/*` | Widget de lector RSS e integración con rss2json |
+| `features/data-io.js` | Export/import de backup, configuración de la extensión |
+| `features/search/*` | Buscador con selector de motor y búsqueda interna |
+| `shared/ui.js` / `shared/utils.js` | Utilidades transversales |
 
 ### Modelo de datos
 
@@ -202,6 +248,10 @@ Cada nivel referencia al superior por ID. Esta separación permite operaciones e
 | `dragEnabled` | Estado del modo edición entre sesiones |
 | `abrirNuevaPestana` | Preferencia de apertura de enlaces |
 | `customBackground` | Imagen de fondo en base64 |
+| `calendar_native_events_v1` | Eventos propios de calendario, globales al proyecto |
+| `google_calendar_events` / `google_calendar_last_sync` | Caché de la última importación desde Google Calendar |
+| `rss_cache_*` | Caché por feed del widget RSS (una key por URL de feed) |
+| `weatherApiKey` / `googleClientId` / `rssApiKey` | Credenciales de las integraciones externas, configuradas por el usuario |
 
 Los IDs siguen el formato `{prefix}_{timestamp}_{random}` (ej: `item_1708123456789_a3f2`) para garantizar unicidad incluso con creación simultánea.
 
@@ -224,9 +274,29 @@ Cada `box-card` expone variables CSS que los elementos hijos consumen directamen
 --list-padding-y   /* densidad vertical de la lista */
 ```
 
-### Dependencias circulares en módulos ES
+### Bus de eventos y desacoplamiento entre dominios
 
-`drag.js` y `boxes.js` necesitan llamar a `renderLinks()` de `links.js`, pero `links.js` los importa a ellos. Se resuelve con `import()` dinámico en los puntos de llamada, que es el patrón estándar para romper dependencias circulares en ES modules sin coste práctico.
+Los módulos de `domains/` no se importan entre sí para coordinarse. En su lugar, emiten y escuchan eventos a través de `core/events.js`:
+
+```js
+import { bus, EVENTS } from '../../core/events.js';
+
+// Emitir: "algo cambió, quien esté interesado que reaccione"
+bus.emit(EVENTS.DASHBOARD_RENDER, dashboardId);
+
+// Escuchar
+bus.on(EVENTS.DASHBOARD_RENDER, (id) => renderDashboard(id));
+```
+
+Esto sustituye al patrón previo de `import('./otro-modulo.js').then(...)` para romper dependencias circulares. El resultado: ningún dominio (`boxes`, `drag`, `dashboard`, tipos de contenido) importa `app.js` — solo `main.js` lo hace, para arrancar la aplicación. Si se elimina un dominio, el resto sigue funcionando sin imports rotos.
+
+### Tipos de contenido como módulos autocontenidos
+
+Cada carpeta bajo `domains/content/` es un tipo de contenido independiente (enlaces, reloj, calendario, estadísticas, RSS). Añadir uno nuevo no requiere tocar `core/` ni el bus — solo:
+
+1. Crear la carpeta con su lógica de renderizado
+2. Registrar el `layout` correspondiente en `domains/boxes/renderer.js` (el único punto de acoplamiento restante, candidato a convertirse en un registro de tipos en una futura iteración)
+3. Añadir la opción al modal de caja en `index.html`
 
 ### Extensión: lectura y escritura en localStorage del dashboard
 
@@ -246,16 +316,21 @@ La extensión no tiene acceso directo al `localStorage` del dashboard porque cad
 - [x] Extensión para Chromium: nueva pestaña, popup de guardado, menú contextual
 - [x] Barra de búsqueda integrada con sugerencias de Google
 
-### Fase 2 — Completar el frontend (en progreso)
-- [ ] Barra de búsqueda mejorada: selector de motor (Google, DuckDuckGo, Perplexity, Interno) con iconos SVG y estado persistido
-- [ ] Buscador interno: vista dedicada con resultados en tiempo real agrupados por caja, coincidencias resaltadas y contexto `Dashboard › Caja › Elemento`
-- [ ] Tags en items: añadir y filtrar por etiquetas desde el modal de enlace
+### Fase 2 — Completar el frontend (completada)
+- [x] Barra de búsqueda con selector de motor (Google, DuckDuckGo, Perplexity, Interno)
+- [x] Buscador interno con vista dedicada y navegación a resultados
+- [x] Tags en items, buscables desde el buscador interno
 
-### Fase 3 — Widgets (próximamente)
-- [ ] Widget de hora, fecha y clima (OpenWeatherMap)
-- [ ] Widget de notas estilo Keep — tipo `note` en el modelo de items existente
-- [ ] Lector de RSS — via proxy externo, widget dedicado con layout propio
-- [ ] Dashboard de uso — visualización del `clickCount` ya trackeado, enlaces más visitados
+### Fase 3 — Widgets (completada)
+- [x] Widget de hora, fecha y clima
+- [x] Widget de calendario con eventos propios + importación de Google Calendar
+- [x] Widget de estadísticas (ranking de más usados)
+- [x] Lector de RSS con caché
+
+### Refactor de arquitectura (completado, fuera del roadmap original)
+- [x] Separación de la orquestación (`app.js`) de la lógica de enlaces
+- [x] Reorganización en `core/domains/features/shared`
+- [x] Bus de eventos para desacoplar dominios
 
 ### Fase 4 — Backend en servidor dedicado (planificado)
 - [ ] API REST con Node.js / Express

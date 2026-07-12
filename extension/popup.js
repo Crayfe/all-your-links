@@ -61,13 +61,18 @@ function renderForm(tab, data) {
   const { boxes, dashboards } = data;
   let optionsHTML = '';
 
+  // Solo cajas de contenido (grid, list, orbs, reference) son destino válido
+  // para guardar un enlace. Las cajas widget (reloj, calendario, stats, rss)
+  // no gestionan items y no deben aparecer como opción.
+  const linkBoxes = (boxes || []).filter(b => !(b.layout || '').startsWith('widget-'));
+
   // 1. Intentar agrupar por dashboards si existen
   if (dashboards && dashboards.length > 0) {
     const sortedDashboards = [...dashboards].sort((a, b) => (a.order || 0) - (b.order || 0));
 
     sortedDashboards.forEach(db => {
       // Comprobar tanto workspaceId como dashboardId por seguridad
-      const dbBoxes = boxes
+      const dbBoxes = linkBoxes
         .filter(b => b.workspaceId === db.id || b.dashboardId === db.id)
         .sort((a, b) => (a.order || 0) - (b.order || 0));
 
@@ -83,8 +88,8 @@ function renderForm(tab, data) {
 
   // 2. Fallback: Si no se logró agrupar (por diferencias de nomenclatura) 
   // pero hay cajas, mostramos una lista plana para que siga funcionando.
-  if (!optionsHTML && boxes && boxes.length > 0) {
-    const sortedBoxes = [...boxes].sort((a, b) => (a.order || 0) - (b.order || 0));
+  if (!optionsHTML && linkBoxes.length > 0) {
+    const sortedBoxes = [...linkBoxes].sort((a, b) => (a.order || 0) - (b.order || 0));
     sortedBoxes.forEach(b => {
       optionsHTML += `<option value="${b.id}">${escapeHtml(b.title)}</option>`;
     });

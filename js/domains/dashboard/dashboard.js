@@ -1,7 +1,8 @@
 // js/dashboard.js
 // Gestión de dashboards: navegación, CRUD y renderizado en sidebar
 
-import { showToast, toggleMenu, showSection } from './ui.js';
+import { showToast, toggleMenu, showSection } from '../../shared/ui.js';
+import { bus, EVENTS } from '../../core/events.js';
 import {
   getDashboards,
   getDashboard,
@@ -11,8 +12,8 @@ import {
   setActiveDashboard,
   setPinnedDashboard,
   getPinnedDashboard
-} from './data-manager.js';
-import { createDashboard } from './data-model.js';
+} from '../../core/data-manager.js';
+import { createDashboard } from '../../core/data-model.js';
 
 // Estado de sesión — no depende de localStorage para la sesión actual
 let _activeDashboardId = null;
@@ -102,7 +103,7 @@ export function switchDashboard(id) {
   const linksContainer = document.getElementById('linksList');
   if (linksContainer) linksContainer.innerHTML = ''; 
   
-  import('./links.js').then(m => m.renderLinks(id));
+  bus.emit(EVENTS.DASHBOARD_RENDER, id);
 }
 
 // ========== PIN ==========
@@ -143,7 +144,7 @@ function deleteDashboard(id) {
     const ok = deleteDashboardFromStorage(id);
     if (ok) {
       renderDashboardList();
-      import('./links.js').then(m => m.renderLinks());
+      bus.emit(EVENTS.DASHBOARD_RENDER);
       showToast('Dashboard eliminado', 'success');
     }
   }
@@ -268,6 +269,10 @@ export function initDashboard() {
     _activeDashboardId = startId;
     setActiveDashboard(startId);
   }
+
+  // Repintar la lista del sidebar cuando algún módulo lo solicite
+  // (p. ej. drag.js al entrar/salir de modo edición).
+  bus.on(EVENTS.DASHBOARD_LIST_CHANGED, () => renderDashboardList());
 
   updateBreadcrumb();
   renderDashboardList();

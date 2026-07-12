@@ -113,6 +113,10 @@ const writeFromBackground = (item) => {
       console.warn('AllYourLinks: La caja configurada ya no existe en el almacenamiento.');
       return false;
     }
+    if ((targetBox.layout || '').startsWith('widget-')) {
+      console.warn('AllYourLinks: La caja configurada es un widget y no admite enlaces. Reconfigura la ruta de guardado en Perfil.');
+      return false;
+    }
 
     // Filtrar los elementos de esta caja específica
     const boxItems = items.filter(i => i.boxId === defaultBoxId);

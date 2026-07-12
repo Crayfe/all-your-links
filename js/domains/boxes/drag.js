@@ -1,9 +1,10 @@
 // js/drag.js
 // Gestión del drag & drop y modo edición
 
-import { showToast } from './ui.js';
-import { getActiveWorkspace, getBoxesByWorkspace, getBox, getItem, saveBox, saveItem } from './data-manager.js';
-import { getCurrentDashboardId } from './dashboard.js';
+import { showToast } from '../../shared/ui.js';
+import { bus, EVENTS } from '../../core/events.js';
+import { getActiveWorkspace, getBoxesByWorkspace, getBox, getItem, saveBox, saveItem } from '../../core/data-manager.js';
+import { getCurrentDashboardId } from '../dashboard/dashboard.js';
 
 let sortableBoxes = null;
 let sortableItems  = [];
@@ -94,7 +95,7 @@ export function initializeDragAndDrop() {
         // Importación dinámica para evitar dependencia circular
         if (oldBoxId !== newBoxId) {
           const currentId = getCurrentDashboardId();
-          import('./links.js').then(m => m.renderLinks(currentId));
+          bus.emit(EVENTS.DASHBOARD_RENDER, currentId);
         }
       }
     });
@@ -109,7 +110,7 @@ export function toggleDragAndDrop() {
   document.body.classList.toggle('drag-enabled', isDragEnabled);
   showToast(isDragEnabled ? 'Modo edición activado' : 'Modo edición desactivado', isDragEnabled ? 'success' : 'info');
   // Rerenderizar lista de dashboards para mostrar/ocultar menú contextual
-  import('./dashboard.js').then(m => m.renderDashboardList());
+  bus.emit(EVENTS.DASHBOARD_LIST_CHANGED);
   setTimeout(() => initializeDragAndDrop(), 100);
 }
 
