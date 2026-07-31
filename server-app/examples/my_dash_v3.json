@@ -1,0 +1,747 @@
+{
+  "version": "2.0",
+  "workspaces": [
+    {
+      "id": "ws_links",
+      "name": "Enlaces",
+      "type": "links",
+      "active": true,
+      "order": 0,
+      "createdAt": "2026-05-24T14:28:59.398Z",
+      "updatedAt": "2026-05-24T14:28:59.398Z"
+    }
+  ],
+  "boxes": [
+    {
+      "id": "box_1779632939398_6ygywh6",
+      "workspaceId": "ws_links",
+      "title": "IA",
+      "layout": "orbs",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#f3f4f6",
+      "linkColor": "#ffffff",
+      "order": 4,
+      "createdAt": "2026-05-24T14:28:59.398Z",
+      "updatedAt": "2026-05-24T15:45:56.656Z"
+    },
+    {
+      "id": "box_1779633219639_t5lhls1",
+      "workspaceId": "ws_links",
+      "title": "Ocio",
+      "layout": "orbs",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#f3f4f6",
+      "linkColor": "#ffffff",
+      "order": 5,
+      "createdAt": "2026-05-24T14:33:39.639Z",
+      "updatedAt": "2026-05-24T15:45:56.656Z"
+    },
+    {
+      "id": "box_1779633701779_obiaovn",
+      "workspaceId": "ws_links",
+      "title": "Noticias",
+      "layout": "list",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#ddb831",
+      "linkColor": "#ffffff",
+      "order": 0,
+      "createdAt": "2026-05-24T14:41:41.778Z",
+      "updatedAt": "2026-05-24T15:45:56.656Z"
+    },
+    {
+      "id": "box_1779633776764_o6xkhn0",
+      "workspaceId": "ws_links",
+      "title": "Maker - Dev Zone",
+      "layout": "list",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#43b0df",
+      "linkColor": "#ffffff",
+      "order": 3,
+      "createdAt": "2026-05-24T14:42:56.764Z",
+      "updatedAt": "2026-05-24T15:45:56.656Z"
+    },
+    {
+      "id": "box_1779633818149_9w6sf5h",
+      "workspaceId": "ws_links",
+      "title": "Universidad",
+      "layout": "grid",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#f3f4f6",
+      "linkColor": "#ffffff",
+      "order": 1,
+      "createdAt": "2026-05-24T14:43:38.149Z",
+      "updatedAt": "2026-05-24T15:45:56.656Z"
+    },
+    {
+      "id": "box_1779633986968_v5e7qq3",
+      "workspaceId": "ws_links",
+      "title": "Google Suite",
+      "layout": "list",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#fd3f6f",
+      "linkColor": "#ffffff",
+      "order": 2,
+      "createdAt": "2026-05-24T14:46:26.967Z",
+      "updatedAt": "2026-05-24T15:45:56.656Z"
+    },
+    {
+      "id": "box_1779634549175_ada7wo0",
+      "workspaceId": "ws_links",
+      "title": "Compras",
+      "layout": "orbs",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#5df95f",
+      "linkColor": "#ffffff",
+      "order": 6,
+      "createdAt": "2026-05-24T14:55:49.175Z",
+      "updatedAt": "2026-05-24T15:45:56.656Z"
+    },
+    {
+      "id": "box_1779637452811_3ltkmz9",
+      "workspaceId": "ws_links",
+      "title": "Anime",
+      "layout": "grid",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#f7d578",
+      "linkColor": "#ffffff",
+      "order": 7,
+      "createdAt": "2026-05-24T15:44:12.811Z",
+      "updatedAt": "2026-05-24T15:45:56.657Z"
+    },
+    {
+      "id": "box_1779638031743_g6f84v2",
+      "workspaceId": "ws_links",
+      "title": "Social",
+      "layout": "grid",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#66eef0",
+      "linkColor": "#ffffff",
+      "order": 8,
+      "createdAt": "2026-05-24T15:53:51.743Z",
+      "updatedAt": "2026-05-24T16:07:57.816Z"
+    }
+  ],
+  "items": [
+    {
+      "boxId": "box_1779632939398_6ygywh6",
+      "data": {
+        "title": "Claude",
+        "url": "https://claude.ai/new"
+      },
+      "id": "item_1779633047325_98gn5to",
+      "metadata": {
+        "clickCount": 1,
+        "createdAt": "2026-05-24T14:30:47.325Z",
+        "tags": [],
+        "lastAccessed": "2026-05-24T14:32:18.321Z"
+      },
+      "order": 0,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779632939398_6ygywh6",
+      "data": {
+        "title": "ChatGPT",
+        "url": "https://chatgpt.com/"
+      },
+      "id": "item_1779633184614_f3dtgyb",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:33:04.614Z",
+        "tags": []
+      },
+      "order": 3,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633219639_t5lhls1",
+      "data": {
+        "title": "YouTube",
+        "url": "https://www.youtube.com/"
+      },
+      "id": "item_1779633238302_tjvmtrd",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:33:58.302Z",
+        "tags": []
+      },
+      "order": 0,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633219639_t5lhls1",
+      "data": {
+        "title": "Netflix",
+        "url": "https://www.netflix.com/browse"
+      },
+      "id": "item_1779633278907_6e7imbp",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:34:38.907Z",
+        "tags": []
+      },
+      "order": 2,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633219639_t5lhls1",
+      "data": {
+        "title": "Spotify",
+        "url": "https://open.spotify.com/intl-es/"
+      },
+      "id": "item_1779633403176_f694ain",
+      "metadata": {
+        "clickCount": 1,
+        "createdAt": "2026-05-24T14:36:43.176Z",
+        "tags": [],
+        "lastAccessed": "2026-05-24T15:52:10.533Z"
+      },
+      "order": 1,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779632939398_6ygywh6",
+      "data": {
+        "title": "Perplexity",
+        "url": "https://www.perplexity.ai/"
+      },
+      "id": "item_1779633438841_uueeo2h",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:37:18.841Z",
+        "tags": []
+      },
+      "order": 2,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779632939398_6ygywh6",
+      "data": {
+        "title": "Gemini",
+        "url": "https://gemini.google.com/app"
+      },
+      "id": "item_1779633616662_skczbcs",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:40:16.662Z",
+        "tags": []
+      },
+      "order": 1,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633701779_obiaovn",
+      "data": {
+        "title": "Xataka",
+        "url": "https://www.xataka.com/"
+      },
+      "id": "item_1779633869735_7xv0nuv",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:44:29.735Z",
+        "tags": []
+      },
+      "order": 0,
+      "type": "link"
+    },
+    {
+      "id": "item_1779634039206_mescict",
+      "boxId": "box_1779633986968_v5e7qq3",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Gmail",
+        "url": "https://mail.google.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:47:19.206Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634060397_3ux053f",
+      "boxId": "box_1779633986968_v5e7qq3",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Drive",
+        "url": "https://drive.google.com/drive/u/0/my-drive"
+      },
+      "metadata": {
+        "clickCount": 2,
+        "lastAccessed": "2026-05-24T16:10:50.735Z",
+        "createdAt": "2026-05-24T14:47:40.397Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634079649_45d899z",
+      "boxId": "box_1779633986968_v5e7qq3",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Maps",
+        "url": "https://maps.google.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:47:59.649Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634101956_u77hw4n",
+      "boxId": "box_1779633986968_v5e7qq3",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Calendar",
+        "url": "https://calendar.google.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:48:21.956Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634132190_9innzqo",
+      "boxId": "box_1779633986968_v5e7qq3",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Translate",
+        "url": "https://translate.google.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:48:52.190Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634187961_12l2no1",
+      "boxId": "box_1779633219639_t5lhls1",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Twitch",
+        "url": "https://twitch.tv/"
+      },
+      "metadata": {
+        "clickCount": 1,
+        "lastAccessed": "2026-05-24T16:05:18.552Z",
+        "createdAt": "2026-05-24T14:49:47.961Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634225076_e5wks2e",
+      "boxId": "box_1779633818149_9w6sf5h",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Moodle UPM",
+        "url": "https://moodle.upm.es/titulaciones/oficiales/my/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:50:25.076Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634264843_4v11skx",
+      "boxId": "box_1779633776764_o6xkhn0",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "GitHub",
+        "url": "https://github.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:51:04.843Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634557825_bw4a55k",
+      "boxId": "box_1779634549175_ada7wo0",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Amazon",
+        "url": "https://amazon.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:55:57.825Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634630472_k6aykds",
+      "boxId": "box_1779634549175_ada7wo0",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Ebay",
+        "url": "https://ebay.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:57:10.472Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779634648956_64753u2",
+      "boxId": "box_1779634549175_ada7wo0",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Aliexpress",
+        "url": "https://aliexpress.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T14:57:28.956Z",
+        "tags": []
+      }
+    },
+    {
+      "boxId": "box_1779633818149_9w6sf5h",
+      "data": {
+        "title": "Webmail UPM Alumnos",
+        "url": "https://www.upm.es/webmail_alumnos/"
+      },
+      "id": "item_1779634705352_xubi0lm",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:58:25.352Z",
+        "tags": []
+      },
+      "order": 1,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633818149_9w6sf5h",
+      "data": {
+        "title": "Webmail UPM Personal",
+        "url": "https://www.upm.es/webmail_personal/"
+      },
+      "id": "item_1779634735496_yyr7chs",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T14:58:55.496Z",
+        "tags": []
+      },
+      "order": 2,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633818149_9w6sf5h",
+      "data": {
+        "title": "ETSIST - UPM",
+        "url": "https://www.etsist.upm.es/"
+      },
+      "id": "item_1779634780147_k8qqubj",
+      "metadata": {
+        "clickCount": 1,
+        "createdAt": "2026-05-24T14:59:40.147Z",
+        "tags": [],
+        "lastAccessed": "2026-05-24T15:00:54.690Z"
+      },
+      "order": 3,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633818149_9w6sf5h",
+      "data": {
+        "title": "Intranet | UPM",
+        "url": "https://www.upm.es/intranet/"
+      },
+      "id": "item_1779635090509_3d5ll71",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T15:04:50.509Z",
+        "tags": []
+      },
+      "order": 4,
+      "type": "link"
+    },
+    {
+      "id": "item_1779635883417_l21roz4",
+      "boxId": "box_1779637452811_3ltkmz9",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Crunchyroll",
+        "url": "https://www.crunchyroll.com/es-es/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:18:03.417Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779635908731_rcxhbm9",
+      "boxId": "box_1779637452811_3ltkmz9",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "AnimeFLV",
+        "url": "https://animeflv.net"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:18:28.731Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779635929674_s49jyfh",
+      "boxId": "box_1779637452811_3ltkmz9",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "JKanime",
+        "url": "https://jkanime.net/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:18:49.674Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779635987531_mrrfx88",
+      "boxId": "box_1779633219639_t5lhls1",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "JustWatch",
+        "url": "https://www.justwatch.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:19:47.531Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779636045807_6wet5md",
+      "boxId": "box_1779633701779_obiaovn",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Hipertextual",
+        "url": "https://hipertextual.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:20:45.807Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779636059985_ngznz80",
+      "boxId": "box_1779633701779_obiaovn",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Gizmodo",
+        "url": "https://es.gizmodo.com/"
+      },
+      "metadata": {
+        "clickCount": 1,
+        "lastAccessed": "2026-05-24T15:55:46.870Z",
+        "createdAt": "2026-05-24T15:20:59.985Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779636094524_8x3x0nc",
+      "boxId": "box_1779633701779_obiaovn",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "ElOtroLado.net",
+        "url": "https://www.elotrolado.net/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:21:34.524Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779636252906_2my3fao",
+      "boxId": "box_1779633776764_o6xkhn0",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "HackaDay",
+        "url": "https://hackaday.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:24:12.906Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779636271504_902ebzb",
+      "boxId": "box_1779633776764_o6xkhn0",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Instructables",
+        "url": "https://www.instructables.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:24:31.504Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779636287101_opfs0jt",
+      "boxId": "box_1779633776764_o6xkhn0",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Thingiverse",
+        "url": "https://www.thingiverse.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:24:47.101Z",
+        "tags": []
+      }
+    },
+    {
+      "id": "item_1779636311946_e92n5n1",
+      "boxId": "box_1779633776764_o6xkhn0",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Printables",
+        "url": "https://www.printables.com/"
+      },
+      "metadata": {
+        "clickCount": 0,
+        "lastAccessed": null,
+        "createdAt": "2026-05-24T15:25:11.946Z",
+        "tags": []
+      }
+    },
+    {
+      "boxId": "box_1779633776764_o6xkhn0",
+      "data": {
+        "title": "MakerWorld",
+        "url": "https://makerworld.com/es"
+      },
+      "id": "item_1779637768716_nmd9c53",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T15:49:28.716Z",
+        "tags": []
+      },
+      "order": 5,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779633701779_obiaovn",
+      "data": {
+        "title": "LinkedIn",
+        "url": "https://www.linkedin.com/feed/"
+      },
+      "id": "item_1779637995575_mnfugps",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T15:53:15.575Z",
+        "tags": []
+      },
+      "order": 5,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779638031743_g6f84v2",
+      "data": {
+        "title": "Instagram",
+        "url": "https://www.instagram.com/"
+      },
+      "id": "item_1779638287884_6uxxgk8",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T15:58:07.884Z",
+        "tags": []
+      },
+      "order": 0,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779638031743_g6f84v2",
+      "data": {
+        "title": "WhatsApp",
+        "url": "https://web.whatsapp.com/"
+      },
+      "id": "item_1779638389940_ob6xjpa",
+      "metadata": {
+        "clickCount": 1,
+        "createdAt": "2026-05-24T15:59:49.940Z",
+        "tags": [],
+        "lastAccessed": "2026-05-24T16:00:38.893Z"
+      },
+      "order": 1,
+      "type": "link"
+    },
+    {
+      "boxId": "box_1779638031743_g6f84v2",
+      "data": {
+        "title": "Discord",
+        "url": "https://discord.com/channels/@me"
+      },
+      "id": "item_1779638616778_d3933eh",
+      "metadata": {
+        "clickCount": 0,
+        "createdAt": "2026-05-24T16:03:36.778Z",
+        "tags": []
+      },
+      "order": 2,
+      "type": "link"
+    }
+  ],
+  "exportedAt": "2026-05-24T16:12:41.934Z"
+}

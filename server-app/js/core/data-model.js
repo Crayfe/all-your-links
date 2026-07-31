@@ -1,0 +1,186 @@
+// data-model.js
+// Definición de la estructura de datos del sistema (3 niveles)
+
+/**
+ * WORKSPACE (Vista completa)
+ * Representa una vista/página completa (Enlaces, Notas, Feed, etc.)
+ */
+export const WorkspaceSchema = {
+  id: '',          // Único, formato: "db_TIMESTAMP_RANDOM"
+  name: '',        // Nombre mostrado en UI
+  type: '',        // 'links' | 'notes' | 'feed' | 'calendar' (extensible)
+  active: false,   // Solo uno puede estar activo
+  pinned: false,   // Dashboard que carga por defecto al arrancar
+  order: 0,        // Orden en la navegación
+  createdAt: '',   // ISO timestamp
+  updatedAt: ''    // ISO timestamp
+};
+
+/**
+ * BOX (Caja/Tarjeta)
+ * Contenedor de items dentro de un workspace
+ */
+export const BoxSchema = {
+  id: '',           // Único, formato: "box_TIMESTAMP_RANDOM"
+  workspaceId: '',  // ID del workspace al que pertenece
+  title: '',        // Título de la caja
+  layout: 'grid',   // 'grid' | 'list' | 'orbs'
+  colSpan: 1,          // 1 | 2 | 3 — columnas que ocupa en el grid
+  titleAlign: 'left',  // 'left' | 'center' | 'right'
+  showTitle: true,     // mostrar la cabecera con el título en modo estático
+  titleColor: '#f3f4f6', // color hex del título
+  titleFont: 'Inter',    // fuente del título
+  linkColor: '#ffffff',  // color hex del texto de los enlaces
+  linkFontSize: 14,      // tamaño de fuente enlaces (px)
+  bgColor: '#000000',    // color de fondo de la caja
+  bgOpacity: 0.7,        // opacidad del fondo (0-1)
+  gridCols: 2,           // columnas internas del grid (1-5)
+  orbSize: 80,           // tamaño del orbe en px
+  listRowHeight: 'normal', // 'compact' | 'normal' | 'relaxed'
+  order: 0,         // Posición dentro del workspace
+  createdAt: '',    // ISO timestamp
+  updatedAt: ''     // ISO timestamp
+};
+
+/**
+ * ITEM (Contenido)
+ * Elemento individual dentro de una box
+ */
+export const ItemSchema = {
+  id: '',           // Único, formato: "item_TIMESTAMP_RANDOM"
+  boxId: '',        // ID de la box a la que pertenece
+  type: 'link',     // 'link' | 'note' | 'rss_item' | 'task' (extensible)
+  order: 0,         // Posición dentro de la box
+  data: {},         // Datos específicos según el type
+  metadata: {
+    clickCount: 0,
+    lastAccessed: null,
+    createdAt: '',
+    tags: []
+  }
+};
+
+/**
+ * Estructura específica para items tipo 'link'
+ */
+export const LinkDataSchema = {
+  title: '',
+  url: ''
+};
+
+// ========== GENERADORES ==========
+
+/**
+ * Genera un ID único
+ */
+export function generateId(prefix = 'item') {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 9);
+  return `${prefix}_${timestamp}_${random}`;
+}
+
+/**
+ * Crea un workspace con valores por defecto
+ */
+export function createWorkspace(name, type) {
+  const now = new Date().toISOString();
+  return {
+    id: `ws_${type}`,
+    name,
+    type,
+    active: false,
+    pinned: false,
+    order: 0,
+    createdAt: now,
+    updatedAt: now
+  };
+}
+
+/**
+ * Crea un dashboard con valores por defecto
+ * Usar esta factory para nuevos dashboards (ID único por timestamp)
+ */
+export function createDashboard(name) {
+  const now = new Date().toISOString();
+  return {
+    id: generateId('db'),
+    name,
+    type: 'links',
+    active: false,
+    pinned: false,
+    order: 0,
+    createdAt: now,
+    updatedAt: now
+  };
+}
+
+/**
+ * Crea una box con valores por defecto
+ */
+export function createBox(workspaceId, title) {
+  const now = new Date().toISOString();
+  return {
+    id: generateId('box'),
+    workspaceId,
+    title,
+    layout: 'grid',
+    colSpan: 1,
+    titleAlign: 'left',
+    showTitle: true,
+    titleColor: '#f3f4f6',
+    titleFont: 'Inter',
+    linkColor: '#ffffff',
+    linkFontSize: 14,
+    bgColor: '#000000',
+    bgOpacity: 0.7,
+    gridCols: 2,
+    orbSize: 80,
+    listRowHeight: 'normal',
+    order: 0,
+    createdAt: now,
+    updatedAt: now
+  };
+}
+
+/**
+ * Crea un item tipo 'link'
+ */
+export function createLinkItem(boxId, title, url) {
+  const now = new Date().toISOString();
+  return {
+    id: generateId('item'),
+    boxId,
+    type: 'link',
+    order: 0,
+    data: {
+      title,
+      url
+    },
+    metadata: {
+      clickCount: 0,
+      lastAccessed: null,
+      createdAt: now,
+      tags: []
+    }
+  };
+}
+
+/**
+ * Crea un item genérico (para futuros tipos)
+ */
+export function createItem(boxId, type, data) {
+  const now = new Date().toISOString();
+  return {
+    id: generateId('item'),
+    boxId,
+    type,
+    order: 0,
+    data,
+    metadata: {
+      clickCount: 0,
+      lastAccessed: null,
+      createdAt: now,
+      tags: []
+    }
+  };
+}

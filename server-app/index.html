@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📋 All your links</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-mobile.css" media="(max-width: 767px)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Oswald:wght@400;600&family=Pacifico&family=Playfair+Display:wght@400;600&family=Raleway:wght@400;600&family=Rock+Salt&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css">
+  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body class="bg-gray-100 text-gray-800 transition-colors duration-300 relative flex flex-col min-h-screen">
+
+  <!-- Cabecera -->
+  <header class="flex justify-between items-center py-2 px-4 bg-gray-900 text-white shadow">
+  <div class="flex items-center gap-2 flex-shrink-0 header-logo-wrap">
+    <h1 class="text-xl font-semibold whitespace-nowrap"><a href="#" id="linksHomeBtn" class="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-600 to-teal-400 hover:from-fuchsia-400 hover:to-teal-200 transition-colors">📋 All your links</a></h1>
+    <span class="breadcrumb-desktop text-gray-600 text-sm">›</span>
+    <span id="activeDashboardName" class="breadcrumb-desktop text-gray-300 text-sm truncate"></span>
+  </div>
+  <div id="searchWrapper" class="relative flex-1 max-w-lg mx-auto flex rounded-full bg-gray-800 ring-1 ring-gray-600 focus-within:ring-2 focus-within:ring-gray-400 transition-shadow">
+    <!-- Selector de motor -->
+    <div class="relative flex-shrink-0">
+      <button id="engineBtn" class="h-9 px-3 rounded-l-full flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors border-r border-gray-700" title="Cambiar motor de búsqueda">
+        <span id="engineIcon" class="flex items-center justify-center w-5 h-5"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+      <div id="engineDropdown" class="hidden absolute left-0 top-11 bg-gray-800 border border-gray-700 rounded-xl shadow-xl z-50 overflow-hidden min-w-[180px]">
+        <button class="engine-option w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors" data-engine="google">
+          <span class="w-5 h-5 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" class="w-4 h-4"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          </span>
+          Google
+        </button>
+        <button class="engine-option w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors" data-engine="duckduckgo">
+          <span class="w-5 h-5 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" class="w-4 h-4"><circle cx="12" cy="12" r="12" fill="#DE5833"/><path fill="white" d="M12 4.5C7.86 4.5 4.5 7.86 4.5 12S7.86 19.5 12 19.5 19.5 16.14 19.5 12 16.14 4.5 12 4.5zm0 2c1.7 0 3.26.6 4.47 1.6L7.1 17.47A7.46 7.46 0 0 1 4.5 12c0-4.14 3.36-7.5 7.5-7.5zm0 15c-1.7 0-3.26-.6-4.47-1.6l9.37-9.87A7.46 7.46 0 0 1 19.5 12c0 4.14-3.36 7.5-7.5 7.5z"/></svg>
+          </span>
+          DuckDuckGo
+        </button>
+        <button class="engine-option w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors" data-engine="perplexity">
+          <span class="w-5 h-5 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none"><rect width="24" height="24" rx="4" fill="#20808D"/><path d="M12 4L6 8v4l6 4 6-4V8L12 4z" fill="white" opacity="0.9"/><path d="M6 12v4l6 4 6-4v-4l-6 4-6-4z" fill="white" opacity="0.5"/></svg>
+          </span>
+          Perplexity
+        </button>
+        <div class="border-t border-gray-700 mx-2 my-1"></div>
+        <button class="engine-option w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors" data-engine="internal">
+          <span class="w-5 h-5 flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.881a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+          </span>
+          Búsqueda interna
+        </button>
+      </div>
+    </div>
+    <input type="text" id="googleSearch" placeholder="Buscar en Google..." autofocus
+  class="flex-1 border-0 h-9 px-3 bg-transparent text-gray-100 placeholder-gray-500 text-sm focus:outline-none min-w-0" />
+    <button id="googleBtn" class="px-4 h-9 rounded-r-full flex items-center text-sm font-medium transition-colors bg-purple-700 hover:bg-cyan-700 text-white flex-shrink-0">Buscar</button>
+    <ul id="suggestions" class="absolute top-full left-0 right-0 rounded-xl shadow-lg mt-1 z-50 hidden overflow-hidden" style="background:#1f2937; border:1px solid #374151; color:#f3f4f6"></ul>
+  </div>
+  <div class="flex gap-2 items-center desktop-actions">
+  <button id="createNoteBtn" class="bg-sky-600 px-3 py-1 rounded-full hover:bg-sky-500 transition flex items-center gap-1.5 text-sm text-white" title="Crear una nota nueva">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+    </svg>
+    Nota
+  </button>
+  <button id="toggleDragBtn" class="bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-500 transition flex items-center gap-1.5 text-sm text-white" title="Activar/Desactivar modo edición">
+  <svg id="dragIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+  </svg>
+  <span id="dragText">Editar</span>
+</button>
+  <button id="newBoxBtn" class="edit-only bg-green-600 px-3 py-1 rounded-full hover:bg-green-500 transition text-sm">+ Caja</button>
+  <button id="profileOrb" class="w-7 h-7 rounded-full bg-gray-700 hover:bg-gray-500 border border-gray-500 inline-flex items-center justify-center transition flex-shrink-0 my-auto" title="Configuración">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-200" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+    </svg>
+  </button>
+  </div>
+
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Panel lateral -->
+    <aside id="sidebar" class="sidebar-collapsed">
+    
+    <button id="toggleSidebarBtn" class="sidebar-toggle-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+
+
+
+    <!-- Zona de dashboards -->
+    <div class="flex flex-col flex-1 min-h-0 overflow-hidden px-2">
+
+      <!-- Botón nuevo dashboard (solo modo edición) -->
+      <button id="newDashboardBtn" class="edit-only sidebar-btn w-full mb-1" title="Nuevo dashboard">
+        <span class="sidebar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+        </span>
+        <span class="sidebar-text text-sm">Nuevo dashboard</span>
+      </button>
+
+      <!-- Lista de dashboards -->
+      <div id="dashboardList" class="flex flex-col gap-0.5 overflow-y-auto flex-1"></div>
+
+      <!-- Menú kebab: solo visible en móvil. Reenvía clics a los botones de
+           arriba en vez de duplicar su lógica — así drag.js, boxes.js, etc.
+           no necesitan saber que existe una versión móvil. -->
+      <div class="relative mobile-actions">
+        <button id="mobileMenuBtn" class="w-9 h-9 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-white" title="Menú">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+          </svg>
+        </button>
+        <div id="mobileMenuDropdown" class="hidden absolute right-0 top-11 bg-gray-800 border border-gray-700 rounded-xl shadow-xl z-50 overflow-hidden min-w-[190px]">
+          <button id="mobileEditBtn" class="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors">
+            <span id="mobileDragText">Editar</span>
+          </button>
+          <button id="mobileNewBoxBtn" class="edit-only w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors">+ Caja</button>
+          <button id="mobileCreateNoteBtn" class="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors">Crear nota</button>
+          <button id="mobileProfileBtn" class="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-gray-200 text-sm transition-colors">Perfil / Configuración</button>
+          <div class="border-t border-gray-700"></div>
+          <button id="mobileLogoutBtn" class="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-red-900 text-gray-200 text-sm transition-colors">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+
+
+</aside>
+
+    <!-- Contenido principal -->
+    <main id="mainContainer" class="flex-1 p-6 overflow-y-auto">
+      <!-- Sección Enlaces -->
+      <section id="enlacesSection">
+        <div id="linksList" class="grid md:grid-cols-3 gap-4"></div>
+      </section>
+      <!-- Sección Búsqueda Interna -->
+      <section id="searchSection" class="hidden">
+        <div class="mb-4 flex items-center gap-3">
+          <h2 class="text-white text-lg font-semibold">Resultados</h2>
+          <span id="searchResultCount" class="text-gray-400 text-sm"></span>
+        </div>
+        <div id="searchResults" class="flex flex-col gap-4"></div>
+        <p id="searchEmpty" class="hidden text-gray-400 text-center py-16">No se encontraron resultados</p>
+      </section>
+      <!-- Sección Perfil -->
+      <section id="profileSection" 
+    class="hidden p-8 max-w-2xl mx-auto mt-10 
+           bg-gray-900/70 text-white 
+           rounded-xl shadow-2xl backdrop-blur-md border border-gray-700/50">
+
+    <h2 class="text-3xl font-extrabold mb-6 border-b border-gray-700 pb-2">⚙️ Configuración de Perfil</h2>
+    
+    <div class="mb-6">
+        <label class="block text-xl font-semibold mb-3">Gestión de Datos</label>
+        <div class="flex flex-wrap items-center gap-4">
+            
+            <div class="flex gap-2">
+                <button id="importDataBtn" 
+                    class="bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-500 transition shadow-lg flex items-center gap-2 font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 11.586V4a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    Importar
+                </button>
+                <input type="file" id="importFileInput" accept=".json" class="hidden">
+                
+                <button id="exportDataBtn" 
+                    class="bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-500 transition shadow-lg flex items-center gap-2 font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V14a1 1 0 11-2 0V5.414L6.293 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                    Exportar
+                </button>
+            </div>
+
+            <label class="flex items-center gap-2 text-base ml-auto p-2 bg-gray-800/80 rounded-lg">
+                <input type="checkbox" id="openNewTab" class="accent-indigo-500 h-5 w-5" />
+                Abrir enlaces en nueva pestaña
+            </label>
+        </div>
+    </div>
+
+    <div class="pt-6 border-t border-gray-700">
+        <label class="block text-xl font-semibold mb-3">Fondo Personalizado</label>
+        
+        <input type="file" id="bgUpload" accept="image/png, image/jpeg, .png, .jpg, .jpeg" 
+               class="
+                   block w-full text-sm text-gray-400 
+                   file:mr-4 file:py-2 file:px-4
+                   file:rounded-full file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-indigo-500 file:text-white
+                   hover:file:bg-indigo-600 transition duration-150
+                   mb-3" />
+        
+        <button id="removeBg" 
+            class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 shadow-lg font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-2 0v6a1 1 0 102 0V7z" clip-rule="evenodd" /></svg>
+            Eliminar fondo
+        </button>
+    </div>
+
+    <div class="pt-6 mt-6 border-t border-gray-700">
+        <label class="block text-xl font-semibold mb-3">Widget de Clima</label>
+        <p class="text-sm text-gray-400 mb-3">API key de <a href="https://openweathermap.org/api" target="_blank" class="text-indigo-400 hover:underline">OpenWeatherMap</a> (gratuita), necesaria para las cajas con widget de hora y clima.</p>
+        <input type="text" id="weatherApiKey" placeholder="Tu API key de OpenWeatherMap"
+               class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm" />
+    </div>
+
+    <div class="pt-6 mt-6 border-t border-gray-700">
+        <label class="block text-xl font-semibold mb-3">Widget de Calendario</label>
+        <p class="text-sm text-gray-400 mb-3">Client ID de <a href="https://console.cloud.google.com" target="_blank" class="text-indigo-400 hover:underline">Google Cloud Console</a> (OAuth 2.0), necesario para sincronizar con Google Calendar.</p>
+        <input type="text" id="googleClientId" placeholder="Tu Client ID de Google (...apps.googleusercontent.com)"
+               class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm" />
+    </div>
+
+    <div class="pt-6 mt-6 border-t border-gray-700">
+        <label class="block text-xl font-semibold mb-3">Widget de RSS</label>
+        <p class="text-sm text-gray-400 mb-3">API key gratuita de <a href="https://rss2json.com/register" target="_blank" class="text-indigo-400 hover:underline">rss2json.com</a> (regístrate y cópiala de tu panel), necesaria porque el uso anónimo está muy limitado.</p>
+        <input type="text" id="rssApiKey" placeholder="Tu API key de rss2json"
+               class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm" />
+    </div>
+
+    <div class="pt-6 mt-6 border-t border-gray-700">
+        <label class="block text-xl font-semibold mb-3">Cuenta</label>
+        <button id="logoutBtn" class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white font-medium">
+            Cerrar sesión
+        </button>
+    </div>
+</section>
+    </main>
+  </div>
+
+<!-- Modal Nuevo Enlace -->
+<div id="newLinkModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 id="linkModalTitle" class="text-xl font-bold mb-4">Nuevo enlace</h3>
+    <label class="block mb-1 font-semibold">Título</label>
+    <input type="text" id="newLinkTitle" placeholder="Título del enlace" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <label class="block mb-1 font-semibold">URL</label>
+    <input type="url" id="newLinkUrl" placeholder="https://..." class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <label class="block mb-1 font-semibold">Tags <span class="font-normal text-xs text-gray-500">(separados por comas, opcional)</span></label>
+    <input type="text" id="newLinkTags" placeholder="trabajo, urgente, leer" class="border p-2 rounded w-full mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <div class="flex justify-end gap-2">
+      <button id="cancelNewLink" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500">Cancelar</button>
+      <button id="saveNewLink" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Nuevo/Editar Evento (calendario propio) -->
+<div id="newEventModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 id="eventModalTitle" class="text-xl font-bold mb-4">Nuevo evento</h3>
+    <label class="block mb-1 font-semibold">Título</label>
+    <input type="text" id="newEventTitle" placeholder="Nombre del evento" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <label class="block mb-1 font-semibold">Fecha</label>
+    <input type="date" id="newEventDate" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <label class="flex items-center gap-2 mb-3 text-sm cursor-pointer select-none">
+      <input type="checkbox" id="newEventAllDay" checked class="accent-teal-500 h-4 w-4">
+      Todo el día
+    </label>
+    <div id="newEventTimeField" class="hidden mb-4">
+      <label class="block mb-1 font-semibold">Hora</label>
+      <input type="time" id="newEventTime" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    </div>
+    <div class="flex justify-end gap-2">
+      <button id="deleteNewEvent" class="hidden px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 mr-auto">Eliminar</button>
+      <button id="cancelNewEvent" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500">Cancelar</button>
+      <button id="saveNewEvent" class="px-4 py-2 rounded bg-teal-600 text-white hover:bg-teal-700">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Nueva/Editar Caja -->
+<div id="newBoxModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:640px; width:94%; max-height:90vh; overflow-y:auto;">
+    <h3 id="boxModalTitle" class="text-xl font-bold mb-2">Nueva caja</h3>
+
+    <!-- Pestañas: solo se muestran cuando la caja es de tipo Nota.
+         El botón "lápiz" de una nota abre directamente en "noteTab";
+         "Editar caja" desde el menú ⋯ abre en "propsTab" primero. -->
+    <!-- NOMBRE: siempre visible, en ambas pestañas — es el título de la
+         caja Y el título de la nota cuando el tipo es 'Nota'. -->
+    <label class="block mb-1 font-semibold text-sm">Nombre</label>
+    <input type="text" id="newBoxTitle" placeholder="Ej: Favoritos, Herramientas..." class="border p-2 rounded w-full mb-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <label id="showTitleLabel" class="flex items-center gap-2 mb-3 text-sm cursor-pointer select-none">
+      <input type="checkbox" id="newBoxShowTitle" checked class="accent-indigo-500 h-4 w-4">
+      Mostrar título en la caja
+    </label>
+
+    <div id="boxModalTabs" class="hidden flex gap-1 mb-3 border-b border-gray-700">
+      <button id="boxTabProps" class="box-modal-tab box-modal-tab-active px-3 py-1.5 text-sm font-medium">Propiedades</button>
+      <button id="boxTabNote" class="box-modal-tab px-3 py-1.5 text-sm font-medium">Nota</button>
+    </div>
+
+    <!-- Panel: Propiedades (el contenido ya existente del modal) -->
+    <div id="boxPanelProps">
+
+    <!-- FONDO -->
+    <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mb-2">Fondo</p>
+    <div class="flex gap-3 mb-1 items-end">
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Color</label>
+        <div class="flex gap-2">
+          <input type="color" id="newBoxBgColor" value="#000000" class="h-9 w-12 rounded cursor-pointer border dark:border-gray-600">
+          <input type="text" id="newBoxBgColorText" value="#000000" class="border p-2 rounded flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm">
+        </div>
+      </div>
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Opacidad: <span id="bgOpacityVal">70</span>%</label>
+        <input type="range" id="newBoxBgOpacity" min="0" max="100" value="70" class="w-full accent-indigo-500">
+      </div>
+    </div>
+
+    <!-- TÍTULO -->
+    <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mt-4 mb-2">Título</p>
+    <div class="flex gap-3 mb-3">
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Color</label>
+        <div class="flex gap-2">
+          <input type="color" id="newBoxTitleColor" value="#f3f4f6" class="h-9 w-12 rounded cursor-pointer border dark:border-gray-600">
+          <input type="text" id="newBoxTitleColorText" value="#f3f4f6" class="border p-2 rounded flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm">
+        </div>
+      </div>
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Alineación</label>
+        <select id="newBoxTitleAlign" class="border p-2 rounded w-full h-9 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+          <option value="left">Izquierda</option>
+          <option value="center">Centro</option>
+          <option value="right">Derecha</option>
+        </select>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="block mb-1 text-sm font-semibold">Fuente del título</label>
+      <select id="newBoxTitleFont" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+        <option value="Inter" style="font-family:Inter">Inter</option>
+        <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+        <option value="Oswald" style="font-family:Oswald">Oswald</option>
+        <option value="Raleway" style="font-family:Raleway">Raleway</option>
+        <option value="Space Mono" style="font-family:'Space Mono'">Space Mono</option>
+        <option value="Pacifico" style="font-family:Pacifico">Pacifico</option>
+        <option value="Rock Salt" style="font-family:'Rock Salt'">Rock Salt</option>
+      </select>
+    </div>
+
+    <!-- ENLACES / TEXTO (la etiqueta y visibilidad cambian según el tipo de caja, ver updateLayoutOptions) -->
+    <div id="linkTextSection">
+    <p id="linkSectionLabel" class="text-xs font-bold uppercase tracking-wide text-gray-400 mt-4 mb-2">Enlaces</p>
+    <div class="flex gap-3 mb-3 items-end">
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Color</label>
+        <div class="flex gap-2">
+          <input type="color" id="newBoxLinkColor" value="#ffffff" class="h-9 w-12 rounded cursor-pointer border dark:border-gray-600">
+          <input type="text" id="newBoxLinkColorText" value="#ffffff" class="border p-2 rounded flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm">
+        </div>
+      </div>
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Tamaño fuente: <span id="linkFontSizeVal">14</span>px</label>
+        <input type="range" id="newBoxLinkFontSize" min="10" max="22" value="14" class="w-full accent-indigo-500">
+      </div>
+    </div>
+    </div>
+
+    <!-- DISPOSICIÓN -->
+    <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mt-4 mb-2">Disposición</p>
+    <div class="flex gap-3 mb-3">
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Ancho de la caja</label>
+        <select id="newBoxColSpan" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+          <option value="1">Normal (1 col)</option>
+          <option value="2">Ancha (2 cols)</option>
+          <option value="3">Completa (3 cols)</option>
+        </select>
+      </div>
+      <div class="flex-1">
+        <label class="block mb-1 text-sm font-semibold">Diseño de enlaces</label>
+        <select id="newBoxLayout" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+          <optgroup label="Enlaces">
+            <option value="grid">Tarjetas (Grid)</option>
+            <option value="list">Lista</option>
+            <option value="orbs">Orbes</option>
+            <option value="reference">Referencia</option>
+          </optgroup>
+          <optgroup label="Notas">
+            <option value="note">Nota</option>
+          </optgroup>
+          <optgroup label="Widgets">
+            <option value="widget-clock">Hora y clima</option>
+            <option value="widget-calendar">Calendario</option>
+            <option value="widget-stats">Estadísticas</option>
+            <option value="widget-rss">Lector RSS</option>
+          </optgroup>
+          <optgroup label="Otros">
+            <option value="container">Contenedor</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+
+    <!-- OPCIONES CONTEXTUALES -->
+    <div id="layoutOptionsGrid" class="mb-3">
+      <label class="block mb-1 text-sm font-semibold">Columnas del grid: <span id="gridColsVal">2</span></label>
+      <input type="range" id="newBoxGridCols" min="1" max="5" value="2" class="w-full accent-indigo-500">
+    </div>
+    <div id="layoutOptionsOrbs" class="hidden mb-3">
+      <label class="block mb-1 text-sm font-semibold">Tamaño de orbe: <span id="orbSizeVal">80</span>px</label>
+      <input type="range" id="newBoxOrbSize" min="48" max="140" value="80" class="w-full accent-indigo-500">
+    </div>
+    <div id="layoutOptionsList" class="hidden mb-3">
+      <label class="block mb-1 text-sm font-semibold">Densidad vertical</label>
+      <select id="newBoxListRowHeight" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+        <option value="compact">Compacta</option>
+        <option value="normal" selected>Normal</option>
+        <option value="relaxed">Espaciada</option>
+      </select>
+    </div>
+    <div id="layoutOptionsStats" class="hidden mb-3">
+      <label class="block mb-1 text-sm font-semibold">Enlaces en el ranking: <span id="statsLimitVal">5</span></label>
+      <input type="range" id="newBoxStatsLimit" min="3" max="15" value="5" class="w-full accent-indigo-500">
+    </div>
+    <div id="layoutOptionsRss" class="hidden mb-3">
+      <label class="block mb-1 text-sm font-semibold">URL del feed RSS/Atom</label>
+      <input type="url" id="newBoxRssUrl" placeholder="https://ejemplo.com/feed" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm" />
+      <label class="block mb-1 text-sm font-semibold">Titulares a mostrar: <span id="rssCountVal">8</span></label>
+      <input type="range" id="newBoxRssCount" min="3" max="20" value="8" class="w-full accent-indigo-500">
+    </div>
+    <div id="layoutOptionsContainer" class="hidden mb-3 p-3 rounded bg-gray-100 dark:bg-gray-900/50">
+      <label class="block mb-1 text-sm font-semibold">Columnas internas</label>
+      <select id="newBoxContainerColumns" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+        <option value="1">1</option>
+        <option value="2" selected>2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+      <label class="block mb-1 text-sm font-semibold">Proporción de anchos</label>
+      <select id="newBoxContainerRatio" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+        <option value="equal">Todas iguales</option>
+        <option value="2:1">Primera el doble de ancha</option>
+        <option value="1:2">Última el doble de ancha</option>
+        <option value="1:2:1">La del medio el doble de ancha</option>
+      </select>
+    </div>
+
+    <!-- PERTENECE A (contenedor) -->
+    <div id="parentBoxSection" class="mb-3">
+      <label class="block mb-1 text-sm font-semibold">Pertenece a</label>
+      <select id="newBoxParent" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+        <option value="">Ninguno (nivel superior del dashboard)</option>
+        <!-- Opciones generadas dinámicamente: solo contenedores válidos -->
+      </select>
+    </div>
+
+    <!-- MOVER A DASHBOARD -->
+    <p class="text-xs font-bold uppercase tracking-wide text-gray-400 mt-4 mb-2">Dashboard</p>
+    <select id="newBoxDashboard" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm mb-4">
+      <!-- Opciones generadas dinámicamente -->
+    </select>
+
+    </div> <!-- /#boxPanelProps -->
+
+    <!-- Panel: Nota (Toast UI Editor, WYSIWYG con barra de herramientas) -->
+    <div id="boxPanelNote" class="hidden">
+      <div id="noteEditorContainer" style="min-height: 320px;"></div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4 pt-3 border-t dark:border-gray-600">
+      <button id="deleteNoteFromBoxModal" class="hidden px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 mr-auto">Eliminar nota</button>
+      <button id="cancelNewBox" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500">Cancelar</button>
+      <button id="saveNewBox" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Nuevo/Editar Dashboard -->
+<div id="dashboardModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:380px">
+    <h3 id="dashboardModalTitle" class="text-xl font-bold mb-4">Nuevo dashboard</h3>
+    <label class="block mb-1 font-semibold text-sm">Nombre</label>
+    <input type="text" id="dashboardName" placeholder="Ej: Trabajo, Ocio, Casa..." class="border p-2 rounded w-full mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+
+    <label class="block mb-1 font-semibold text-sm">Disposición</label>
+    <select id="dashboardLayoutType" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+      <option value="default">Por defecto (3 columnas iguales)</option>
+      <option value="flex-grid">Grid personalizable</option>
+    </select>
+
+    <!-- Solo visible con "Grid personalizable". El dashboard por defecto
+         no toca nada de esto: sigue exactamente igual que siempre. -->
+    <div id="flexGridOptions" class="hidden mb-4 p-3 rounded bg-gray-100 dark:bg-gray-900/50">
+      <label class="block mb-1 text-sm font-semibold">Columnas</label>
+      <select id="dashboardColumns" class="border p-2 rounded w-full mb-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3" selected>3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+      </select>
+      <label class="block mb-1 text-sm font-semibold">Proporción de anchos</label>
+      <select id="dashboardRatio" class="border p-2 rounded w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
+        <option value="equal">Todas iguales</option>
+        <option value="2:1">Primera el doble de ancha</option>
+        <option value="1:2">Última el doble de ancha</option>
+        <option value="1:2:1">La del medio el doble de ancha</option>
+      </select>
+    </div>
+
+    <!-- Fondo propio del dashboard. Sin imagen propia, se usa el fondo
+         global de Perfil → Configuración. -->
+    <label class="block mb-1 font-semibold text-sm">Fondo de este dashboard</label>
+    <input type="file" id="dashboardBgUpload" accept="image/png, image/jpeg, .png, .jpg, .jpeg"
+           class="block w-full text-sm text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-500 file:text-white hover:file:bg-indigo-600 transition duration-150 mb-2" />
+    <div class="flex items-center gap-2 mb-4">
+      <span id="dashboardBgStatus" class="text-xs text-gray-400 flex-1">Usando el fondo global</span>
+      <button id="removeDashboardBg" type="button" class="hidden text-xs px-2 py-1 rounded bg-red-600/80 hover:bg-red-600 text-white">Quitar</button>
+    </div>
+
+    <div class="flex justify-end gap-2">
+      <button id="cancelDashboard" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500">Cancelar</button>
+      <button id="saveDashboard" class="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500">Guardar</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Pantalla de login: bloquea el acceso hasta autenticarse -->
+  <div id="loginScreen" class="hidden fixed inset-0 flex items-center justify-center" style="z-index: 3000; background: #0d1117;">
+    <form id="loginForm" class="w-full max-w-xs px-6">
+      <h1 class="text-2xl font-semibold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-600 to-teal-400">📋 All your links</h1>
+      <label class="block mb-1 text-sm font-semibold text-gray-300">Usuario</label>
+      <input type="text" id="loginUsername" autocomplete="username" required
+             class="border border-gray-700 bg-gray-800 p-2 rounded w-full mb-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      <label class="block mb-1 text-sm font-semibold text-gray-300">Contraseña</label>
+      <input type="password" id="loginPassword" autocomplete="current-password" required
+             class="border border-gray-700 bg-gray-800 p-2 rounded w-full mb-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      <p id="loginError" class="text-red-400 text-sm mb-3 min-h-[1.25rem]"></p>
+      <button type="submit" id="loginSubmit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded transition-colors">
+        Entrar
+      </button>
+    </form>
+  </div>
+
+  <!-- Toast de notificación -->
+  <div id="toast" class="hidden fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500 opacity-0" style="z-index: 2000"></div>
+  <script src="./js/main.js" type="module"></script>
+</body>
+</html>

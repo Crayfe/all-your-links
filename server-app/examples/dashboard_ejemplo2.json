@@ -1,0 +1,247 @@
+{
+  "version": "2.0",
+  "exportedAt": "2026-03-22T10:00:00.000Z",
+  "workspaces": [
+    {
+      "id": "ws_links",
+      "name": "Enlaces",
+      "type": "links",
+      "active": true,
+      "order": 0,
+      "createdAt": "2026-03-22T10:00:00.000Z",
+      "updatedAt": "2026-03-22T10:00:00.000Z"
+    }
+  ],
+  "boxes": [
+    {
+      "id": "box_001",
+      "workspaceId": "ws_links",
+      "title": "🔥 Noticias",
+      "layout": "list",
+      "colSpan": 1,
+      "titleAlign": "left",
+      "titleColor": "#f97316",
+      "linkColor": "#fdba74",
+      "order": 0,
+      "createdAt": "2026-03-22T10:00:00.000Z",
+      "updatedAt": "2026-03-22T10:00:00.000Z"
+    },
+    {
+      "id": "box_002",
+      "workspaceId": "ws_links",
+      "title": "Social",
+      "layout": "orbs",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#a78bfa",
+      "linkColor": "#ffffff",
+      "order": 1,
+      "createdAt": "2026-03-22T10:00:00.000Z",
+      "updatedAt": "2026-03-22T10:00:00.000Z"
+    },
+    {
+      "id": "box_003",
+      "workspaceId": "ws_links",
+      "title": "Entretenimiento",
+      "layout": "orbs",
+      "colSpan": 1,
+      "titleAlign": "center",
+      "titleColor": "#34d399",
+      "linkColor": "#ffffff",
+      "order": 2,
+      "createdAt": "2026-03-22T10:00:00.000Z",
+      "updatedAt": "2026-03-22T10:00:00.000Z"
+    },
+    {
+      "id": "box_004",
+      "workspaceId": "ws_links",
+      "title": "⚡ Productividad",
+      "layout": "grid",
+      "colSpan": 3,
+      "titleAlign": "left",
+      "titleColor": "#60a5fa",
+      "linkColor": "#bfdbfe",
+      "order": 3,
+      "createdAt": "2026-03-22T10:00:00.000Z",
+      "updatedAt": "2026-03-22T10:00:00.000Z"
+    }
+  ],
+  "items": [
+    {
+      "id": "item_001",
+      "boxId": "box_001",
+      "type": "link",
+      "order": 0,
+      "data": { "title": "El País", "url": "https://elpais.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_002",
+      "boxId": "box_001",
+      "type": "link",
+      "order": 1,
+      "data": { "title": "El Mundo", "url": "https://elmundo.es" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_003",
+      "boxId": "box_001",
+      "type": "link",
+      "order": 2,
+      "data": { "title": "Hacker News", "url": "https://news.ycombinator.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_004",
+      "boxId": "box_001",
+      "type": "link",
+      "order": 3,
+      "data": { "title": "BBC News", "url": "https://bbc.com/news" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_005",
+      "boxId": "box_002",
+      "type": "link",
+      "order": 0,
+      "data": { "title": "X / Twitter", "url": "https://x.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_006",
+      "boxId": "box_002",
+      "type": "link",
+      "order": 1,
+      "data": { "title": "Instagram", "url": "https://instagram.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_007",
+      "boxId": "box_002",
+      "type": "link",
+      "order": 2,
+      "data": { "title": "LinkedIn", "url": "https://linkedin.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_008",
+      "boxId": "box_002",
+      "type": "link",
+      "order": 3,
+      "data": { "title": "Reddit", "url": "https://reddit.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_009",
+      "boxId": "box_002",
+      "type": "link",
+      "order": 4,
+      "data": { "title": "YouTube", "url": "https://youtube.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_010",
+      "boxId": "box_003",
+      "type": "link",
+      "order": 0,
+      "data": { "title": "Netflix", "url": "https://netflix.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_011",
+      "boxId": "box_003",
+      "type": "link",
+      "order": 1,
+      "data": { "title": "Spotify", "url": "https://spotify.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_012",
+      "boxId": "box_003",
+      "type": "link",
+      "order": 2,
+      "data": { "title": "Twitch", "url": "https://twitch.tv" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_013",
+      "boxId": "box_003",
+      "type": "link",
+      "order": 3,
+      "data": { "title": "Prime Video", "url": "https://primevideo.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_014",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 0,
+      "data": { "title": "Gmail", "url": "https://mail.google.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_015",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 1,
+      "data": { "title": "Google Calendar", "url": "https://calendar.google.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_016",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 2,
+      "data": { "title": "Google Drive", "url": "https://drive.google.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_017",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 3,
+      "data": { "title": "Notion", "url": "https://notion.so" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_018",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 4,
+      "data": { "title": "Trello", "url": "https://trello.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_019",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 5,
+      "data": { "title": "ChatGPT", "url": "https://chatgpt.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_020",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 6,
+      "data": { "title": "Claude", "url": "https://claude.ai" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_021",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 7,
+      "data": { "title": "Google Docs", "url": "https://docs.google.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    },
+    {
+      "id": "item_022",
+      "boxId": "box_004",
+      "type": "link",
+      "order": 8,
+      "data": { "title": "Google Sheets", "url": "https://sheets.google.com" },
+      "metadata": { "clickCount": 0, "lastAccessed": null, "createdAt": "2026-03-22T10:00:00.000Z", "tags": [] }
+    }
+  ]
+}

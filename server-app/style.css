@@ -1,0 +1,1570 @@
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+#sidebar {
+    position: relative;
+    width: 4rem;
+    background-color: #1f2937;
+    border-right: 1px solid #374151;
+    transition: width 0.3s ease;
+    padding: 1rem 0;
+    z-index: 20;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#sidebar.sidebar-expanded {
+    width: 14rem;
+}
+
+/* ============================================
+   BOTÓN HAMBURGUESA
+   ============================================ */
+
+.sidebar-toggle-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0 auto 2rem auto;
+    background: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    color: #e5e7eb;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-toggle-btn:hover {
+    background-color: #374151;
+}
+
+/* ============================================
+   NAVEGACIÓN
+   ============================================ */
+
+.sidebar-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    color: #e5e7eb;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.sidebar-btn:hover {
+    background-color: #374151;
+}
+
+#sidebar:not(.sidebar-expanded) .sidebar-btn {
+    justify-content: center;
+}
+
+#sidebar.sidebar-expanded .sidebar-btn {
+    justify-content: flex-start;
+}
+
+.sidebar-icon {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #e5e7eb;
+}
+
+.sidebar-text {
+    display: none;
+    margin-left: 1rem;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-width 0.3s ease;
+}
+
+#sidebar.sidebar-expanded .sidebar-text {
+    opacity: 1;
+    max-width: 150px;
+    display: block;
+}
+
+/* ============================================
+   DASHBOARDS EN SIDEBAR
+   ============================================ */
+
+#dashboardList {
+    scrollbar-width: thin;
+    scrollbar-color: #374151 transparent;
+}
+
+.dashboard-item {
+    min-height: 2.25rem;
+}
+
+#sidebar:not(.sidebar-expanded) .dashboard-item {
+    position: relative;
+    justify-content: center;
+}
+
+#sidebar:not(.sidebar-expanded) .dashboard-switch-btn {
+    justify-content: center;
+    padding: 0.2rem;
+    width: 3rem;
+    flex: none;
+}
+
+#sidebar:not(.sidebar-expanded) .dashboard-icon {
+    display: none;
+}
+
+#sidebar:not(.sidebar-expanded) .dashboard-mini-orb {
+    display: flex;
+}
+
+#sidebar.sidebar-expanded .dashboard-mini-orb {
+    display: none;
+}
+
+#sidebar:not(.sidebar-expanded) .dashboard-pin-btn,
+#sidebar:not(.sidebar-expanded) .dashboard-menu-wrap {
+    display: none;
+}
+
+#sidebar:not(.sidebar-expanded) #newDashboardBtn {
+    justify-content: center;
+    width: 2.25rem;
+    padding: 0.4rem;
+    margin: 0 auto 0.25rem auto;
+}
+
+/* Tooltip sidebar colapsada */
+#sidebar:not(.sidebar-expanded) .dashboard-item:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    background: #1f2937;
+    color: #f3f4f6;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 50;
+    border: 1px solid #374151;
+}
+
+.dashboard-mini-orb {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    min-height: 3rem;
+    border-radius: 0.5rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #9ca3af;
+    padding: 0.35rem 0.2rem 0.25rem;
+    gap: 0.15rem;
+    transition: background 0.2s, color 0.2s;
+    overflow: hidden;
+}
+
+.dashboard-mini-label {
+    font-size: 0.55rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+    max-width: 2.5rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+.dashboard-item:hover .dashboard-mini-orb {
+    background: rgba(255,255,255,0.12);
+    color: #e5e7eb;
+}
+
+.dashboard-mini-orb.is-active {
+    background: #374151;
+    border-color: rgba(255,255,255,0.2);
+    color: #f3f4f6;
+}
+
+.pin-indicator {
+    display: block;
+}
+
+#sidebar .border-t {
+    opacity: 0.4;
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 400px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .modal-content {
+        background: #1f2937;
+        color: #e5e7eb;
+    }
+}
+
+/* ============================================
+   DRAG & DROP
+   ============================================ */
+
+.sortable-ghost {
+    opacity: 0.4;
+    background: #3b82f6 !important;
+}
+
+.sortable-chosen {
+    cursor: grabbing !important;
+}
+
+.sortable-drag {
+    opacity: 0.8;
+    transform: rotate(2deg);
+}
+
+.box-card,
+.link-item {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.drag-handle {
+    cursor: grab;
+    user-select: none;
+    padding: 0 0.25rem;
+}
+
+.drag-handle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.box-card {
+    cursor: default !important;
+    container-type: inline-size;
+    container-name: box;
+}
+
+.items-container {
+    min-height: 60px;
+    transition: background-color 0.2s ease;
+}
+
+.items-container.sortable-drag-over {
+    background-color: rgba(59, 130, 246, 0.1);
+    border: 2px dashed rgba(59, 130, 246, 0.5);
+    border-radius: 0.5rem;
+}
+
+body:not(.drag-enabled) .drag-handle {
+    display: none;
+}
+
+body:not(.drag-enabled) .link-item {
+    cursor: default !important;
+}
+
+/* ============================================
+   MODO EDICIÓN
+   ============================================ */
+
+body:not(.drag-enabled) .edit-only {
+    display: none !important;
+}
+
+body:not(.drag-enabled) .link-item a {
+    padding-right: 0.5rem;
+}
+
+/* ============================================
+   LAYOUT: ORBES
+   ============================================ */
+
+.layout-orbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 0.5rem;
+    justify-content: center;
+}
+
+.orb-item {
+    position: relative;
+    cursor: grab;
+}
+
+.orb-item:active {
+    cursor: grabbing;
+}
+
+.orb-link {
+    text-decoration: none;
+    pointer-events: auto;
+}
+
+.orb-icon-container {
+    position: relative;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.orb-icon-container img {
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.orb-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    min-height: 2.4em;
+}
+
+.orb-menu-btn,
+.orb-menu-btn button,
+.menu-options {
+    pointer-events: auto;
+}
+
+.orb-item:has(.menu-options:not(.hidden)) .orb-link {
+    pointer-events: none;
+}
+
+body:not(.drag-enabled) .orb-item {
+    cursor: default;
+}
+
+body:not(.drag-enabled) .orb-link {
+    cursor: pointer;
+}
+
+.layout-orbs .sortable-ghost {
+    opacity: 0.3;
+}
+
+.layout-orbs .sortable-drag {
+    transform: rotate(5deg) scale(1.1);
+}
+
+/* ============================================
+   LAYOUT: LISTA
+   ============================================ */
+
+.layout-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-list .link-item {
+    padding-top: var(--list-padding-y, 0.125rem);
+    padding-bottom: var(--list-padding-y, 0.125rem);
+}
+
+/* ============================================
+   LAYOUT: GRID
+   ============================================ */
+
+.layout-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols, 2), 1fr);
+    gap: 0.5rem;
+}
+
+@media (max-width: 1300px) {
+    .layout-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+    }
+}
+
+/* ============================================
+   LAYOUT: REFERENCE
+   ============================================ */
+
+.layout-reference {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(max(350px, calc(100% / var(--grid-cols, 1) - 1.5rem)), 1fr));
+    gap: 0 1.5rem;
+}
+
+.ref-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.15s;
+    min-width: 0;
+}
+
+.ref-item:last-child {
+    border-bottom: none;
+}
+
+.ref-item:hover {
+    background: rgba(255,255,255,0.04);
+    border-radius: 0.25rem;
+}
+
+.ref-item:hover .ref-menu-trigger {
+    opacity: 1 !important;
+}
+
+.ref-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-decoration: none;
+    padding: 0.1rem 0.5rem;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ref-title {
+    font-weight: 500;
+    line-height: 1.3;
+    display: block;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.ref-url {
+    font-size: 0.7rem;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: -0.02em;
+    min-width: 0;
+}
+
+.ref-item:hover .ref-url {
+    color: #9ca3af;
+}
+
+/* ============================================
+   MISCELÁNEA
+   ============================================ */
+
+#linksList {
+    --col-width: calc((100% - 2rem) / 3);
+}
+
+/* ============================================
+   BUSCADOR — SELECTOR DE MOTOR
+   ============================================ */
+
+#engineDropdown {
+    min-width: 180px;
+}
+
+.engine-option {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* ============================================
+   BUSCADOR INTERNO — VISTA DE RESULTADOS
+   ============================================ */
+
+.search-block {
+    background: rgba(0,0,0,0.5);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+}
+
+.search-block-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.8rem;
+}
+
+.search-db-name {
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.search-sep {
+    color: #4b5563;
+    font-size: 0.75rem;
+}
+
+.search-box-name {
+    color: #e5e7eb;
+    font-weight: 600;
+}
+
+.search-item-count {
+    margin-left: auto;
+    color: #6b7280;
+    font-size: 0.72rem;
+}
+
+.search-highlight-box {
+    color: #fbbf24;
+}
+
+.search-items-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 1rem;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.search-favicon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    border-radius: 2px;
+}
+
+.search-result-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.search-result-title {
+    color: #f3f4f6;
+    font-size: 0.875rem;
+    font-weight: 500;
+    overflow-wrap: break-word;
+}
+
+.search-result-url {
+    color: #6b7280;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Space Mono', monospace;
+}
+
+mark.search-highlight {
+    background: rgba(251,191,36,0.25);
+    color: #fbbf24;
+    border-radius: 2px;
+    padding: 0 1px;
+}
+
+/* ============================================
+   BUSCADOR INTERNO — NAVEGACIÓN A CAJA
+   ============================================ */
+
+.search-block-header-btn {
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.search-block-header-btn:hover {
+    background: rgba(255,255,255,0.09);
+}
+
+.search-block-header-btn:hover .search-goto-icon {
+    opacity: 1;
+    transform: translateX(2px);
+}
+
+.search-goto-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #6b7280;
+    opacity: 0;
+    transition: opacity 0.15s, transform 0.15s;
+    flex-shrink: 0;
+}
+
+/* Cuando hay contador, el icono va después; ajustamos separación */
+.search-block-header-btn .search-item-count {
+    margin-left: auto;
+    margin-right: 0.25rem;
+}
+
+/* Flash al llegar a la caja desde un resultado de búsqueda */
+@keyframes searchBoxFlash {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+    20%, 60% { box-shadow: 0 0 0 3px rgba(251,191,36,0.6); }
+}
+
+.search-box-flash {
+    animation: searchBoxFlash 1.6s ease;
+}
+
+/* ============================================
+   BUSCADOR INTERNO — BADGE DE TAG
+   ============================================ */
+
+.search-result-tag {
+    display: inline-block;
+    width: fit-content;
+    margin-top: 0.15rem;
+    padding: 0.05rem 0.45rem;
+    background: rgba(139,92,246,0.15);
+    color: #a78bfa;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   WIDGET: HORA Y CLIMA
+   ============================================ */
+
+.clock-widget-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    padding: 1rem 0.5rem;
+}
+
+.clock-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    text-align: center;
+}
+
+.clock-widget-time {
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+.clock-widget-date {
+    opacity: 0.75;
+    text-transform: capitalize;
+}
+
+.clock-widget-weather {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(255,255,255,0.12);
+}
+
+.clock-widget-weather-icon {
+    font-size: 1.8em;
+    line-height: 1;
+}
+
+.clock-widget-weather-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+}
+
+.clock-widget-temp {
+    font-weight: 700;
+    font-size: 1.15em;
+}
+
+.clock-widget-desc {
+    opacity: 0.7;
+    font-size: 0.75em;
+    text-transform: capitalize;
+}
+
+.clock-widget-weather-msg {
+    opacity: 0.6;
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+/* Container query: cuando la caja tiene ancho real suficiente
+   (colSpan 2-3, o ventana ancha), el widget pasa a horizontal */
+@container box (min-width: 380px) {
+    .clock-widget {
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+        text-align: left;
+    }
+
+    .clock-widget-time,
+    .clock-widget-date {
+        text-align: left;
+    }
+
+    .clock-widget-timedate {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+    }
+
+    .clock-widget-weather {
+        margin-top: 0;
+        padding-top: 0;
+        padding-left: 2rem;
+        border-top: none;
+        border-left: 1px solid rgba(255,255,255,0.12);
+        align-self: stretch;
+    }
+}
+
+/* ============================================
+   WIDGET: CALENDARIO
+   ============================================ */
+
+.cal-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    color: var(--text-primary, #f3f4f6);
+}
+
+.cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+/* El navegador (‹ título ›) es un bloque compacto pegado a la izquierda,
+   en vez de estirar el título a lo ancho de toda la caja. */
+/* El navegador ocupa el ancho disponible de la cabecera para que el
+   título quede centrado respecto a la cuadrícula, con más aire junto
+   a las flechas en vez de ir todo apretado. */
+.cal-nav-group {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 0.75rem;
+}
+
+.cal-nav-btn {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: inherit;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.cal-nav-btn:hover {
+    background: rgba(255,255,255,0.16);
+}
+
+.cal-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+    white-space: nowrap;
+    flex: 1;
+    text-align: center;
+}
+
+.cal-header-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.cal-view-toggle, .cal-sync-btn {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: inherit;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background 0.15s;
+}
+
+.cal-view-toggle:hover, .cal-sync-btn:hover {
+    background: rgba(255,255,255,0.16);
+}
+
+.cal-sync-btn {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+}
+
+.cal-sync-spinning {
+    animation: calSpin 0.8s linear infinite;
+}
+
+@keyframes calSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Fila principal: calendario a la izquierda, panel del día a la derecha.
+   Así se evita alargar la caja verticalmente con la lista de eventos. */
+.cal-main-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+/* Proporción fija 2:1 entre el bloque calendario (cabecera + mes/semana)
+   y el panel del día, sea cual sea la vista. La cabecera vive DENTRO del
+   bloque calendario para no estirarse sobre el panel del día. */
+.cal-calendar-col {
+    flex: 2 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.cal-body {
+    flex-shrink: 0;
+}
+
+.cal-day-panel {
+    flex: 1 1 0;
+    min-width: 120px;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    padding-left: 0.85rem;
+}
+
+/* Container query: cuando la caja es estrecha, apilar el panel del día
+   debajo de la cuadrícula en lugar de al lado, para evitar que ambos
+   bloques se compriman hasta solaparse. */
+@container box (max-width: 360px) {
+    .cal-main-row {
+        flex-direction: column;
+    }
+
+    .cal-day-panel {
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-left: 0;
+        padding-top: 0.6rem;
+        width: 100%;
+    }
+
+    .cal-calendar-col {
+        width: 100%;
+    }
+}
+
+/* Vista mes */
+
+.cal-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.68rem;
+    opacity: 0.55;
+    margin-bottom: 0.2rem;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* Siempre 6 filas: la altura no cambia entre meses de 5 y 6 semanas */
+    grid-template-rows: repeat(6, 1fr);
+    gap: 2px;
+}
+
+.cal-cell {
+    aspect-ratio: 1;
+    background: transparent;
+    border: none;
+    color: inherit;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 0.78rem;
+    transition: background 0.15s;
+}
+
+.cal-cell:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.cal-cell-empty {
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Vista semana (definida antes de .cal-cell-today para que el resaltado
+   de "hoy" gane siempre por orden de cascada, sin depender de especificidad) */
+
+.cal-week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.cal-week-cell {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: inherit;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 4.75rem; /* fija: no depende de si hay badge de eventos o no */
+    padding: 0 0.2rem;
+    transition: background 0.15s;
+}
+
+.cal-week-cell:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.cal-week-label {
+    font-size: 0.65rem;
+    opacity: 0.55;
+    text-transform: uppercase;
+}
+
+.cal-week-count {
+    font-size: 0.62rem;
+    background: rgba(251,191,36,0.25);
+    color: #fbbf24;
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    min-width: 1.1rem;
+    min-height: 1em;
+    text-align: center;
+}
+
+.cal-week-count-empty {
+    visibility: hidden;
+}
+
+/* Resaltado de "hoy": va DESPUÉS de .cal-cell y .cal-week-cell para que
+   su fondo gane siempre en la cascada, sea vista mes o semana. */
+.cal-cell-today {
+    background: rgba(99,102,241,0.4) !important;
+    border-color: rgba(99,102,241,0.6) !important;
+    font-weight: 700;
+}
+
+.cal-cell-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #fbbf24;
+}
+
+/* Panel del día seleccionado — a la derecha, proporción 3 (definida arriba) */
+
+.cal-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+}
+
+.cal-day-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    opacity: 0.85;
+    margin: 0;
+}
+
+.cal-day-add-btn {
+    background: rgba(45,212,191,0.15);
+    color: #2dd4bf;
+    border: none;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 0.3rem;
+    font-size: 0.9rem;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+
+.cal-day-add-btn:hover {
+    background: rgba(45,212,191,0.28);
+}
+
+.cal-day-empty {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    font-style: italic;
+}
+
+.cal-day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.cal-event-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+    border-left: 2px solid transparent;
+    border-radius: 0.2rem;
+}
+
+/* Eventos propios (creados en el widget): acento teal, editables */
+.cal-event-native {
+    border-left-color: #2dd4bf;
+    background: rgba(45,212,191,0.06);
+}
+
+.cal-event-editable {
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.cal-event-editable:hover {
+    background: rgba(45,212,191,0.14);
+}
+
+/* Eventos importados de Google Calendar: acento ámbar, solo lectura */
+.cal-event-google {
+    border-left-color: #fbbf24;
+    background: rgba(251,191,36,0.05);
+}
+
+.cal-event-time {
+    opacity: 0.6;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.68rem;
+}
+
+.cal-event-title {
+    overflow-wrap: break-word;
+}
+
+/* ============================================
+   TÍTULO DE CAJA — VISIBILIDAD (showTitle)
+   ============================================ */
+
+/* En modo estático, si el título está marcado como oculto,
+   la cabecera desaparece por completo (look minimalista). */
+body:not(.drag-enabled) .box-header.title-hidden {
+    display: none !important;
+}
+
+/* En modo edición, la cabecera oculta SÍ se muestra, pero atenuada
+   y con un badge, para saber qué caja es sin que confunda. */
+body.drag-enabled .box-header.title-hidden .box-title {
+    opacity: 0.45;
+    font-style: italic;
+}
+
+.title-hidden-badge {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: #9ca3af;
+    background: rgba(255,255,255,0.08);
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   WIDGET: ESTADÍSTICAS (ranking de más usados)
+   ============================================ */
+
+.stats-widget-container {
+    padding: 0.25rem 0;
+}
+
+.stats-empty {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    padding: 1.5rem 0.5rem;
+    font-style: italic;
+}
+
+.stats-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-item {
+    align-items: center;
+}
+
+/* Número de posición en el ranking */
+.stats-rank {
+    flex-shrink: 0;
+    width: 1.4rem;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #6b7280;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Contador de clics alineado a la derecha */
+.stats-count {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 0.1rem 0.5rem;
+    background: rgba(99,102,241,0.18);
+    color: #a5b4fc;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   WIDGET: LECTOR RSS
+   ============================================ */
+
+.rss-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.rss-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.rss-status {
+    font-size: 0.65rem;
+    opacity: 0.45;
+    margin-right: auto;
+}
+
+.rss-refresh-btn {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: inherit;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.15s;
+}
+
+.rss-refresh-btn:hover {
+    background: rgba(255,255,255,0.16);
+}
+
+.rss-refresh-spinning {
+    animation: rssSpin 0.8s linear infinite;
+}
+
+@keyframes rssSpin {
+    to { transform: rotate(360deg); }
+}
+
+.rss-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.rss-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.45rem 0;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.15s;
+}
+
+.rss-item:last-child {
+    border-bottom: none;
+}
+
+.rss-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.rss-item-title {
+    font-size: 0.85rem;
+    color: #f3f4f6;
+    overflow-wrap: break-word;
+    flex: 1;
+    min-width: 0;
+}
+
+.rss-item-date {
+    font-size: 0.68rem;
+    color: #6b7280;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.rss-empty, .rss-error {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.82rem;
+    font-style: italic;
+    padding: 1.25rem 0.5rem;
+}
+
+.rss-error {
+    color: #f87171;
+}
+
+
+/* El menú kebab solo existe en móvil (ver style-mobile.css) */
+.mobile-actions {
+    display: none;
+}
+
+/* ============================================
+   NOTAS: caja = nota (contenido inline con checkboxes reales)
+   ============================================
+   El color y tamaño de fuente vienen de las propiedades "Texto" de la
+   caja (--link-color, --link-font-size, ya expuestas por renderer.js en
+   .box-card) y se heredan hacia abajo — por eso los elementos internos
+   (párrafos, listas, checkboxes...) NO fijan su propio color: heredar es
+   lo que hace que cambiar el color en el modal afecte de verdad a todo
+   el contenido de la nota, en vez de quedar ignorado. */
+
+.note-box-content {
+    color: var(--link-color, #e5e7eb);
+    font-size: var(--link-font-size, 14px);
+}
+
+.note-box-body {
+    color: inherit;
+    font-size: inherit;
+}
+
+.note-box-empty {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.82rem;
+    font-style: italic;
+    padding: 1.25rem 0.5rem;
+}
+
+.note-box-body p:first-child,
+.note-box-body h1:first-child,
+.note-box-body h2:first-child,
+.note-box-body h3:first-child {
+    margin-top: 0;
+}
+
+.note-checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+    cursor: pointer;
+    font-size: inherit;
+    color: inherit;
+}
+
+.note-checkbox {
+    margin-top: 0.2rem;
+    width: 1rem;
+    height: 1rem;
+    accent-color: #6366f1;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Una tarea marcada se atenúa y tacha independientemente del color
+   elegido — es una distinción de estado ("hecho"), no de estilo. */
+.note-checkbox-done {
+    text-decoration: line-through;
+    opacity: 0.55;
+}
+
+/* ============================================
+   MODAL DE CAJA: pestañas Propiedades / Nota
+   ============================================ */
+
+.box-modal-tab {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.box-modal-tab-active {
+    color: #f3f4f6;
+    border-bottom-color: #6366f1;
+}
+
+/* Toast UI Editor: ajustes mínimos para convivir con el modal oscuro */
+.toastui-editor-defaultUI {
+    border-color: #4b5563 !important;
+}
+
+/* Botones personalizados de la barra de herramientas (subrayado/
+   resaltar). Se controla el aspecto aquí, con CSS propio, en vez de
+   pasarle un "style" a Toast UI — probar a pasárselo directamente rompía
+   la inicialización entera del editor (esperaba un objeto, no un string,
+   e intentaba asignarlo carácter a carácter). */
+.note-toolbar-custom-btn {
+    font-weight: 700 !important;
+    font-size: 0.85em !important;
+}
+
+.note-toolbar-btn-underline {
+    text-decoration: underline;
+}
+
+.note-toolbar-btn-highlight {
+    background: #facc15 !important;
+    color: #000 !important;
+    border-radius: 3px;
+}
+
+.markdown-preview h1, .markdown-preview h2, .markdown-preview h3,
+.markdown-preview h4, .markdown-preview h5, .markdown-preview h6 {
+    font-weight: 700;
+    margin: 0.5rem 0 0.3rem;
+    color: inherit;
+}
+
+.markdown-preview h4 { font-size: 1em; }
+.markdown-preview h5 { font-size: 0.92em; }
+.markdown-preview h6 { font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.03em; }
+
+/* em, no rem: así el tamaño de los títulos escala de forma proporcional
+   al tamaño de texto elegido en la caja, en vez de ser siempre fijo */
+.markdown-preview h1 { font-size: 1.4em; }
+.markdown-preview h2 { font-size: 1.2em; }
+.markdown-preview h3 { font-size: 1.05em; }
+
+.markdown-preview p {
+    margin: 0.4rem 0;
+    color: inherit;
+    line-height: 1.5;
+}
+
+.markdown-preview ul, .markdown-preview ol {
+    margin: 0.4rem 0 0.4rem 1.4rem;
+    color: inherit;
+}
+
+.markdown-preview ul {
+    list-style-type: disc;
+}
+
+.markdown-preview ol {
+    list-style-type: decimal;
+}
+
+.markdown-preview li {
+    display: list-item;
+    margin: 0.15rem 0;
+}
+
+.markdown-preview img {
+    max-width: 100%;
+    border-radius: 0.4rem;
+    margin: 0.4rem 0;
+}
+
+.markdown-preview table {
+    border-collapse: collapse;
+    margin: 0.5rem 0;
+    font-size: 0.85em;
+}
+
+.markdown-preview th, .markdown-preview td {
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 0.3rem 0.6rem;
+    color: inherit;
+}
+
+.markdown-preview th {
+    background: rgba(255,255,255,0.06);
+}
+
+.markdown-preview code {
+    background: rgba(255,255,255,0.1);
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+    font-size: 0.85em;
+}
+
+.markdown-preview mark {
+    background: #facc15;
+    color: #000;
+    padding: 0.05em 0.2em;
+    border-radius: 0.2em;
+}
+
+.markdown-preview blockquote {
+    border-left: 3px solid #6366f1;
+    padding-left: 0.7rem;
+    opacity: 0.75;
+    margin: 0.4rem 0;
+}
+
+/* ============================================
+   CAJA CONTENEDORA
+   ============================================
+   Fuera del modo edición: invisible como caja en sí misma — sin fondo,
+   sin borde, sin padding — solo se ve la disposición en grid de sus
+   hijas. En modo edición se marca con un borde discontinuo y una
+   etiqueta pequeña para poder seleccionarla y gestionarla.
+*/
+
+.box-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.box-container-children {
+    display: grid;
+    gap: 1rem;
+}
+
+/* Las cajas dentro de un contenedor no se pueden reordenar por arrastre
+   en esta versión (solo se asignan/quitan desde el modal) — se quita el
+   asa (⋮⋮) para no sugerir una interacción que no funciona de verdad. */
+.box-container-children .drag-handle {
+    display: none;
+}
+
+.box-container-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: #9ca3af;
+    padding: 0.3rem 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px dashed #4b5563;
+    border-radius: 0.4rem;
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.container-badge {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: #a5b4fc;
+    background: rgba(99, 102, 241, 0.15);
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+.box-container-label .drag-handle {
+    cursor: grab;
+    color: #6b7280;
+}
+
+body.drag-enabled .box-container {
+    border: 1px dashed #4b5563;
+    border-radius: 0.5rem;
+    padding: 0.4rem;
+}

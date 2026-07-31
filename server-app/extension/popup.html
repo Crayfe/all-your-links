@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>AllYourLinks</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <span class="header-logo">📋 AllYourLinks</span>
+    <div style="display:flex; align-items:center; gap:0.5rem;">
+      <a href="#" id="openDashboardLink" target="_blank" class="header-link">Abrir dashboard →</a>
+      <button id="settingsBtn" title="Cambiar URL del servidor" style="background:none; border:none; color:#6b7280; cursor:pointer; font-size:0.9rem; padding:0;">⚙</button>
+    </div>
+  </div>
+
+  <div id="content">
+    <div class="loading-state">Cargando...</div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

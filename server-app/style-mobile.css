@@ -1,0 +1,256 @@
+/* style-mobile.css
+   Estilos SOLO para móvil (max-width: 767px). Se carga condicionalmente
+   desde index.html con:
+     <link rel="stylesheet" href="style-mobile.css" media="(max-width: 767px)">
+   El navegador solo lo aplica por debajo de ese ancho, así que la vista
+   de escritorio queda intacta por construcción.
+
+   Estructura en móvil:
+     - Cabecera: solo el buscador (logo y acciones ocultos)
+     - Contenido: una columna, scroll vertical
+     - Barra inferior fija: dashboards + kebab con el resto de acciones
+
+   El HTML y el JS son los mismos que en escritorio: nada se duplica.
+   El kebab reenvía clics a los botones de escritorio reales
+   (js/shared/mobile-menu.js), y la barra inferior es el mismo
+   #dashboardList que rellena dashboard.js, solo reposicionado.
+*/
+
+/* ==========================================================
+   0. RED DE SEGURIDAD — nunca scroll horizontal
+   ========================================================== */
+
+html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+/* ==========================================================
+   1. CABECERA — solo el buscador
+   ==========================================================
+   El logo ocupaba 179px y era la causa principal del desbordamiento:
+   179 (logo) + 341 (buscador) + 36 (kebab) = 556px en una pantalla de
+   390px. Ocultarlo deja sitio de sobra para el buscador.
+*/
+
+.header-logo-wrap,
+.breadcrumb-desktop,
+.desktop-actions {
+    display: none !important;
+}
+
+/* Sin logo ni botones al lado, el buscador ocupa toda la cabecera */
+#searchWrapper {
+    max-width: none;
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* ==========================================================
+   2. SIDEBAR → BARRA INFERIOR FIJA
+   ========================================================== */
+
+/* El contenedor sidebar+main pasa a columna.
+   min-height: 0 es imprescindible: sin él, un hijo con contenido
+   "exigente" puede negarse a encogerse dentro de un flex-container en
+   columna y romper el layout en vez de hacer scroll. */
+.flex.flex-1.overflow-hidden {
+    flex-direction: column;
+    min-height: 0;
+}
+
+#sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    width: 100%;
+    height: 4.25rem;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 0.5rem;
+    border-right: none;
+    border-top: 1px solid #374151;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 40;
+}
+
+/* Colapsar/expandir no tiene sentido en una barra fija */
+#toggleSidebarBtn {
+    display: none;
+}
+
+/* El contenedor interno (agrupa "+ Nuevo dashboard" y la lista)
+   también pasa a fila */
+#sidebar > div {
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    overflow: visible;
+    min-height: 0;
+}
+
+#dashboardList {
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 0.35rem;
+    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+}
+
+.dashboard-item {
+    flex-shrink: 0;
+}
+
+/* Siempre en mini-orbe (icono + nombre pequeño): con varios dashboards
+   el texto completo en fila no cabría */
+.dashboard-mini-orb {
+    display: flex !important;
+}
+
+.dashboard-icon,
+.dashboard-label {
+    display: none !important;
+}
+
+/* Pin y menú contextual de cada dashboard no caben cómodamente aquí;
+   siguen disponibles desde escritorio */
+.dashboard-pin-btn,
+.dashboard-menu-wrap {
+    display: none !important;
+}
+
+/* Orden en la barra: dashboards → "+" (solo en edición) → kebab */
+
+#newDashboardBtn {
+    order: 99;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+}
+
+#newDashboardBtn .sidebar-text {
+    display: none !important;
+}
+
+.mobile-actions {
+    display: flex !important;
+    order: 100;
+    flex-shrink: 0;
+    margin-left: 0.25rem;
+}
+
+/* position: fixed (no absolute) a propósito: el #sidebar necesita
+   overflow para el scroll horizontal de dashboards, y eso recortaría un
+   dropdown posicionado en absolute, que sobresale por encima de la
+   barra. Con fixed escapa del recorte y se posiciona respecto al
+   viewport. Se abre hacia ARRIBA porque la barra está pegada al fondo. */
+#mobileMenuDropdown {
+    position: fixed;
+    bottom: 4.75rem; /* justo encima de la barra (4.25rem) */
+    top: auto;
+    right: 0.5rem;
+    left: auto;
+}
+
+/* ==========================================================
+   3. CONTENIDO PRINCIPAL
+   ========================================================== */
+
+#mainContainer {
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 0;
+    flex: 1 1 auto;
+    width: 100%;
+    /* Espacio para que la barra inferior fija no tape el final */
+    padding-bottom: 5.5rem;
+    /* p-6 (24px) es demasiado margen en una pantalla estrecha */
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+/* Las cajas ocupan todo el ancho disponible, una debajo de otra */
+#linksList {
+    grid-template-columns: 1fr !important;
+}
+
+.box-card {
+    max-width: 100%;
+}
+
+/* ==========================================================
+   4. WIDGET DE RELOJ — forzar modo vertical
+   ==========================================================
+   Su layout horizontal se activa por container query a partir de 380px
+   de ancho de caja — pensado para cajas anchas de escritorio. En móvil
+   una caja a pantalla completa puede superar ese ancho, así que se
+   fuerza vertical siempre, con la fuente acotada por el ancho real.
+*/
+
+.clock-widget {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 0.35rem !important;
+}
+
+.clock-widget-timedate {
+    align-items: center !important;
+}
+
+.clock-widget-time,
+.clock-widget-date {
+    text-align: center !important;
+}
+
+.clock-widget-time {
+    font-size: clamp(2.5rem, 14vw, 4rem) !important;
+}
+
+.clock-widget-weather {
+    margin-top: 0.5rem !important;
+    padding-top: 0.6rem !important;
+    padding-left: 0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-left: none !important;
+}
+
+/* ==========================================================
+   5. CALENDARIO — apilar el panel del día
+   ========================================================== */
+
+.cal-main-row {
+    flex-direction: column;
+}
+
+.cal-day-panel {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 0;
+    padding-top: 0.6rem;
+    width: 100%;
+}
+
+.cal-calendar-col {
+    width: 100%;
+}
+
+/* ==========================================================
+   6. MODALES — aprovechar el ancho de pantalla
+   ========================================================== */
+
+.modal-content {
+    width: 94%;
+    max-height: 88vh;
+    overflow-y: auto;
+}

@@ -1,0 +1,1133 @@
+{
+  "version": "2.0",
+  "workspaces": [
+    {
+      "id": "ws_links",
+      "name": "Enlaces",
+      "type": "links",
+      "active": true,
+      "order": 0,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    }
+  ],
+  "boxes": [
+    {
+      "id": "box_google_suite",
+      "workspaceId": "ws_links",
+      "title": "Google Suite",
+      "layout": "orbs",
+      "order": 0,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_streaming",
+      "workspaceId": "ws_links",
+      "title": "Streaming & Media",
+      "layout": "orbs",
+      "order": 1,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_dev_tools",
+      "workspaceId": "ws_links",
+      "title": "Developer Tools",
+      "layout": "grid",
+      "order": 2,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_ai_tools",
+      "workspaceId": "ws_links",
+      "title": "AI & Machine Learning",
+      "layout": "grid",
+      "order": 3,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_design",
+      "workspaceId": "ws_links",
+      "title": "Design & Creative",
+      "layout": "orbs",
+      "order": 4,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_learning",
+      "workspaceId": "ws_links",
+      "title": "Learning & Documentation",
+      "layout": "list",
+      "order": 5,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_social",
+      "workspaceId": "ws_links",
+      "title": "Social Media",
+      "layout": "grid",
+      "order": 6,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_shopping",
+      "workspaceId": "ws_links",
+      "title": "Shopping",
+      "layout": "orbs",
+      "order": 7,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_minimal",
+      "workspaceId": "ws_links",
+      "title": "Minimal (2 enlaces)",
+      "layout": "grid",
+      "order": 8,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    },
+    {
+      "id": "box_massive",
+      "workspaceId": "ws_links",
+      "title": "Test Grande (15 enlaces)",
+      "layout": "grid",
+      "order": 9,
+      "createdAt": "2025-02-16T12:00:00.000Z",
+      "updatedAt": "2025-02-16T12:00:00.000Z"
+    }
+  ],
+  "items": [
+    {
+      "id": "item_google_001",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Gmail",
+        "url": "https://mail.google.com"
+      },
+      "metadata": {
+        "clickCount": 245,
+        "lastAccessed": "2025-02-16T11:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["email", "google"]
+      }
+    },
+    {
+      "id": "item_google_002",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Google Drive",
+        "url": "https://drive.google.com"
+      },
+      "metadata": {
+        "clickCount": 189,
+        "lastAccessed": "2025-02-16T10:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["storage", "google"]
+      }
+    },
+    {
+      "id": "item_google_003",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Google Calendar",
+        "url": "https://calendar.google.com"
+      },
+      "metadata": {
+        "clickCount": 156,
+        "lastAccessed": "2025-02-16T09:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["calendar", "google"]
+      }
+    },
+    {
+      "id": "item_google_004",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Google Maps",
+        "url": "https://maps.google.com"
+      },
+      "metadata": {
+        "clickCount": 78,
+        "lastAccessed": "2025-02-15T18:20:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["maps", "google"]
+      }
+    },
+    {
+      "id": "item_google_005",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Google Translate",
+        "url": "https://translate.google.com"
+      },
+      "metadata": {
+        "clickCount": 92,
+        "lastAccessed": "2025-02-16T08:15:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["translate", "google"]
+      }
+    },
+    {
+      "id": "item_google_006",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 5,
+      "data": {
+        "title": "Google Docs",
+        "url": "https://docs.google.com"
+      },
+      "metadata": {
+        "clickCount": 134,
+        "lastAccessed": "2025-02-16T11:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["docs", "google"]
+      }
+    },
+    {
+      "id": "item_google_007",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 6,
+      "data": {
+        "title": "Google Sheets",
+        "url": "https://sheets.google.com"
+      },
+      "metadata": {
+        "clickCount": 87,
+        "lastAccessed": "2025-02-15T16:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["sheets", "google"]
+      }
+    },
+    {
+      "id": "item_google_008",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 7,
+      "data": {
+        "title": "Google Slides",
+        "url": "https://slides.google.com"
+      },
+      "metadata": {
+        "clickCount": 45,
+        "lastAccessed": "2025-02-14T14:20:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["slides", "google"]
+      }
+    },
+    {
+      "id": "item_google_009",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 8,
+      "data": {
+        "title": "Google Photos",
+        "url": "https://photos.google.com"
+      },
+      "metadata": {
+        "clickCount": 63,
+        "lastAccessed": "2025-02-15T20:10:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["photos", "google"]
+      }
+    },
+    {
+      "id": "item_google_010",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 9,
+      "data": {
+        "title": "Google Keep",
+        "url": "https://keep.google.com"
+      },
+      "metadata": {
+        "clickCount": 112,
+        "lastAccessed": "2025-02-16T10:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["notes", "google"]
+      }
+    },
+    {
+      "id": "item_google_011",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 10,
+      "data": {
+        "title": "YouTube",
+        "url": "https://youtube.com"
+      },
+      "metadata": {
+        "clickCount": 298,
+        "lastAccessed": "2025-02-16T11:55:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["video", "google"]
+      }
+    },
+    {
+      "id": "item_google_012",
+      "boxId": "box_google_suite",
+      "type": "link",
+      "order": 11,
+      "data": {
+        "title": "Google Meet",
+        "url": "https://meet.google.com"
+      },
+      "metadata": {
+        "clickCount": 67,
+        "lastAccessed": "2025-02-15T15:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["video-call", "google"]
+      }
+    },
+    {
+      "id": "item_streaming_001",
+      "boxId": "box_streaming",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Netflix",
+        "url": "https://netflix.com"
+      },
+      "metadata": {
+        "clickCount": 145,
+        "lastAccessed": "2025-02-15T22:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["streaming"]
+      }
+    },
+    {
+      "id": "item_streaming_002",
+      "boxId": "box_streaming",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Spotify",
+        "url": "https://spotify.com"
+      },
+      "metadata": {
+        "clickCount": 234,
+        "lastAccessed": "2025-02-16T11:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["music"]
+      }
+    },
+    {
+      "id": "item_streaming_003",
+      "boxId": "box_streaming",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Twitch",
+        "url": "https://twitch.tv"
+      },
+      "metadata": {
+        "clickCount": 89,
+        "lastAccessed": "2025-02-15T21:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["streaming", "gaming"]
+      }
+    },
+    {
+      "id": "item_streaming_004",
+      "boxId": "box_streaming",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Prime Video",
+        "url": "https://primevideo.com"
+      },
+      "metadata": {
+        "clickCount": 67,
+        "lastAccessed": "2025-02-14T19:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["streaming"]
+      }
+    },
+    {
+      "id": "item_streaming_005",
+      "boxId": "box_streaming",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Disney+",
+        "url": "https://disneyplus.com"
+      },
+      "metadata": {
+        "clickCount": 52,
+        "lastAccessed": "2025-02-13T18:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["streaming"]
+      }
+    },
+    {
+      "id": "item_streaming_006",
+      "boxId": "box_streaming",
+      "type": "link",
+      "order": 5,
+      "data": {
+        "title": "SoundCloud",
+        "url": "https://soundcloud.com"
+      },
+      "metadata": {
+        "clickCount": 41,
+        "lastAccessed": "2025-02-15T16:20:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["music"]
+      }
+    },
+    {
+      "id": "item_dev_001",
+      "boxId": "box_dev_tools",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "GitHub",
+        "url": "https://github.com"
+      },
+      "metadata": {
+        "clickCount": 456,
+        "lastAccessed": "2025-02-16T11:50:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["dev", "git"]
+      }
+    },
+    {
+      "id": "item_dev_002",
+      "boxId": "box_dev_tools",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Stack Overflow",
+        "url": "https://stackoverflow.com"
+      },
+      "metadata": {
+        "clickCount": 178,
+        "lastAccessed": "2025-02-16T10:15:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["dev", "qa"]
+      }
+    },
+    {
+      "id": "item_dev_003",
+      "boxId": "box_dev_tools",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "VS Code Web",
+        "url": "https://vscode.dev"
+      },
+      "metadata": {
+        "clickCount": 89,
+        "lastAccessed": "2025-02-15T14:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["dev", "editor"]
+      }
+    },
+    {
+      "id": "item_dev_004",
+      "boxId": "box_dev_tools",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "CodePen",
+        "url": "https://codepen.io"
+      },
+      "metadata": {
+        "clickCount": 67,
+        "lastAccessed": "2025-02-14T16:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["dev", "demo"]
+      }
+    },
+    {
+      "id": "item_dev_005",
+      "boxId": "box_dev_tools",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Vercel",
+        "url": "https://vercel.com"
+      },
+      "metadata": {
+        "clickCount": 54,
+        "lastAccessed": "2025-02-15T12:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["dev", "hosting"]
+      }
+    },
+    {
+      "id": "item_dev_006",
+      "boxId": "box_dev_tools",
+      "type": "link",
+      "order": 5,
+      "data": {
+        "title": "NPM",
+        "url": "https://npmjs.com"
+      },
+      "metadata": {
+        "clickCount": 123,
+        "lastAccessed": "2025-02-16T09:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["dev", "packages"]
+      }
+    },
+    {
+      "id": "item_dev_007",
+      "boxId": "box_dev_tools",
+      "type": "link",
+      "order": 6,
+      "data": {
+        "title": "GitLab",
+        "url": "https://gitlab.com"
+      },
+      "metadata": {
+        "clickCount": 43,
+        "lastAccessed": "2025-02-13T10:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["dev", "git"]
+      }
+    },
+    {
+      "id": "item_ai_001",
+      "boxId": "box_ai_tools",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "ChatGPT",
+        "url": "https://chat.openai.com"
+      },
+      "metadata": {
+        "clickCount": 312,
+        "lastAccessed": "2025-02-16T11:40:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["ai"]
+      }
+    },
+    {
+      "id": "item_ai_002",
+      "boxId": "box_ai_tools",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Claude",
+        "url": "https://claude.ai"
+      },
+      "metadata": {
+        "clickCount": 287,
+        "lastAccessed": "2025-02-16T11:55:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["ai"]
+      }
+    },
+    {
+      "id": "item_ai_003",
+      "boxId": "box_ai_tools",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Perplexity",
+        "url": "https://perplexity.ai"
+      },
+      "metadata": {
+        "clickCount": 98,
+        "lastAccessed": "2025-02-16T10:20:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["ai", "search"]
+      }
+    },
+    {
+      "id": "item_ai_004",
+      "boxId": "box_ai_tools",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Midjourney",
+        "url": "https://midjourney.com"
+      },
+      "metadata": {
+        "clickCount": 76,
+        "lastAccessed": "2025-02-15T17:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["ai", "image"]
+      }
+    },
+    {
+      "id": "item_ai_005",
+      "boxId": "box_ai_tools",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Hugging Face",
+        "url": "https://huggingface.co"
+      },
+      "metadata": {
+        "clickCount": 45,
+        "lastAccessed": "2025-02-14T11:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["ai", "ml"]
+      }
+    },
+    {
+      "id": "item_design_001",
+      "boxId": "box_design",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Figma",
+        "url": "https://figma.com"
+      },
+      "metadata": {
+        "clickCount": 234,
+        "lastAccessed": "2025-02-16T11:20:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["design"]
+      }
+    },
+    {
+      "id": "item_design_002",
+      "boxId": "box_design",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Canva",
+        "url": "https://canva.com"
+      },
+      "metadata": {
+        "clickCount": 156,
+        "lastAccessed": "2025-02-15T19:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["design"]
+      }
+    },
+    {
+      "id": "item_design_003",
+      "boxId": "box_design",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Dribbble",
+        "url": "https://dribbble.com"
+      },
+      "metadata": {
+        "clickCount": 78,
+        "lastAccessed": "2025-02-15T14:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["design", "inspiration"]
+      }
+    },
+    {
+      "id": "item_design_004",
+      "boxId": "box_design",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Behance",
+        "url": "https://behance.net"
+      },
+      "metadata": {
+        "clickCount": 54,
+        "lastAccessed": "2025-02-14T16:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["design", "portfolio"]
+      }
+    },
+    {
+      "id": "item_learning_001",
+      "boxId": "box_learning",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "MDN Web Docs",
+        "url": "https://developer.mozilla.org"
+      },
+      "metadata": {
+        "clickCount": 189,
+        "lastAccessed": "2025-02-16T10:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["docs", "web"]
+      }
+    },
+    {
+      "id": "item_learning_002",
+      "boxId": "box_learning",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Dev.to",
+        "url": "https://dev.to"
+      },
+      "metadata": {
+        "clickCount": 134,
+        "lastAccessed": "2025-02-15T15:20:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["blog", "dev"]
+      }
+    },
+    {
+      "id": "item_learning_003",
+      "boxId": "box_learning",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "freeCodeCamp",
+        "url": "https://freecodecamp.org"
+      },
+      "metadata": {
+        "clickCount": 67,
+        "lastAccessed": "2025-02-14T12:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["learning", "coding"]
+      }
+    },
+    {
+      "id": "item_learning_004",
+      "boxId": "box_learning",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Coursera",
+        "url": "https://coursera.org"
+      },
+      "metadata": {
+        "clickCount": 43,
+        "lastAccessed": "2025-02-13T18:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["learning", "courses"]
+      }
+    },
+    {
+      "id": "item_learning_005",
+      "boxId": "box_learning",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Khan Academy",
+        "url": "https://khanacademy.org"
+      },
+      "metadata": {
+        "clickCount": 29,
+        "lastAccessed": "2025-02-12T14:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["learning"]
+      }
+    },
+    {
+      "id": "item_social_001",
+      "boxId": "box_social",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Twitter / X",
+        "url": "https://twitter.com"
+      },
+      "metadata": {
+        "clickCount": 267,
+        "lastAccessed": "2025-02-16T11:35:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["social"]
+      }
+    },
+    {
+      "id": "item_social_002",
+      "boxId": "box_social",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "LinkedIn",
+        "url": "https://linkedin.com"
+      },
+      "metadata": {
+        "clickCount": 145,
+        "lastAccessed": "2025-02-16T09:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["social", "professional"]
+      }
+    },
+    {
+      "id": "item_social_003",
+      "boxId": "box_social",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Reddit",
+        "url": "https://reddit.com"
+      },
+      "metadata": {
+        "clickCount": 198,
+        "lastAccessed": "2025-02-15T22:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["social", "forum"]
+      }
+    },
+    {
+      "id": "item_social_004",
+      "boxId": "box_social",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Discord",
+        "url": "https://discord.com"
+      },
+      "metadata": {
+        "clickCount": 176,
+        "lastAccessed": "2025-02-16T10:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["social", "chat"]
+      }
+    },
+    {
+      "id": "item_social_005",
+      "boxId": "box_social",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Instagram",
+        "url": "https://instagram.com"
+      },
+      "metadata": {
+        "clickCount": 112,
+        "lastAccessed": "2025-02-15T20:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["social", "photo"]
+      }
+    },
+    {
+      "id": "item_shopping_001",
+      "boxId": "box_shopping",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Amazon",
+        "url": "https://amazon.com"
+      },
+      "metadata": {
+        "clickCount": 234,
+        "lastAccessed": "2025-02-15T19:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["shopping"]
+      }
+    },
+    {
+      "id": "item_shopping_002",
+      "boxId": "box_shopping",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "AliExpress",
+        "url": "https://aliexpress.com"
+      },
+      "metadata": {
+        "clickCount": 87,
+        "lastAccessed": "2025-02-14T16:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["shopping"]
+      }
+    },
+    {
+      "id": "item_shopping_003",
+      "boxId": "box_shopping",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "eBay",
+        "url": "https://ebay.com"
+      },
+      "metadata": {
+        "clickCount": 45,
+        "lastAccessed": "2025-02-13T14:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["shopping"]
+      }
+    },
+    {
+      "id": "item_minimal_001",
+      "boxId": "box_minimal",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Hacker News",
+        "url": "https://news.ycombinator.com"
+      },
+      "metadata": {
+        "clickCount": 156,
+        "lastAccessed": "2025-02-16T11:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["news", "tech"]
+      }
+    },
+    {
+      "id": "item_minimal_002",
+      "boxId": "box_minimal",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Product Hunt",
+        "url": "https://producthunt.com"
+      },
+      "metadata": {
+        "clickCount": 89,
+        "lastAccessed": "2025-02-15T16:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["products", "tech"]
+      }
+    },
+    {
+      "id": "item_massive_001",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 0,
+      "data": {
+        "title": "Wikipedia",
+        "url": "https://wikipedia.org"
+      },
+      "metadata": {
+        "clickCount": 178,
+        "lastAccessed": "2025-02-16T09:15:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["reference"]
+      }
+    },
+    {
+      "id": "item_massive_002",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 1,
+      "data": {
+        "title": "Notion",
+        "url": "https://notion.so"
+      },
+      "metadata": {
+        "clickCount": 234,
+        "lastAccessed": "2025-02-16T10:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["productivity"]
+      }
+    },
+    {
+      "id": "item_massive_003",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 2,
+      "data": {
+        "title": "Trello",
+        "url": "https://trello.com"
+      },
+      "metadata": {
+        "clickCount": 98,
+        "lastAccessed": "2025-02-15T14:20:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["productivity"]
+      }
+    },
+    {
+      "id": "item_massive_004",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 3,
+      "data": {
+        "title": "Asana",
+        "url": "https://asana.com"
+      },
+      "metadata": {
+        "clickCount": 67,
+        "lastAccessed": "2025-02-14T11:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["productivity"]
+      }
+    },
+    {
+      "id": "item_massive_005",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 4,
+      "data": {
+        "title": "Slack",
+        "url": "https://slack.com"
+      },
+      "metadata": {
+        "clickCount": 289,
+        "lastAccessed": "2025-02-16T11:45:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["communication"]
+      }
+    },
+    {
+      "id": "item_massive_006",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 5,
+      "data": {
+        "title": "Zoom",
+        "url": "https://zoom.us"
+      },
+      "metadata": {
+        "clickCount": 145,
+        "lastAccessed": "2025-02-16T09:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["video-call"]
+      }
+    },
+    {
+      "id": "item_massive_007",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 6,
+      "data": {
+        "title": "Dropbox",
+        "url": "https://dropbox.com"
+      },
+      "metadata": {
+        "clickCount": 76,
+        "lastAccessed": "2025-02-15T16:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["storage"]
+      }
+    },
+    {
+      "id": "item_massive_008",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 7,
+      "data": {
+        "title": "OneDrive",
+        "url": "https://onedrive.live.com"
+      },
+      "metadata": {
+        "clickCount": 54,
+        "lastAccessed": "2025-02-14T12:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["storage"]
+      }
+    },
+    {
+      "id": "item_massive_009",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 8,
+      "data": {
+        "title": "Evernote",
+        "url": "https://evernote.com"
+      },
+      "metadata": {
+        "clickCount": 43,
+        "lastAccessed": "2025-02-13T15:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["notes"]
+      }
+    },
+    {
+      "id": "item_massive_010",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 9,
+      "data": {
+        "title": "1Password",
+        "url": "https://1password.com"
+      },
+      "metadata": {
+        "clickCount": 89,
+        "lastAccessed": "2025-02-15T18:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["security"]
+      }
+    },
+    {
+      "id": "item_massive_011",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 10,
+      "data": {
+        "title": "Bitwarden",
+        "url": "https://bitwarden.com"
+      },
+      "metadata": {
+        "clickCount": 67,
+        "lastAccessed": "2025-02-14T19:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["security"]
+      }
+    },
+    {
+      "id": "item_massive_012",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 11,
+      "data": {
+        "title": "Grammarly",
+        "url": "https://grammarly.com"
+      },
+      "metadata": {
+        "clickCount": 112,
+        "lastAccessed": "2025-02-16T10:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["writing"]
+      }
+    },
+    {
+      "id": "item_massive_013",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 12,
+      "data": {
+        "title": "Todoist",
+        "url": "https://todoist.com"
+      },
+      "metadata": {
+        "clickCount": 134,
+        "lastAccessed": "2025-02-16T08:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["tasks"]
+      }
+    },
+    {
+      "id": "item_massive_014",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 13,
+      "data": {
+        "title": "Medium",
+        "url": "https://medium.com"
+      },
+      "metadata": {
+        "clickCount": 98,
+        "lastAccessed": "2025-02-15T20:00:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["blog", "reading"]
+      }
+    },
+    {
+      "id": "item_massive_015",
+      "boxId": "box_massive",
+      "type": "link",
+      "order": 14,
+      "data": {
+        "title": "Substack",
+        "url": "https://substack.com"
+      },
+      "metadata": {
+        "clickCount": 76,
+        "lastAccessed": "2025-02-15T17:30:00.000Z",
+        "createdAt": "2025-02-16T12:00:00.000Z",
+        "tags": ["newsletter", "reading"]
+      }
+    }
+  ],
+  "exportedAt": "2025-02-16T12:00:00.000Z"
+}
